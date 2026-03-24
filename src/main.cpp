@@ -14,10 +14,10 @@
 
 #include "loader.cpp"
 float camX = 0, camY = 2, camZ = 5;
-float angle = 180.0f;
-float lx = 0.0, lz = -1.0;
-float speed = 1.0;
-GLuint HandTexture, FloorTexture;
+float angle = 90.0f;
+float lx = sin(angle), lz = -cos(angle);
+float speed = 5.0;
+GLuint HandTexture, FloorTexture, WallTexture;
 
 void drawFloor() {
     for (int x = 0; x < 10; x++) {
@@ -25,13 +25,16 @@ void drawFloor() {
             draw3DQuad(FloorTexture, x * 20, 0, y * 20, 20, X_ROTATE, -90.0f);
         }
     }
+
+    draw3DQuad(WallTexture, 0, 10, 0, 20, X_ROTATE, 0.0f);
+    draw3DQuad(WallTexture, 20, 10, 0, 20, X_ROTATE, 0.0f);
+    draw3DQuad(WallTexture, 25,10, 10, 20, Y_ROTATE, 90.0f);
+    
 }
 
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    // 3D WORLD
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(45, 800.0/600.0, 0.1, 100);
@@ -78,6 +81,44 @@ void reshape(int w, int h) {
     
 }
 
+bool keys[256];
+void keyDown(unsigned char key, int x, int y) {
+    keys[key] = true;
+}
+void keyUp(unsigned char key, int x, int y) {
+    keys[key] = false;
+}
+
+
+float lastTime = 0;
+
+void update() {
+    float currentTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
+    float deltaTime = currentTime - lastTime;
+    lastTime = currentTime;
+
+    float moveSpeed = 5.0f * deltaTime * speed;
+    float rotSpeed  = 2.0f * deltaTime;
+
+    if (keys['w']) {
+        camX += lx * moveSpeed;
+        camZ += lz * moveSpeed;
+    }
+    if (keys['s']) {
+        camX -= lx * moveSpeed;
+        camZ -= lz * moveSpeed;
+    }
+    if (keys['a']) angle -= rotSpeed;
+    if (keys['d']) angle += rotSpeed;
+
+    lx = sin(angle);
+    lz = -cos(angle);
+}
+
+void idle() {
+    update();
+    glutPostRedisplay();
+}
 void keyboard(unsigned char key, int x, int y) {
     if (key == 'w') {
         camX += lx * speed;
@@ -108,20 +149,22 @@ void init() {
     stbi_set_flip_vertically_on_load(true);
     HandTexture = loadTexture("../assets/hand/Pistolidle.png");
     FloorTexture = loadTexture("../assets/floor.png");
+    WallTexture = loadTexture("../assets/wall.png");
 }
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(800, 600);
-    glutCreateWindow("3D Camera + Floor");
+    glutCreateWindow("Doom Ku Dewe");
 
     init();
 
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
-    glutKeyboardFunc(keyboard);
-
+    glutKeyboardUpFunc(keyUp);
+    glutKeyboardFunc(keyDown);
+    glutIdleFunc(idle);
     glutMainLoop();
     return 0;
 }
