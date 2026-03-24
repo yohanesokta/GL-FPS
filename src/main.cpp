@@ -14,23 +14,17 @@
 
 #include "loader.cpp"
 float camX = 0, camY = 2, camZ = 5;
-float angle = 0.0;
+float angle = 180.0f;
 float lx = 0.0, lz = -1.0;
 float speed = 1.0;
-GLuint HandTexture;
+GLuint HandTexture, FloorTexture;
 
 void drawFloor() {
-    glColor3f(0.5, 0.5, 0.5);
-
-    glBegin(GL_LINES);
-    for (int i = -20; i <= 20; i++) {
-        glVertex3f(i, 0, -20);
-        glVertex3f(i, 0, 20);
-
-        glVertex3f(-20, 0, i);
-        glVertex3f(20, 0, i);
+    for (int x = 0; x < 10; x++) {
+        for (int y = 0; y < 10; y++) {
+            draw3DQuad(FloorTexture, x * 20, 0, y * 20, 20, X_ROTATE, -90.0f);
+        }
     }
-    glEnd();
 }
 
 
@@ -64,7 +58,7 @@ void display() {
     glDisable(GL_DEPTH_TEST);
 
     // drawing HUD
-    drawTexturedQuad(HandTexture, 650, 50, 100, 100);
+    drawTexturedQuad(HandTexture, 800/2, 0, 350, 350);
     
     glutSwapBuffers();
 }
@@ -113,6 +107,7 @@ void init() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     stbi_set_flip_vertically_on_load(true);
     HandTexture = loadTexture("../assets/hand/Pistolidle.png");
+    FloorTexture = loadTexture("../assets/floor.png");
 }
 
 int main(int argc, char** argv) {

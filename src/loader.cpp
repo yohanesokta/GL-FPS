@@ -46,3 +46,25 @@ void drawTexturedQuad(GLuint textureID, float x, float y, float width, float hei
 
     glDisable(GL_TEXTURE_2D);
 }
+
+float X_ROTATE[3] = {1.0f, 0.0f, 0.0f};
+float Y_ROTATE[3] = {0.0f, 1.0f, 0.0f};
+float Z_ROTATE[3] = {0.0f, 0.0, 1.0f};
+
+void draw3DQuad(GLuint textureID, float x, float y, float z, float size, float rotation[3], float rotationAngle) {
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+
+    glPushMatrix();
+    glTranslatef(x, y, z);
+    glRotatef(rotationAngle, rotation[0], rotation[1], rotation[2]);
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(-size/2, -size/2, 0);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f(size/2, -size/2, 0);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f(size/2, size/2, 0);
+        glTexCoord2f(0.0f, 1.0f); glVertex3f(-size/2, size/2, 0);
+    glEnd();
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+}
