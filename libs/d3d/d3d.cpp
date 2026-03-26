@@ -1,8 +1,14 @@
 #include "d3d.h"
+#include <algorithm>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
+
+// Helper function to clamp a value
+static float clamp(float n, float lower, float upper) {
+    return std::max(lower, std::min(n, upper));
+}
 
 void d3d_draw_floor(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat) {
     glEnable(GL_TEXTURE_2D);
@@ -150,4 +156,61 @@ void d3d_draw_ellipsoid(float x1, float y1, float z1, float x2, float y2, float 
         glEnd();
     }
     glDisable(GL_TEXTURE_2D);
+}
+
+// Simple collision detection (AABB vs Sphere)
+bool d3d_collision_block(float px, float py, float pz, float pr, float x1, float y1, float z1, float x2, float y2, float z2) {
+    float minX = std::min(x1, x2);
+    float maxX = std::max(x1, x2);
+    float minY = std::min(y1, y2);
+    float maxY = std::max(y1, y2);
+    float minZ = std::min(z1, z2);
+    float maxZ = std::max(z1, z2);
+
+    float closestX = clamp(px, minX, maxX);
+    float closestY = clamp(py, minY, maxY);
+    float closestZ = clamp(pz, minZ, maxZ);
+
+    float dx = px - closestX;
+    float dy = py - closestY;
+    float dz = pz - closestZ;
+
+    return (dx * dx + dy * dy + dz * dz) < (pr * pr);
+}
+
+// Cylinder collision detection (Vertical Cylinder vs Sphere)
+bool d3d_collision_cylinder(float px, float py, float pz, float pr, float x1, float y1, float z1, float x2, float y2, float z2) {
+    float centerX = (x1 + x2) / 2.0f;
+    float centerZ = (z1 + z2) / 2.0f;
+    float radiusX = std::abs(x2 - x1) / 2.0f;
+    float radiusZ = std::abs(z2 - z1) / 2.0f;
+    float minY = std::min(y1, y2);
+    float maxY = std::max(y1, y2);
+
+    // XZ distance (Elliptical support)
+    float dx = (px - centerX) / (radiusX + pr);
+    float dz = (pz - centerZ) / (radiusZ + pr);
+    
+    if (dx * dx + dz * dz < 1.0f) {
+        if (py + pr > minY && py - pr < maxY) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Ellipsoid collision detection (Simplified to sphere check)
+bool d3d_collision_ellipsoid(float px, float py, float pz, float pr, float x1, float y1, float z1, float x2, float y2, float z2) {
+    float centerX = (x1 + x2) / 2.0f;
+    float centerY = (y1 + y2) / 2.0f;
+    float centerZ = (z1 + z2) / 2.0f;
+    float rx = std::abs(x2 - x1) / 2.0f;
+    float ry = std::abs(y2 - y1) / 2.0f;
+    float rz = std::abs(z2 - z1) / 2.0f;
+
+    float dx = (px - centerX) / (rx + pr);
+    float dy = (py - centerY) / (ry + pr);
+    float dz = (pz - centerZ) / (rz + pr);
+
+    return (dx * dx + dy * dy + dz * dz) < 1.0f;
 }

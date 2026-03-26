@@ -30,16 +30,20 @@ void drawFloor() {
     d3d_draw_ellipsoid(-15, 5, 10, -5, 15, 20, FloorTexture, 1, 1, 24);
 }
 
+int windowW = 800;
+int windowH = 600;
+const float targetRatio = 800.0f / 600.0f;
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // 3D Rendering
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45, 800.0/600.0, 0.1, 100);
+    gluPerspective(45, targetRatio, 0.1, 100);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
     gluLookAt(
         camX, camY, camZ,
         camX + lx, camY, camZ + lz,
@@ -48,35 +52,42 @@ void display() {
 
     glEnable(GL_DEPTH_TEST);
     drawFloor();
+
+    // 2D HUD Rendering
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluOrtho2D(0, 800, 0, 600);
+    gluOrtho2D(0, 800, 0, 600); 
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     glDisable(GL_DEPTH_TEST);
+    drawTexturedQuad(HandTexture, 800/2 - 175, 0, 350, 350);
 
-    drawTexturedQuad(HandTexture, 800/2, 0, 350, 350);
-    
     glutSwapBuffers();
 }
+
 void reshape(int w, int h) {
-    if (h == 0) h = 1;
-    float ratio = 1.0 * w / h;
+    windowW = w;
+    windowH = h;
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    float currentRatio = (float)w / (float)h;
+    int viewW, viewH, viewX, viewY;
 
-    gluPerspective(45, ratio, 0.1, 100);
+    if (currentRatio > targetRatio) {
+        viewH = h;
+        viewW = h * targetRatio;
+        viewX = (w - viewW) / 2;
+        viewY = 0;
+    } else {
+        viewW = w;
+        viewH = w / targetRatio;
+        viewX = 0;
+        viewY = (h - viewH) / 2;
+    }
 
-    glMatrixMode(GL_MODELVIEW);
-
-    glLoadIdentity();
-
-    
+    glViewport(viewX, viewY, viewW, viewH);
 }
-
 
 
 bool keys[256];
@@ -91,6 +102,14 @@ void keyUp(unsigned char key, int x, int y) {
 
 float lastTime = 0;
 
+bool checkAllCollisions(float x, float y, float z) {
+    float pr = 0.5f; 
+    if (d3d_collision_block(x, y, z, pr, -10, 0, -10, -5, 5, -5)) return true;
+    if (d3d_collision_cylinder(x, y, z, pr, 10, 0, -10, 15, 10, -5)) return true;
+    if (d3d_collision_ellipsoid(x, y, z, pr, -15, 5, 10, -5, 15, 20)) return true;
+    return false;
+}
+
 void update() {
     float currentTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
     float deltaTime = currentTime - lastTime;
@@ -99,16 +118,26 @@ void update() {
     float moveSpeed = 5.0f * deltaTime * speed;
     float rotSpeed  = 2.0f * deltaTime;
 
+    float nextX = camX;
+    float nextZ = camZ;
+
     if (keys['w']) {
-        camX += lx * moveSpeed;
-        camZ += lz * moveSpeed;
+        nextX += lx * moveSpeed;
+        nextZ += lz * moveSpeed;
     }
     if (keys['s']) {
-        camX -= lx * moveSpeed;
-        camZ -= lz * moveSpeed;
+        nextX -= lx * moveSpeed;
+        nextZ -= lz * moveSpeed;
     }
     if (keys['a']) angle -= rotSpeed;
     if (keys['d']) angle += rotSpeed;
+
+    if (!checkAllCollisions(nextX, camY, camZ)) {
+        camX = nextX;
+    }
+    if (!checkAllCollisions(camX, camY, nextZ)) {
+        camZ = nextZ;
+    }
 
     lx = sin(angle);
     lz = -cos(angle);
