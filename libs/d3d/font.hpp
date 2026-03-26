@@ -1,10 +1,14 @@
+/*
+ * Copyright (c) 2026 Yohanes Oktanio
+ * All rights reserved.
+ */
+
 // font.hpp
 #pragma once
 #include <GL/gl.h>
 #include <cstdio>
 #include <cstring>
 
-#define STB_TRUETYPE_IMPLEMENTATION
 #include "../stb_truetype.h"
 
 struct Font {

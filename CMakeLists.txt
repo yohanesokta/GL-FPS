@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 3.10)
 
 project(GLUTApp VERSION 1.0)
@@ -10,6 +9,10 @@ find_package(GLUT REQUIRED)
 
 add_executable(main
     src/main.cpp
+    src/globals.cpp
+    src/loader.cpp
+    src/player.cpp
+    src/renderer.cpp
     libs/d3d/d3d.cpp
 )
 

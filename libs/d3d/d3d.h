@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026 Yohanes Oktanio
+ * All rights reserved.
+ */
+
 #ifndef D3D_H
 #define D3D_H
 

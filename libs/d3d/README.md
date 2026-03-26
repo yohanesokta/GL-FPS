@@ -41,3 +41,8 @@ void d3d_draw_ellipsoid(float x1, float y1, float z1, float x2, float y2, float 
 
 ## How to use
 Include `d3d.h` in your project and call these functions within your rendering loop. Make sure your `CMakeLists.txt` includes `libs/d3d` and compiles `d3d.cpp`.
+
+---
+
+Copyright (c) 2026 Yohanes Oktanio. All rights reserved.
+

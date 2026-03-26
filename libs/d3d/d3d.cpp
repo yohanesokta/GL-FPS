@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026 Yohanes Oktanio
+ * All rights reserved.
+ */
+
 #include "d3d.h"
 #include <algorithm>
 #include <stdio.h>

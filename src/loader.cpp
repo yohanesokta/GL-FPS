@@ -1,14 +1,14 @@
-
-
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
-
+#include "loader.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../libs/stb_image.h"
+
+#define STB_TRUETYPE_IMPLEMENTATION
+#include "../libs/stb_truetype.h"
+
+float X_ROTATE[3] = {1.0f, 0.0f, 0.0f};
+float Y_ROTATE[3] = {0.0f, 1.0f, 0.0f};
+float Z_ROTATE[3] = {0.0f, 0.0, 1.0f};
 
 GLuint loadTexture(const char* filename) {
     int width, height, channels;
@@ -46,10 +46,6 @@ void drawTexturedQuad(GLuint textureID, float x, float y, float width, float hei
 
     glDisable(GL_TEXTURE_2D);
 }
-
-float X_ROTATE[3] = {1.0f, 0.0f, 0.0f};
-float Y_ROTATE[3] = {0.0f, 1.0f, 0.0f};
-float Z_ROTATE[3] = {0.0f, 0.0, 1.0f};
 
 void draw3DQuad(GLuint textureID, float x, float y, float z, float size, float rotation[3], float rotationAngle) {
     glEnable(GL_TEXTURE_2D);
