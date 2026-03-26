@@ -95,9 +95,12 @@ void updatePlayer() {
 
 void handleMouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        if (!isShooting && bullet > 0) {
+        if (!isShooting && bullet >= 0) {
             isShooting = true;
             bullet -= 1;
+        }
+        if (bullet == 0 && !isShooting && !isReloading && magazine > 0) {
+            isReloading = true;
         }
     }
 }

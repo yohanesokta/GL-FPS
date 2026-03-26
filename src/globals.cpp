@@ -17,7 +17,7 @@ bool isShooting = false;
 bool isReloading = false;
 int bullet = 2;
 int magazine = 10;
-int image_index = 1;
+int image_index = 0;
 float shotTime = 0;
 bool keys[256];
 float lastTime = 0;

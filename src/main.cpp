@@ -88,22 +88,29 @@ void init() {
     glFogf(GL_FOG_START,  15.0f);
     glFogf(GL_FOG_END,  50.0f);
     glHint(GL_FOG_HINT, GL_NICEST);
+    glutSetCursor(GLUT_CURSOR_NONE);
 }
+
+void controlView(int mouse_x, int mouse_y) {
+    angle += (mouse_x - (windowW/2.0f))/500.0f;
+    glutWarpPointer(windowW / 2, windowH / 2);
+}
+
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(800, 600);
     glutCreateWindow("Doom Ku Dewe");
-
-    init();
-
-    glutDisplayFunc(renderScene);
     
+    init();
+    glutDisplayFunc(renderScene);
+    glutPassiveMotionFunc(controlView);
     glutReshapeFunc(reshape);
     glutKeyboardUpFunc(keyUp);
     glutKeyboardFunc(keyDown);
     glutMouseFunc(handleMouse);
+    
     glutIdleFunc(idle);
     glutMainLoop();
     return 0;
