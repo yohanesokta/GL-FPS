@@ -40,12 +40,12 @@ void updatePlayer() {
     if (keys['a']) angle -= rotSpeed;
     if (keys['d']) angle += rotSpeed;
     if (keys['r']) {
-        if (!isReloading && magazine > 0 && bullet < 2 ) {
+        if (!isReloading && magazine > 0 && bullet < 10 ) {
             isReloading = true;
         }
     }
     if (keys[32]) {
-        if (!isShooting && bullet >= 0) {
+        if (!isShooting && bullet > 0) {
             isShooting = true;
             bullet -= 1;
         }
@@ -64,11 +64,10 @@ void updatePlayer() {
     lx = sin(angle);
     lz = -cos(angle);
 
-    // shooting animation
     if (isShooting) {
-        shotTime += deltaTime * 10.0f;
-        image_index = static_cast<int>(shotTime);
-        if (image_index >= 5) {
+        shotTime += deltaTime * 20.0f;
+        image_index = 35 + static_cast<int>(shotTime);
+        if (image_index >= 39) {
             image_index = 0;
             isShooting = false;
             shotTime = 0;
@@ -81,13 +80,13 @@ void updatePlayer() {
 
     if (isReloading) {
         bullet = 0;
-        shotTime += deltaTime * 12.0f;
-        image_index = 9 + static_cast<int>(shotTime);
-        if (image_index >= 15) {
+        shotTime += deltaTime * 20.0f;
+        image_index = 1 + static_cast<int>(shotTime);
+        if (image_index >= 34) {
             image_index = 0;
             isReloading = false;
             shotTime = 0;
-            bullet = 2;
+            bullet = MAX_AMMO;
             magazine -= 1;
         }
     }
@@ -95,7 +94,7 @@ void updatePlayer() {
 
 void handleMouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        if (!isShooting && bullet >= 0) {
+        if (!isShooting && bullet > 0) {
             isShooting = true;
             bullet -= 1;
         }

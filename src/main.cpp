@@ -62,10 +62,10 @@ void init() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     stbi_set_flip_vertically_on_load(true);
-    for (int i = 1; i <= 16; i++) {
+    for (int i = 0; i < 40; i++) {
         char filename[256];
-        sprintf(filename, "../assets/gun/sprite-%d.png", i);
-        GunSprite[i-1] = loadTexture(filename);
+        sprintf(filename, "../assets/pistol/out_%d.png", i);
+        GunSprite[i] = loadTexture(filename);
     }
 
     FloorTexture = loadTexture("../assets/floor.png");
@@ -73,6 +73,7 @@ void init() {
     BesiTexture = loadTexture("../assets/besi.jpg");
     AmmoTexture = loadTexture("../assets/hud/ammo.png");
     CellingTexture = loadTexture("../assets/celling.png");
+    Barrel1Texture = loadTexture("../assets/props/barrel-1.png");
 
     stbi_set_flip_vertically_on_load(false);
 

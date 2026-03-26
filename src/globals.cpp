@@ -10,12 +10,13 @@ float angle = 90.0f;
 float lx = sin(90.0f), lz = -cos(90.0f);
 float speed = 5.0;
 
-GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture;
-GLuint GunSprite[16];
-
+GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
+       Barrel1Texture
+;
+GLuint GunSprite[40];
 bool isShooting = false;
 bool isReloading = false;
-int bullet = 2;
+int bullet = 10;
 int magazine = 10;
 int image_index = 0;
 float shotTime = 0;

@@ -9,9 +9,12 @@ void drawWorld() {
 
     d3d_draw_wall(0, 0, 0, 20, 10, 0, WallTexture, 2, 1);
     d3d_draw_wall(20, 0, 0, 20, 10, 20, WallTexture, 2, 1);
+
+    
     d3d_draw_block(-10, 0, -10, -5, 5, -5, WallTexture, 1, 1);
     d3d_draw_cylinder(10, 0, -10, 15, 10, -5, FloorTexture, 1, 1, true, 24);
     d3d_draw_ellipsoid(-15, 0, 10, -5, 10, 0, BesiTexture, 1, 1, 24);
+    d3d_draw_wall(-5,3.3f/1.2f, 0, -5,0, 3.3f/1.2f, Barrel1Texture, 1, 1);
 }
 
 void drawHUD() {
@@ -24,7 +27,7 @@ void drawHUD() {
     glLoadIdentity();
 
     glDisable(GL_DEPTH_TEST);
-    drawTexturedQuad(GunSprite[image_index], windowW/2, -10, 200, 250);
+    drawTexturedQuad(GunSprite[image_index], -20, 0, 720*1.3f, 480*1.3f);
     drawTexturedQuad(AmmoTexture, 2.0f, 2.0f, 438/2.2f , 264/2.2f);
     glRectf(windowW/2-0.8f, windowH/2-5, windowW/2+0.8f, windowH/2+5);
     glRectf(windowW/2-5, windowH/2-0.8f, windowW/2+5, windowH/2+0.8f);

@@ -8,6 +8,7 @@
 #endif
 
 #include "../libs/d3d/font.hpp"
+#define MAX_AMMO 10;
 
 // Window settings
 extern int windowW;
@@ -21,8 +22,10 @@ extern float lx, lz;
 extern float speed;
 
 // Textures
-extern GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture;
-extern GLuint GunSprite[16];
+extern GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
+       Barrel1Texture
+;
+extern GLuint GunSprite[40];
 
 // Game state
 extern bool isShooting;
