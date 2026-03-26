@@ -6,6 +6,13 @@
 <img src="./static/d1.png">
 </p>
 
+
+# Example Shooting Engine
+
+<p align="center">
+<img src="./static/out.gif">
+</p>
+
 ## Features
 - **3D Perspective Rendering**: Using GLUT and OpenGL.
 - **Texture Loading**: Powered by `stb_image`.
