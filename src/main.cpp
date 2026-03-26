@@ -13,6 +13,8 @@
 #include <math.h>
 
 #include "loader.cpp"
+#include "d3d.h"
+
 float camX = 0, camY = 2, camZ = 5;
 float angle = 90.0f;
 float lx = sin(angle), lz = -cos(angle);
@@ -20,16 +22,12 @@ float speed = 5.0;
 GLuint HandTexture, FloorTexture, WallTexture;
 
 void drawFloor() {
-    for (int x = 0; x < 10; x++) {
-        for (int y = 0; y < 10; y++) {
-            draw3DQuad(FloorTexture, x * 20, 0, y * 20, 20, X_ROTATE, -90.0f);
-        }
-    }
-
-    draw3DQuad(WallTexture, 0, 10, 0, 20, X_ROTATE, 0.0f);
-    draw3DQuad(WallTexture, 20, 10, 0, 20, X_ROTATE, 0.0f);
-    draw3DQuad(WallTexture, 25,10, 10, 20, Y_ROTATE, 90.0f);
-    
+    d3d_draw_floor(-100, 0, -100, 100, 0, 100, FloorTexture, 10, 10);
+    d3d_draw_wall(0, 0, 0, 20, 10, 0, WallTexture, 1, 1);
+    d3d_draw_wall(20, 0, 0, 20, 10, 20, WallTexture, 1, 1);
+    d3d_draw_block(-10, 0, -10, -5, 5, -5, WallTexture, 1, 1);
+    d3d_draw_cylinder(10, 0, -10, 15, 10, -5, WallTexture, 1, 1, true, 24);
+    d3d_draw_ellipsoid(-15, 5, 10, -5, 15, 20, FloorTexture, 1, 1, 24);
 }
 
 
@@ -50,7 +48,6 @@ void display() {
 
     glEnable(GL_DEPTH_TEST);
     drawFloor();
-    // HUD
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0, 800, 0, 600);
@@ -60,7 +57,6 @@ void display() {
 
     glDisable(GL_DEPTH_TEST);
 
-    // drawing HUD
     drawTexturedQuad(HandTexture, 800/2, 0, 350, 350);
     
     glutSwapBuffers();
@@ -81,7 +77,10 @@ void reshape(int w, int h) {
     
 }
 
+
+
 bool keys[256];
+
 void keyDown(unsigned char key, int x, int y) {
     keys[key] = true;
 }
@@ -166,5 +165,7 @@ int main(int argc, char** argv) {
     glutKeyboardFunc(keyDown);
     glutIdleFunc(idle);
     glutMainLoop();
+
+
     return 0;
 }

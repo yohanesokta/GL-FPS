@@ -10,9 +10,10 @@ find_package(GLUT REQUIRED)
 
 add_executable(main
     src/main.cpp
+    libs/d3d/d3d.cpp
 )
 
-target_include_directories(main PRIVATE src)
+target_include_directories(main PRIVATE src libs/d3d)
 
 target_link_libraries(main PRIVATE
     OpenGL::GL
