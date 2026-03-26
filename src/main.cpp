@@ -14,12 +14,13 @@
 
 #include "loader.cpp"
 #include "d3d.h"
+#include <cmath>
 
 float camX = 0, camY = 2, camZ = 5;
 float angle = 90.0f;
 float lx = sin(angle), lz = -cos(angle);
 float speed = 5.0;
-GLuint HandTexture, FloorTexture, WallTexture;
+GLuint FloorTexture, WallTexture;
 
 void drawFloor() {
     d3d_draw_floor(-100, 0, -100, 100, 0, 100, FloorTexture, 10, 10);
@@ -30,6 +31,14 @@ void drawFloor() {
     d3d_draw_ellipsoid(-15, 5, 10, -5, 15, 20, FloorTexture, 1, 1, 24);
 }
 
+GLuint GunSprite[16];
+bool isShooting = false;
+bool isReloading = false;
+int bullet = 5;
+int magazine = 10;
+int image_index = 0;
+float shotTime = 0;
+
 int windowW = 800;
 int windowH = 600;
 const float targetRatio = 800.0f / 600.0f;
@@ -37,7 +46,6 @@ const float targetRatio = 800.0f / 600.0f;
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // 3D Rendering
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(45, targetRatio, 0.1, 100);
@@ -62,7 +70,13 @@ void display() {
     glLoadIdentity();
 
     glDisable(GL_DEPTH_TEST);
-    drawTexturedQuad(HandTexture, 800/2 - 175, 0, 350, 350);
+    drawTexturedQuad(GunSprite[image_index], 800/2, -10, 150, 200);
+   
+    glRectf(windowW/2-0.8f,windowH/2-5,windowW/2+0.8f,windowH/2+5);
+    glRectf(windowW/2-5,windowH/2-0.8f,windowW/2+5,windowH/2+0.8f);
+    char bulletText[256];
+    sprintf(bulletText, "Bullets: %d  Magazine: %d", bullet, magazine);
+    renderText(10,10, GLUT_BITMAP_HELVETICA_18, bulletText);
 
     glutSwapBuffers();
 }
@@ -132,6 +146,14 @@ void update() {
     if (keys['a']) angle -= rotSpeed;
     if (keys['d']) angle += rotSpeed;
 
+    if (keys[32]) {
+        if (!isShooting && bullet > 0) {
+            isShooting = true;
+            bullet -= 1;
+        }
+    }
+
+    
     if (!checkAllCollisions(nextX, camY, camZ)) {
         camX = nextX;
     }
@@ -141,33 +163,48 @@ void update() {
 
     lx = sin(angle);
     lz = -cos(angle);
+
+
+    // shooting animation
+    if (isShooting) {
+        shotTime += 0.1f;
+        image_index = static_cast<int>(shotTime);
+        if (image_index >= 5) {
+            image_index =0;
+            isShooting = false;
+            shotTime = 0;
+        }
+    }
+
+    if (bullet == 0 && !isReloading && magazine > 0) {
+        isReloading = true;
+    }
+
+    if (isReloading) {
+        shotTime += 0.1f;
+        image_index = 9 + static_cast<int>(shotTime);
+        if (image_index >= 15) {
+            image_index = 0;
+            isReloading = false;
+            shotTime = 0;
+            bullet = 5;
+            magazine -= 1;
+        }
+    }
 }
 
 void idle() {
     update();
     glutPostRedisplay();
 }
-void keyboard(unsigned char key, int x, int y) {
-    if (key == 'w') {
-        camX += lx * speed;
-        camZ += lz * speed;
-    }
-    if (key == 's') {
-        camX -= lx * speed;
-        camZ -= lz * speed;
-    }
-    if (key == 'a') {
-        angle -= 0.05;
-        lx = sin(angle);
-        lz = -cos(angle);
-    }
-    if (key == 'd') {
-        angle += 0.05;
-        lx = sin(angle);
-        lz = -cos(angle);
-    }
 
-    glutPostRedisplay();
+void mouseHandle(int button, int state, int x, int y) {
+    if (button == GLUT_LEFT_BUTTON) {
+        if (!isShooting && bullet > 0) {
+            isShooting = true;
+            bullet -=1;
+        }
+    }
 }
 
 void init() {
@@ -175,7 +212,12 @@ void init() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     stbi_set_flip_vertically_on_load(true);
-    HandTexture = loadTexture("../assets/hand/Pistolidle.png");
+    for (int i = 1; i < 16; i++) {
+        char filename[256];
+        sprintf(filename, "../assets/gun/sprite-%d.png", i);
+        GunSprite[i-1] = loadTexture(filename);
+    }
+
     FloorTexture = loadTexture("../assets/floor.png");
     WallTexture = loadTexture("../assets/wall.png");
 }
@@ -192,9 +234,9 @@ int main(int argc, char** argv) {
     glutReshapeFunc(reshape);
     glutKeyboardUpFunc(keyUp);
     glutKeyboardFunc(keyDown);
+    glutMouseFunc(mouseHandle);
     glutIdleFunc(idle);
     glutMainLoop();
-
 
     return 0;
 }
