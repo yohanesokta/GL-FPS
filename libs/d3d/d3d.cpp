@@ -15,15 +15,42 @@ static float clamp(float n, float lower, float upper) {
     return std::max(lower, std::min(n, upper));
 }
 
-void d3d_draw_floor(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat) {
+void d3d_draw_floor(float x1, float y1, float z1,
+                    float x2, float y2, float z2,
+                    GLuint tex,
+                    float hrepeat, float vrepeat) {
+
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, tex);
-    glBegin(GL_QUADS);
-        glTexCoord2f(0, 0);               glVertex3f(x1, y1, z1);
-        glTexCoord2f(hrepeat, 0);         glVertex3f(x2, y1, z1);
-        glTexCoord2f(hrepeat, vrepeat);   glVertex3f(x2, y1, z2);
-        glTexCoord2f(0, vrepeat);         glVertex3f(x1, y1, z2);
-    glEnd();
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    int xTiles = (int)hrepeat;
+    int zTiles = (int)vrepeat;
+
+    float dx = (x2 - x1) / xTiles;
+    float dz = (z2 - z1) / zTiles;
+
+    for (int i = 0; i < xTiles; i++) {
+        for (int j = 0; j < zTiles; j++) {
+
+            float xa = x1 + i * dx;
+            float xb = xa + dx;
+
+            float za = z1 + j * dz;
+            float zb = za + dz;
+
+            glBegin(GL_QUADS);
+                glNormal3f(0, 1, 0);
+
+                glTexCoord2f(0, 0); glVertex3f(xa, y1, za);
+                glTexCoord2f(1, 0); glVertex3f(xb, y1, za);
+                glTexCoord2f(1, 1); glVertex3f(xb, y1, zb);
+                glTexCoord2f(0, 1); glVertex3f(xa, y1, zb);
+
+            glEnd();
+        }
+    }
+
     glDisable(GL_TEXTURE_2D);
 }
 

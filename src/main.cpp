@@ -43,6 +43,7 @@ void reshape(int w, int h) {
 
 void keyDown(unsigned char key, int x, int y) {
     keys[key] = true;
+    printf("Key pressed: %d\n", key);
 }
 
 void keyUp(unsigned char key, int x, int y) {
@@ -75,6 +76,14 @@ void init() {
         fprintf(stderr, "Failed to load font\n");
         exit(1);
     }
+
+    glEnable(GL_FOG);
+    GLfloat fogColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+    glFogfv(GL_FOG_COLOR, fogColor);
+    glFogi(GL_FOG_MODE, GL_LINEAR);
+    glFogf(GL_FOG_START,  15.0f);
+    glFogf(GL_FOG_END,  50.0f);
+    glHint(GL_FOG_HINT, GL_NICEST);
 }
 
 int main(int argc, char** argv) {
@@ -86,6 +95,7 @@ int main(int argc, char** argv) {
     init();
 
     glutDisplayFunc(renderScene);
+    
     glutReshapeFunc(reshape);
     glutKeyboardUpFunc(keyUp);
     glutKeyboardFunc(keyDown);

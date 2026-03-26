@@ -7,6 +7,8 @@
 bool checkAllCollisions(float x, float y, float z) {
     float pr = 0.5f; 
     if (d3d_collision_block(x, y, z, pr, -10, 0, -10, -5, 5, -5)) return true;
+    if (d3d_collision_block(x,y,z,pr,0, 0, 0, 20, 10, 0)) return true;
+    if (d3d_collision_block(x,y,z,pr,20, 0, 0, 20, 10, 20)) return true;
     if (d3d_collision_cylinder(x, y, z, pr, 10, 0, -10, 15, 10, -5)) return true;
     if (d3d_collision_ellipsoid(x, y, z, pr, -15, 5, 10, -5, 15, 20)) return true;
     return false;
@@ -64,7 +66,7 @@ void updatePlayer() {
 
     // shooting animation
     if (isShooting) {
-        shotTime += 0.1f;
+        shotTime += deltaTime * 10.0f;
         image_index = static_cast<int>(shotTime);
         if (image_index >= 5) {
             image_index = 0;
@@ -79,7 +81,7 @@ void updatePlayer() {
 
     if (isReloading) {
         bullet = 0;
-        shotTime += 0.1f;
+        shotTime += deltaTime * 12.0f;
         image_index = 9 + static_cast<int>(shotTime);
         if (image_index >= 15) {
             image_index = 0;

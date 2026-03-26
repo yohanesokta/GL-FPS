@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 void drawWorld() {
-    d3d_draw_floor(-100, 0, -100, 100, 0, 100, FloorTexture, 10, 10);
+    d3d_draw_floor(-100, 0, -100, 100, 0, 100, FloorTexture, 20, 20);
     d3d_draw_wall(0, 0, 0, 20, 10, 0, WallTexture, 1, 1);
     d3d_draw_wall(20, 0, 0, 20, 10, 20, WallTexture, 1, 1);
     d3d_draw_block(-10, 0, -10, -5, 5, -5, WallTexture, 1, 1);
@@ -35,7 +35,7 @@ void drawHUD() {
     }
     
     glColor3f(1.0f, 1.0f, 1.0f);
-    renderText(globalFont, 10, windowH/2, "SEK ISTIRAHAT, MANDI!", windowH);
+    renderText(globalFont, 10, windowH/2, bulletText, windowH);
 }
 
 void renderScene() {
