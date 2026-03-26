@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> FPS Engine Docs | Yohanes Oktanio</title>
+    <style>
+        :root {
+            --bg: #0f111a;
+            --text: #e6edf3;
+            --primary: #58a6ff;
+            --secondary: #30363d;
+            --accent: #f78166;
+            --code-bg: #161b22;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            border-bottom: 1px solid var(--secondary);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+        h1 { color: var(--primary); margin-bottom: 0; }
+        h2 { color: var(--accent); border-bottom: 1px solid var(--secondary); padding-bottom: 10px; margin-top: 40px; }
+        h3 { color: var(--primary); }
+        code {
+            background-color: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: var(--code-bg);
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid var(--secondary);
+        }
+        pre code { background: none; padding: 0; }
+        .card {
+            background: var(--code-bg);
+            border: 1px solid var(--secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .step {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--bg);
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #8b949e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FPS Engine Documentation</h1>
+            <p>Guide for modular development and expansion.</p>
+        </header>
+
+        <section id="structure">
+            <h2>1. Architecture Overview</h2>
+            <p>The project is modularized to separate concerns:</p>
+            <ul>
+                <li><code>globals.h/cpp</code>: State management & shared variables.</li>
+                <li><code>renderer.h/cpp</code>: All 3D and 2D drawing logic.</li>
+                <li><code>player.h/cpp</code>: Input handling, movement, and physics.</li>
+                <li><code>loader.h/cpp</code>: Assets loading (textures/fonts).</li>
+                <li><code>libs/d3d/</code>: Core 3D primitive library.</li>
+            </ul>
+        </section>
+
+        <section id="variables">
+            <h2>2. Adding Global Variables</h2>
+            <p>To add a new variable (e.g., <code>score</code>) that can be accessed everywhere:</p>
+            <div class="card">
+                <h3><span class="step">1</span> Declare in <code>globals.h</code></h3>
+                <pre><code>// Inside src/globals.h
+extern int score;</code></pre>
+                
+                <h3><span class="step">2</span> Define in <code>globals.cpp</code></h3>
+                <pre><code>// Inside src/globals.cpp
+int score = 0;</code></pre>
+            </div>
+        </section>
+
+        <section id="objects">
+            <h2>3. Adding 3D Objects</h2>
+            <p>To add new walls, floors, or blocks to the world:</p>
+            <div class="card">
+                <h3>Modify <code>renderer.cpp</code></h3>
+                <p>Add your code inside the <code>drawWorld()</code> function:</p>
+                <pre><code>void drawWorld() {
+    // Existing objects...
+    d3d_draw_block(10, 0, 10, 15, 5, 15, WallTexture, 1, 1);
+    
+    // Custom object using a new texture
+    d3d_draw_cylinder(-5, 0, -5, 0, 10, 0, CustomTexture, 1, 1, true, 32);
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="functions">
+            <h2>4. Adding New Functions/Modules</h2>
+            <p>If you want to add a new system (e.g., an Enemy system):</p>
+            <div class="card">
+                <h3><span class="step">1</span> Create Header (<code>src/enemy.h</code>)</h3>
+                <pre><code>#ifndef ENEMY_H
+#define ENEMY_H
+void updateEnemies();
+void drawEnemies();
+#endif</code></pre>
+
+                <h3><span class="step">2</span> Create Source (<code>src/enemy.cpp</code>)</h3>
+                <pre><code>#include "enemy.h"
+#include "globals.h"
+void drawEnemies() { /* Drawing logic */ }</code></pre>
+
+                <h3><span class="step">3</span> Update <code>CMakeLists.txt</code></h3>
+                <pre><code>add_executable(main
+    src/main.cpp
+    src/enemy.cpp   # Add this line
+    ...
+)</code></pre>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Yohanes Oktanio. Built with modularity in mind.</p>
+        </footer>
+    </div>
+</body>
+</html>
