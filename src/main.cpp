@@ -15,6 +15,10 @@
 #include "loader.cpp"
 #include "d3d.h"
 #include <cmath>
+#include "../libs/d3d/font.hpp"
+
+#define ESC_KEY 27
+#define R_KEY 114
 
 float camX = 0, camY = 2, camZ = 5;
 float angle = 90.0f;
@@ -34,11 +38,11 @@ void drawFloor() {
 GLuint GunSprite[16];
 bool isShooting = false;
 bool isReloading = false;
-int bullet = 5;
+int bullet = 2;
 int magazine = 10;
 int image_index = 0;
 float shotTime = 0;
-
+Font globalFont;
 int windowW = 800;
 int windowH = 600;
 const float targetRatio = 800.0f / 600.0f;
@@ -70,14 +74,19 @@ void display() {
     glLoadIdentity();
 
     glDisable(GL_DEPTH_TEST);
-    drawTexturedQuad(GunSprite[image_index], 800/2, -10, 150, 200);
+    drawTexturedQuad(GunSprite[image_index], 800/2, -10, 200, 250);
    
     glRectf(windowW/2-0.8f,windowH/2-5,windowW/2+0.8f,windowH/2+5);
     glRectf(windowW/2-5,windowH/2-0.8f,windowW/2+5,windowH/2+0.8f);
     char bulletText[256];
-    sprintf(bulletText, "Bullets: %d  Magazine: %d", bullet, magazine);
-    renderText(10,10, GLUT_BITMAP_HELVETICA_18, bulletText);
-
+    if (isReloading) {
+        sprintf(bulletText, "Reloading... Magazine: %d", magazine);
+    } else {
+        sprintf(bulletText, "Bullets: %d  Magazine: %d", bullet, magazine);
+    }
+    glDisable(GL_DEPTH_TEST);
+    glColor3f(1.0f, 1.0f, 1.0f);
+    renderText(globalFont, 10, windowH/2, "SEK ISTIRAHAT, MANDI!",windowH);
     glutSwapBuffers();
 }
 
@@ -111,6 +120,7 @@ void keyDown(unsigned char key, int x, int y) {
 }
 void keyUp(unsigned char key, int x, int y) {
     keys[key] = false;
+    printf("Key released: %d\n", key);
 }
 
 
@@ -134,6 +144,9 @@ void update() {
 
     float nextX = camX;
     float nextZ = camZ;
+    if (keys[ESC_KEY]) {
+        exit(0);
+    }
 
     if (keys['w']) {
         nextX += lx * moveSpeed;
@@ -143,13 +156,21 @@ void update() {
         nextX -= lx * moveSpeed;
         nextZ -= lz * moveSpeed;
     }
+
     if (keys['a']) angle -= rotSpeed;
     if (keys['d']) angle += rotSpeed;
-
+    if (keys['r']) {
+        if (!isReloading && magazine > 0 && bullet < 2 ) {
+            isReloading = true;
+        }
+    }
     if (keys[32]) {
-        if (!isShooting && bullet > 0) {
+        if (!isShooting && bullet >= 0) {
             isShooting = true;
             bullet -= 1;
+        }
+        if (bullet == 0 && !isShooting && !isReloading && magazine > 0) {
+            isReloading = true;
         }
     }
 
@@ -176,18 +197,19 @@ void update() {
         }
     }
 
-    if (bullet == 0 && !isReloading && magazine > 0) {
+    if (bullet < 0 && !isReloading && magazine > 0) {
         isReloading = true;
     }
 
     if (isReloading) {
+        bullet = 0;
         shotTime += 0.1f;
         image_index = 9 + static_cast<int>(shotTime);
         if (image_index >= 15) {
             image_index = 0;
             isReloading = false;
             shotTime = 0;
-            bullet = 5;
+            bullet = 2;
             magazine -= 1;
         }
     }
@@ -220,6 +242,11 @@ void init() {
 
     FloorTexture = loadTexture("../assets/floor.png");
     WallTexture = loadTexture("../assets/wall.png");
+    stbi_set_flip_vertically_on_load(false);
+    if (!loadFont(globalFont, "../assets/fonts/retrogaming.ttf", 32)) {
+        fprintf(stderr, "Failed to load font\n");
+        exit(1);
+    }
 }
 
 int main(int argc, char** argv) {

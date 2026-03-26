@@ -22,8 +22,4 @@ bool d3d_collision_cylinder(float px, float py, float pz, float pr, float x1, fl
 bool d3d_collision_ellipsoid(float px, float py, float pz, float pr, float x1, float y1, float z1, float x2, float y2, float z2);
 
 
-void renderText(float x, float y, void* font, const char* string);
-
-
-
 #endif

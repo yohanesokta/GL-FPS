@@ -1,6 +1,6 @@
 #include "d3d.h"
 #include <algorithm>
-
+#include <stdio.h>
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
@@ -215,16 +215,3 @@ bool d3d_collision_ellipsoid(float px, float py, float pz, float pr, float x1, f
     return (dx * dx + dy * dy + dz * dz) < 1.0f;
 }
 
-
-#include <GL/glut.h>
-#include <string.h>
-
-void renderText(float x, float y, void* font, const char* string)
-{
-    glRasterPos2f(x, y);
-
-    for (const char* c = string; *c != '\0'; c++)
-    {
-        glutBitmapCharacter(font, *c);
-    }
-}
