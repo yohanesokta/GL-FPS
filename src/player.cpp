@@ -10,7 +10,7 @@ bool checkAllCollisions(float x, float y, float z) {
     if (d3d_collision_block(x,y,z,pr,0, 0, 0, 20, 10, 0)) return true;
     if (d3d_collision_block(x,y,z,pr,20, 0, 0, 20, 10, 20)) return true;
     if (d3d_collision_cylinder(x, y, z, pr, 10, 0, -10, 15, 10, -5)) return true;
-    if (d3d_collision_ellipsoid(x, y, z, pr, -15, 5, 10, -5, 15, 20)) return true;
+    if (d3d_collision_ellipsoid(x, y, z, pr, -15, 0, 10, -5, 10, 0)) return true;
     return false;
 }
 

@@ -5,11 +5,13 @@
 
 void drawWorld() {
     d3d_draw_floor(-100, 0, -100, 100, 0, 100, FloorTexture, 20, 20);
-    d3d_draw_wall(0, 0, 0, 20, 10, 0, WallTexture, 1, 1);
-    d3d_draw_wall(20, 0, 0, 20, 10, 20, WallTexture, 1, 1);
+    d3d_draw_floor(-100, 10, -100, 100, 10, 100, CellingTexture, 20, 20);
+
+    d3d_draw_wall(0, 0, 0, 20, 10, 0, WallTexture, 2, 1);
+    d3d_draw_wall(20, 0, 0, 20, 10, 20, WallTexture, 2, 1);
     d3d_draw_block(-10, 0, -10, -5, 5, -5, WallTexture, 1, 1);
-    d3d_draw_cylinder(10, 0, -10, 15, 10, -5, WallTexture, 1, 1, true, 24);
-    d3d_draw_ellipsoid(-15, 5, 10, -5, 15, 20, FloorTexture, 1, 1, 24);
+    d3d_draw_cylinder(10, 0, -10, 15, 10, -5, FloorTexture, 1, 1, true, 24);
+    d3d_draw_ellipsoid(-15, 0, 10, -5, 10, 0, BesiTexture, 1, 1, 24);
 }
 
 void drawHUD() {
@@ -23,19 +25,15 @@ void drawHUD() {
 
     glDisable(GL_DEPTH_TEST);
     drawTexturedQuad(GunSprite[image_index], windowW/2, -10, 200, 250);
-   
+    drawTexturedQuad(AmmoTexture, 2.0f, 2.0f, 438/2.2f , 264/2.2f);
     glRectf(windowW/2-0.8f, windowH/2-5, windowW/2+0.8f, windowH/2+5);
     glRectf(windowW/2-5, windowH/2-0.8f, windowW/2+5, windowH/2+0.8f);
 
-    char bulletText[256];
-    if (isReloading) {
-        sprintf(bulletText, "Reloading... Magazine: %d", magazine);
-    } else {
-        sprintf(bulletText, "Bullets: %d  Magazine: %d", bullet, magazine);
-    }
-    
-    glColor3f(1.0f, 1.0f, 1.0f);
-    renderText(globalFont, 10, windowH/2, bulletText, windowH);
+    char magazine_text[256], bullet_text[256];
+    sprintf(magazine_text, "%d", magazine);
+    sprintf(bullet_text, "%d", bullet);
+    renderText(globalFont, 135, windowH - 70, magazine_text, windowH);
+    renderText(globalFont, 50, windowH - 70, bullet_text, windowH);
 }
 
 void renderScene() {

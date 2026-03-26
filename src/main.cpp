@@ -69,7 +69,11 @@ void init() {
     }
 
     FloorTexture = loadTexture("../assets/floor.png");
-    WallTexture = loadTexture("../assets/wall.png");
+    WallTexture = loadTexture("../assets/wall2.png");
+    BesiTexture = loadTexture("../assets/besi.jpg");
+    AmmoTexture = loadTexture("../assets/hud/ammo.png");
+    CellingTexture = loadTexture("../assets/celling.png");
+
     stbi_set_flip_vertically_on_load(false);
 
     if (!loadFont(globalFont, "../assets/fonts/retrogaming.ttf", 32)) {

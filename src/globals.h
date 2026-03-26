@@ -21,7 +21,7 @@ extern float lx, lz;
 extern float speed;
 
 // Textures
-extern GLuint FloorTexture, WallTexture;
+extern GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture;
 extern GLuint GunSprite[16];
 
 // Game state
