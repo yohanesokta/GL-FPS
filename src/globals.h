@@ -8,7 +8,7 @@
 #endif
 #include "wrapper/font.hpp"
 #include "objects/enemy.hpp"
-
+#include <vector>
 
 namespace Enemy {
     class enemy; 
@@ -24,9 +24,11 @@ typedef struct BasicColosion {
 } BasicColosion;
 
 
+
 extern Enemy::enemy enemy1;
 extern Enemy::enemy enemy2;
-
+extern std::vector<EnemyColosion> enemyColosionList;
+extern std::vector<BasicColosion> basicColosionList;
 // Window settings
 extern int windowW;
 extern int windowH;

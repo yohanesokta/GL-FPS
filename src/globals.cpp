@@ -40,17 +40,8 @@ float shotTime = 0;
 bool keys[256];
 float lastTime = 0;
 
-typedef struct EnemyColosion {
-    int id;
-    float x1, y1, z1, x2, y2, z2;
-} EnemyColosion;
-
-
-EnemyColosion enemyColosion[] = {{1, -0.75f, 0.0f, -0.75f, 0.75f, 3.0f, 0.75f},
-                                {2, -0.75f, 0.0f, -0.75f, 0.75f, 3.0f, 0.75f}};
-
-
-
+std::vector<EnemyColosion> enemyColosionList;
+std::vector<BasicColosion> basicColosionList;
 Font globalFont;
 
 
