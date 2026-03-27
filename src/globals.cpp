@@ -15,6 +15,13 @@ GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
        Barrel1Texture
 ;
 
+char bassePath[256] = "./assets";
+char* getAssets(const char* filename) {
+    static char path[256];
+    sprintf(path, "%s%s", bassePath, filename);
+    return path;
+}
+
 GLuint GunSprite[40];
 bool isShooting = false;
 bool isReloading = false;

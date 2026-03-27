@@ -3,6 +3,7 @@
 #include <cmath>
 #include <stdio.h>
 #include <stdlib.h>
+#include "wrapper/audio.hpp"
 
 bool checkAllCollisions(float x, float y, float z) {
     float pr = 0.5f; 
@@ -79,6 +80,9 @@ void updatePlayer() {
     }
 
     if (isReloading) {
+        if (shotTime == 0) {
+            Audio::Manager::playSound(getAssets("/sound/reload-p.wav"));
+        }
         bullet = 0;
         shotTime += deltaTime * 20.0f;
         image_index = 1 + static_cast<int>(shotTime);
@@ -95,6 +99,7 @@ void updatePlayer() {
 void handleMouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
         if (!isShooting && bullet > 0) {
+            Audio::Manager::playSound(getAssets("/sound/shoot-p.wav"));
             isShooting = true;
             bullet -= 1;
         }

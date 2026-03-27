@@ -24,6 +24,9 @@ extern GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTextur
 ;
 extern GLuint GunSprite[40];
 
+extern char bassePath[256];
+extern char* getAssets( const char* filename);
+
 // Game state
 extern bool isShooting;
 extern bool isReloading;

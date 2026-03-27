@@ -19,6 +19,7 @@
 #include "player.h"
 #include "renderer.h"
 #include "../libs/stb_image.h"
+#include "wrapper/audio.hpp"
 
 void reshape(int w, int h) {
     windowW = w;
@@ -65,21 +66,21 @@ void init() {
     stbi_set_flip_vertically_on_load(true);
     for (int i = 0; i < 40; i++) {
         char filename[256];
-        sprintf(filename, "../assets/pistol/out_%d.png", i);
-        GunSprite[i] = loadTexture(filename);
+        sprintf(filename, "/pistol/out_%d.png", i);
+        GunSprite[i] = loadTexture(getAssets(filename));
     }
 
-    FloorTexture = loadTexture("../assets/floor.png");
-    WallTexture = loadTexture("../assets/wall2.png");
-    BesiTexture = loadTexture("../assets/besi.jpg");
-    AmmoTexture = loadTexture("../assets/hud/ammo.png");
-    CellingTexture = loadTexture("../assets/celling.png");
-    Barrel1Texture = loadTexture("../assets/props/barrel-1.png");
+    FloorTexture = loadTexture(getAssets("/floor.png"));
+    WallTexture = loadTexture(getAssets("/wall2.png"));
+    BesiTexture = loadTexture(getAssets("/besi.jpg"));
+    AmmoTexture = loadTexture(getAssets("/hud/ammo.png"));
+    CellingTexture = loadTexture(getAssets("/celling.png"));
+    Barrel1Texture = loadTexture(getAssets("/props/barrel-1.png"));
     
     
     stbi_set_flip_vertically_on_load(false);
 
-    if (!loadFont(globalFont, "../assets/fonts/retrogaming.ttf", 32)) {
+    if (!loadFont(globalFont, getAssets("/fonts/retrogaming.ttf"), 32)) {
         fprintf(stderr, "Failed to load font\n");
         exit(1);
     }
@@ -100,14 +101,23 @@ void controlView(int mouse_x, int mouse_y) {
 }
 
 int main(int argc, char** argv) {
-   
+    
+    if (argc > 1) {
+        strncpy(bassePath, argv[1], sizeof(bassePath) - 1);
+        bassePath[sizeof(bassePath) - 1] = '\0';
+    }
+    printf("Using asset base path: %s\n", bassePath);
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(800, 600);
     glutCreateWindow("Doom Ku Dewe");
     init();
-
     glutDisplayFunc(renderScene);
+
+    if (!Audio::Manager::init()) {
+        fprintf(stderr, "Failed to initialize audio\n");
+        return 1;
+    }
     glutPassiveMotionFunc(controlView);
     glutReshapeFunc(reshape);
     glutKeyboardUpFunc(keyUp);
