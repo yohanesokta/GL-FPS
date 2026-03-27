@@ -14,17 +14,16 @@
 
 #include <string.h>
 #include <math.h>
+#include <cmath>
 
 void d3d_draw_floor(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat);
-void d3d_draw_wall(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat);
+void d3d_draw_wall(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat, float rotationZ = 0.0f);
 void d3d_draw_block(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat);
 void d3d_draw_cylinder(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat, bool closed, int steps);
 void d3d_draw_ellipsoid(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat, int steps);
-
-// Collision Detection
+void d3d_draw_wall_rot(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat,float rotationZDeg);
 bool d3d_collision_block(float px, float py, float pz, float pr, float x1, float y1, float z1, float x2, float y2, float z2);
 bool d3d_collision_cylinder(float px, float py, float pz, float pr, float x1, float y1, float z1, float x2, float y2, float z2);
 bool d3d_collision_ellipsoid(float px, float py, float pz, float pr, float x1, float y1, float z1, float x2, float y2, float z2);
-
 
 #endif

@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2026 Yohanes Oktanio
- * All rights reserved.
- */
+
 
 #include "d3d.h"
 #include <algorithm>
@@ -10,7 +7,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-// Helper function to clamp a value
+
 static float clamp(float n, float lower, float upper) {
     return std::max(lower, std::min(n, upper));
 }
@@ -54,15 +51,71 @@ void d3d_draw_floor(float x1, float y1, float z1,
     glDisable(GL_TEXTURE_2D);
 }
 
-void d3d_draw_wall(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat) {
+
+void d3d_draw_wall_rot(float x1, float y1, float z1,
+                       float x2, float y2, float z2,
+                       GLuint tex,
+                       float hrepeat, float vrepeat,
+                       float rotationZDeg = 0.0f) {
+
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, tex);
+
+    
+    float cx = (x1 + x2) / 2.0f;
+    float cy = (y1 + y2) / 2.0f;
+    float cz = (z1 + z2) / 2.0f;
+
+    glPushMatrix();
+        
+        glTranslatef(cx, cy, cz);
+        
+        glRotatef(rotationZDeg, 0.0f, 1.0f, 0.0f);
+        
+        glTranslatef(-cx, -cy, -cz);
+
+        glBegin(GL_QUADS);
+            glTexCoord2f(0, 0);               glVertex3f(x1, y2, z1);
+            glTexCoord2f(hrepeat, 0);         glVertex3f(x2, y2, z2);
+            glTexCoord2f(hrepeat, vrepeat);   glVertex3f(x2, y1, z2);
+            glTexCoord2f(0, vrepeat);         glVertex3f(x1, y1, z1);
+        glEnd();
+    glPopMatrix();
+
+    glDisable(GL_TEXTURE_2D);
+}
+
+void d3d_draw_wall(float x1, float y1, float z1,
+                   float x2, float y2, float z2,
+                   GLuint tex,
+                   float hrepeat, float vrepeat,
+                   float rotationZ) { 
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, tex);
+
+    float cx = (x1 + x2) / 2.0f;
+    float cy = (y1 + y2) / 2.0f;
+
+    auto rotateZ = [rotationZ, cx, cy](float x, float y, float& outX, float& outY) {
+        float dx = x - cx;
+        float dy = y - cy;
+        outX = dx * cos(rotationZ) - dy * sin(rotationZ) + cx;
+        outY = dx * sin(rotationZ) + dy * cos(rotationZ) + cy;
+    };
+
+    float rx1, ry1, rx2, ry2, rx3, ry3, rx4, ry4;
+    rotateZ(x1, y2, rx1, ry1);
+    rotateZ(x2, y2, rx2, ry2);
+    rotateZ(x2, y1, rx3, ry3);
+    rotateZ(x1, y1, rx4, ry4);
+
     glBegin(GL_QUADS);
-        glTexCoord2f(0, 0);               glVertex3f(x1, y2, z1);
-        glTexCoord2f(hrepeat, 0);         glVertex3f(x2, y2, z2);
-        glTexCoord2f(hrepeat, vrepeat);   glVertex3f(x2, y1, z2);
-        glTexCoord2f(0, vrepeat);         glVertex3f(x1, y1, z1);
+        glTexCoord2f(0, 0);               glVertex3f(rx1, ry1, z1);
+        glTexCoord2f(hrepeat, 0);         glVertex3f(rx2, ry2, z2);
+        glTexCoord2f(hrepeat, vrepeat);   glVertex3f(rx3, ry3, z2);
+        glTexCoord2f(0, vrepeat);         glVertex3f(rx4, ry4, z1);
     glEnd();
+
     glDisable(GL_TEXTURE_2D);
 }
 
@@ -70,32 +123,32 @@ void d3d_draw_block(float x1, float y1, float z1, float x2, float y2, float z2, 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, tex);
     glBegin(GL_QUADS);
-        // Top
+        
         glTexCoord2f(0, 0);               glVertex3f(x1, y2, z1);
         glTexCoord2f(hrepeat, 0);         glVertex3f(x2, y2, z1);
         glTexCoord2f(hrepeat, vrepeat);   glVertex3f(x2, y2, z2);
         glTexCoord2f(0, vrepeat);         glVertex3f(x1, y2, z2);
-        // Bottom
+        
         glTexCoord2f(0, 0);               glVertex3f(x1, y1, z1);
         glTexCoord2f(hrepeat, 0);         glVertex3f(x2, y1, z1);
         glTexCoord2f(hrepeat, vrepeat);   glVertex3f(x2, y1, z2);
         glTexCoord2f(0, vrepeat);         glVertex3f(x1, y1, z2);
-        // Front
+        
         glTexCoord2f(0, 0);               glVertex3f(x1, y2, z2);
         glTexCoord2f(hrepeat, 0);         glVertex3f(x2, y2, z2);
         glTexCoord2f(hrepeat, vrepeat);   glVertex3f(x2, y1, z2);
         glTexCoord2f(0, vrepeat);         glVertex3f(x1, y1, z2);
-        // Back
+        
         glTexCoord2f(0, 0);               glVertex3f(x1, y2, z1);
         glTexCoord2f(hrepeat, 0);         glVertex3f(x2, y2, z1);
         glTexCoord2f(hrepeat, vrepeat);   glVertex3f(x2, y1, z1);
         glTexCoord2f(0, vrepeat);         glVertex3f(x1, y1, z1);
-        // Left
+        
         glTexCoord2f(0, 0);               glVertex3f(x1, y2, z1);
         glTexCoord2f(hrepeat, 0);         glVertex3f(x1, y2, z2);
         glTexCoord2f(hrepeat, vrepeat);   glVertex3f(x1, y1, z2);
         glTexCoord2f(0, vrepeat);         glVertex3f(x1, y1, z1);
-        // Right
+        
         glTexCoord2f(0, 0);               glVertex3f(x2, y2, z1);
         glTexCoord2f(hrepeat, 0);         glVertex3f(x2, y2, z2);
         glTexCoord2f(hrepeat, vrepeat);   glVertex3f(x2, y1, z2);
@@ -128,7 +181,7 @@ void d3d_draw_cylinder(float x1, float y1, float z1, float x2, float y2, float z
     glEnd();
 
     if (closed) {
-        // Top cap
+        
         glBegin(GL_TRIANGLE_FAN);
         glTexCoord2f(hrepeat * 0.5f, vrepeat * 0.5f);
         glVertex3f(centerX, y2, centerZ);
@@ -139,7 +192,7 @@ void d3d_draw_cylinder(float x1, float y1, float z1, float x2, float y2, float z
         }
         glEnd();
 
-        // Bottom cap
+        
         glBegin(GL_TRIANGLE_FAN);
         glTexCoord2f(hrepeat * 0.5f, vrepeat * 0.5f);
         glVertex3f(centerX, y1, centerZ);
@@ -190,7 +243,7 @@ void d3d_draw_ellipsoid(float x1, float y1, float z1, float x2, float y2, float 
     glDisable(GL_TEXTURE_2D);
 }
 
-// Simple collision detection (AABB vs Sphere)
+
 bool d3d_collision_block(float px, float py, float pz, float pr, float x1, float y1, float z1, float x2, float y2, float z2) {
     float minX = std::min(x1, x2);
     float maxX = std::max(x1, x2);
@@ -210,7 +263,7 @@ bool d3d_collision_block(float px, float py, float pz, float pr, float x1, float
     return (dx * dx + dy * dy + dz * dz) < (pr * pr);
 }
 
-// Cylinder collision detection (Vertical Cylinder vs Sphere)
+
 bool d3d_collision_cylinder(float px, float py, float pz, float pr, float x1, float y1, float z1, float x2, float y2, float z2) {
     float centerX = (x1 + x2) / 2.0f;
     float centerZ = (z1 + z2) / 2.0f;
@@ -219,7 +272,7 @@ bool d3d_collision_cylinder(float px, float py, float pz, float pr, float x1, fl
     float minY = std::min(y1, y2);
     float maxY = std::max(y1, y2);
 
-    // XZ distance (Elliptical support)
+    
     float dx = (px - centerX) / (radiusX + pr);
     float dz = (pz - centerZ) / (radiusZ + pr);
     
@@ -231,7 +284,7 @@ bool d3d_collision_cylinder(float px, float py, float pz, float pr, float x1, fl
     return false;
 }
 
-// Ellipsoid collision detection (Simplified to sphere check)
+
 bool d3d_collision_ellipsoid(float px, float py, float pz, float pr, float x1, float y1, float z1, float x2, float y2, float z2) {
     float centerX = (x1 + x2) / 2.0f;
     float centerY = (y1 + y2) / 2.0f;

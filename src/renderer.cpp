@@ -3,6 +3,7 @@
 #include "wrapper/d3d.h"
 #include <stdio.h>
 
+float thickness = 0.1f; 
 void drawWorld() {
     d3d_draw_floor(-100, 0, -100, 100, 0, 100, FloorTexture, 20, 20);
     d3d_draw_floor(-100, 10, -100, 100, 10, 100, CellingTexture, 20, 20);
@@ -12,13 +13,15 @@ void drawWorld() {
 
     
     d3d_draw_block(-10, 0, -10, -5, 5, -5, WallTexture, 1, 1);
+    d3d_draw_block(-12, -2.0f, -10, -16, 0.2f, -5, PullPropsTexture, 1, 1);
+    
     d3d_draw_cylinder(10, 0, -10, 15, 10, -5, FloorTexture, 1, 1, true, 24);
     d3d_draw_ellipsoid(-15, 0, 10, -5, 10, 0, BesiTexture, 1, 1, 24);
-    d3d_draw_wall(-5,3.3f/1.2f, 0, -5,0, 3.3f/1.2f, Barrel1Texture, 1, 1);
+    d3d_draw_wall_rot(-5,3.3f/1.2f, 0, -5,0, 3.3f/1.2f, Barrel1Texture, 1, 1,get_yaw_to_player(-5, 0, camX, camZ)+90.0f);
+    d3d_draw_wall_rot(-14, 5, -9, -14+thickness, 1, -5, NodPropsTexture, 1, 1, get_yaw_to_player(-14, -9, camX, camZ)+90.0f);
 }
 
 void drawHUD() {
-    // 2D HUD Rendering
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0, 800, 0, 600); 

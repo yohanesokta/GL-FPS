@@ -16,7 +16,7 @@ bool Manager::init(int frequency, Uint16 format, int channels, int chunksize) {
         return false;
     }
 
-    Mix_AllocateChannels(16); // maksimal 16 channel efek
+    Mix_AllocateChannels(16); 
     return true;
 }
 
@@ -38,7 +38,6 @@ void Manager::quit() {
 bool Manager::playSound(const std::string& path, int loops) {
     Mix_Chunk* chunk = nullptr;
 
-    // cek apakah sudah di-load
     auto it = loadedSounds.find(path);
     if (it != loadedSounds.end()) {
         chunk = it->second;
@@ -84,4 +83,4 @@ void Manager::stopMusic() {
     Mix_HaltMusic();
 }
 
-} // namespace Audio
+} 

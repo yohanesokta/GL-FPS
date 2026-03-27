@@ -20,8 +20,9 @@ extern float lx, lz;
 extern float speed;
 // Textures
 extern GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
-       Barrel1Texture
+       Barrel1Texture,PullPropsTexture, NodPropsTexture
 ;
+extern float get_yaw_to_player(float ox, float oz, float px, float pz);
 extern GLuint GunSprite[40];
 
 extern char bassePath[256];

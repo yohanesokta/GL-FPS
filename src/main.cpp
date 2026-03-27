@@ -76,6 +76,8 @@ void init() {
     AmmoTexture = loadTexture(getAssets("/hud/ammo.png"));
     CellingTexture = loadTexture(getAssets("/celling.png"));
     Barrel1Texture = loadTexture(getAssets("/props/barrel-1.png"));
+    NodPropsTexture = loadTexture(getAssets("/props/nod.png"));
+    PullPropsTexture = loadTexture(getAssets("/props/pull.png"));
     
     
     stbi_set_flip_vertically_on_load(false);
@@ -118,6 +120,8 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Failed to initialize audio\n");
         return 1;
     }
+
+    Audio::Manager::playMusic(getAssets("/sound/cucak-rowo-x-hayangkawin-shessssss.ogg"), true);
     glutPassiveMotionFunc(controlView);
     glutReshapeFunc(reshape);
     glutKeyboardUpFunc(keyUp);

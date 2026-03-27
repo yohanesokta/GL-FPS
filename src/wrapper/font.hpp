@@ -27,7 +27,6 @@ inline bool loadFont(Font &font, const char* filename, float pixelHeight = 32.0f
     fread(buffer, 1, size, f);
     fclose(f);
 
-    // Bake bitmap
     if (stbtt_BakeFontBitmap(buffer,0, pixelHeight, font.bitmap, 512,512, 32,96,font.cdata) < 0) {
         delete[] buffer;
         return false;
@@ -35,7 +34,6 @@ inline bool loadFont(Font &font, const char* filename, float pixelHeight = 32.0f
 
     delete[] buffer;
 
-    // Create OpenGL texture
     glGenTextures(1, &font.texture);
     glBindTexture(GL_TEXTURE_2D, font.texture);
     glTexImage2D(GL_TEXTURE_2D,0,GL_ALPHA,512,512,0,GL_ALPHA,GL_UNSIGNED_BYTE,font.bitmap);
@@ -45,7 +43,6 @@ inline bool loadFont(Font &font, const char* filename, float pixelHeight = 32.0f
     return true;
 }
 
-// Render text on screen
 inline void renderText(Font &font, float x, float y, const char* text, int windowH) {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, font.texture);

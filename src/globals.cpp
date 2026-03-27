@@ -1,6 +1,10 @@
 #include "globals.h"
 #include <cmath>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 int windowW = 800;
 int windowH = 600;
 const float targetRatio = 800.0f / 600.0f;
@@ -12,7 +16,7 @@ float lx = sin(90.0f), lz = -cos(90.0f);
 float speed = 5.0;
 
 GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
-       Barrel1Texture
+       Barrel1Texture, PullPropsTexture, NodPropsTexture
 ;
 
 char bassePath[256] = "./assets";
@@ -33,3 +37,14 @@ bool keys[256];
 float lastTime = 0;
 
 Font globalFont;
+
+
+float get_yaw_to_player(float ox, float oz, float px, float pz) {
+    float dx = px - ox;
+    float dz = pz - oz;
+    
+    float angleRad = atan2(dx, dz); 
+    float angleDeg = angleRad * 180.0f / M_PI ;
+    
+    return angleDeg;
+}

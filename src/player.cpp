@@ -14,7 +14,6 @@ bool checkAllCollisions(float x, float y, float z) {
     if (d3d_collision_ellipsoid(x, y, z, pr, -15, 0, 10, -5, 10, 0)) return true;
     return false;
 }
-
 void updatePlayer() {
     float currentTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
     float deltaTime = currentTime - lastTime;
@@ -38,10 +37,17 @@ void updatePlayer() {
         nextZ -= lz * moveSpeed;
     }
 
-    if (keys['a']) angle -= rotSpeed;
-    if (keys['d']) angle += rotSpeed;
+    if (keys['a']) {
+        nextX += lz * (moveSpeed/2);
+        nextZ -= lx * (moveSpeed/2);
+    }
+    if (keys['d']) {
+        nextX -= lz * (moveSpeed/2);
+        nextZ += lx * (moveSpeed/2);
+    }
+
     if (keys['r']) {
-        if (!isReloading && magazine > 0 && bullet < 10 ) {
+        if (!isReloading && magazine > 0 && bullet < 10) {
             isReloading = true;
         }
     }
