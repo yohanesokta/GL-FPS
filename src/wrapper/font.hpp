@@ -3,7 +3,6 @@
  * All rights reserved.
  */
 
-// font.hpp
 #pragma once
 #include <GL/gl.h>
 #include <cstdio>

@@ -78,8 +78,9 @@ void init() {
     Barrel1Texture = loadTexture(getAssets("/props/barrel-1.png"));
     NodPropsTexture = loadTexture(getAssets("/props/nod.png"));
     PullPropsTexture = loadTexture(getAssets("/props/pull.png"));
-    
-    
+    enemy2.texture = loadTexture(getAssets("/enemy/enemy-1.png"));
+    enemy2.x = 5.0f;
+    enemy2.y = 5.0f;
     stbi_set_flip_vertically_on_load(false);
 
     if (!loadFont(globalFont, getAssets("/fonts/retrogaming.ttf"), 32)) {

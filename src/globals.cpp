@@ -15,6 +15,10 @@ float angle = 90.0f;
 float lx = sin(90.0f), lz = -cos(90.0f);
 float speed = 5.0;
 
+Enemy::enemy enemy1;
+Enemy::enemy enemy2;
+
+
 GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
        Barrel1Texture, PullPropsTexture, NodPropsTexture
 ;
@@ -35,6 +39,17 @@ int image_index = 0;
 float shotTime = 0;
 bool keys[256];
 float lastTime = 0;
+
+typedef struct EnemyColosion {
+    int id;
+    float x1, y1, z1, x2, y2, z2;
+} EnemyColosion;
+
+
+EnemyColosion enemyColosion[] = {{1, -0.75f, 0.0f, -0.75f, 0.75f, 3.0f, 0.75f},
+                                {2, -0.75f, 0.0f, -0.75f, 0.75f, 3.0f, 0.75f}};
+
+
 
 Font globalFont;
 

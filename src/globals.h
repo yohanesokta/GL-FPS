@@ -7,6 +7,25 @@
 #include <GL/glut.h>
 #endif
 #include "wrapper/font.hpp"
+#include "objects/enemy.hpp"
+
+
+namespace Enemy {
+    class enemy; 
+}
+
+typedef struct EnemyColosion {
+    int id;
+    float x1, y1, z1, x2, y2, z2;
+} EnemyColosion;
+
+typedef struct BasicColosion {
+    float x1, y1, z1, x2, y2, z2;
+} BasicColosion;
+
+
+extern Enemy::enemy enemy1;
+extern Enemy::enemy enemy2;
 
 // Window settings
 extern int windowW;

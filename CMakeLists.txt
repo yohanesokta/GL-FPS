@@ -13,6 +13,7 @@ add_executable(main
     src/renderer.cpp
     src/wrapper/d3d.cpp
     src/wrapper/audio.cpp
+    src/objects/enemy.cpp
 )
 
 target_include_directories(main PRIVATE
