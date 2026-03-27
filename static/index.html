@@ -1,193 +1,298 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GL-FPS | Ultimate Technical Manual</title>
     <style>
         :root {
-            --bg: #0d1117;
-            --nav-bg: rgba(22, 27, 34, 0.9);
-            --card-bg: #161b22;
-            --accent: #58a6ff;
-            --secondary: #21262d;
-            --text: #e6edf3;
+            /* Tema Dark Modern ala GitHub/Wikipedia Dark */
+            --bg-main: #0d1117;
+            --bg-sidebar: #161b22;
+            --bg-header: #161b22cc;
+            --bg-card: #21262d;
+            --text-main: #c9d1d9;
             --text-muted: #8b949e;
+            --text-heading: #e6edf3;
+            --accent: #58a6ff;
+            --accent-hover: #3182ce;
             --border: #30363d;
             --code-bg: #010409;
-            --success: #3fb950;
+            --success: #238636;
+            --success-hover: #2ea043;
+            --sidebar-width: 280px;
+            --header-height: 64px;
         }
 
         * { box-sizing: border-box; scroll-behavior: smooth; }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
             margin: 0;
             line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* Top Navigation */
-        nav {
+        /* --- HEADER & NAVIGATION --- */
+        header {
             position: fixed;
             top: 0;
-            width: 100%;
-            background: var(--nav-bg);
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--bg-header);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
             display: flex;
-            justify-content: center;
-            padding: 0.8rem 0;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
         }
-        nav .nav-container {
-            width: 90%;
-            max-width: 1200px;
+
+        .logo-container {
             display: flex;
-            gap: 2rem;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--text-heading);
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
             align-items: center;
         }
-        nav a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 500;
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
             font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-        nav a:hover { color: var(--accent); }
-        .logo { color: var(--accent); font-weight: 800; font-size: 1.2rem; margin-right: auto; }
-
-        /* Main Wrapper */
-        .wrapper {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 100px 20px 60px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
         }
 
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            margin-bottom: 4rem;
+        .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+        .btn-github {
+            background-color: var(--bg-card);
+            color: var(--text-heading);
+            border-color: var(--border);
         }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 0.5rem; color: #fff; }
-        .hero p { font-size: 1.2rem; color: var(--text-muted); }
+        .btn-github:hover {
+            background-color: #30363d;
+            border-color: #8b949e;
+        }
+
+        .btn-download {
+            background-color: var(--success);
+            color: #fff;
+        }
+        .btn-download:hover { background-color: var(--success-hover); }
+
+        /* --- LAYOUT: SIDEBAR & MAIN CONTENT --- */
+        .layout-container {
+            display: flex;
+            margin-top: var(--header-height);
+            flex: 1;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: var(--header-height);
+            bottom: 0;
+            overflow-y: auto;
+            padding: 2rem 1rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background-color: rgba(88, 166, 255, 0.1);
+            color: var(--accent);
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 3rem 4rem;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* --- TYPOGRAPHY & WIKIPEDIA STYLE --- */
+        h1 { font-size: 3rem; margin-top: 0; color: var(--text-heading); line-height: 1.2; }
+        h2 { font-size: 2rem; color: var(--text-heading); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-top: 4rem; margin-bottom: 1.5rem; }
+        h3 { font-size: 1.4rem; color: var(--text-heading); margin-top: 2.5rem; }
+        h4 { font-size: 1.1rem; color: var(--text-heading); margin-top: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        
+        p { margin-bottom: 1rem; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .lead { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2rem; }
+
+        /* --- COMPONENTS --- */
         .preview-img {
             width: 100%;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            margin-top: 2rem;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        /* Layout Grids */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 2rem;
-            transition: transform 0.2s;
+            border: 1px solid var(--border);
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .card:hover { border-color: var(--accent); }
 
-        /* Typography */
-        h2 { font-size: 2.2rem; margin-top: 5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
-        h3 { font-size: 1.6rem; color: var(--accent); margin-top: 3rem; }
-        h4 { font-size: 1.2rem; margin-top: 2rem; display: flex; align-items: center; gap: 10px; }
-        .file-icon { background: var(--secondary); padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-family: monospace; color: var(--accent); }
+        .file-icon { background: var(--bg-card); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-family: monospace; color: var(--accent); }
 
-        /* Code Blocks */
         pre {
             background: var(--code-bg);
-            padding: 1.5rem;
-            border-radius: 12px;
+            padding: 1.2rem;
+            border-radius: 8px;
             border: 1px solid var(--border);
             overflow-x: auto;
             margin: 1.5rem 0;
-            position: relative;
         }
-        code { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.9rem; }
-        .code-lang { position: absolute; top: 10px; right: 15px; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+        code { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 0.9rem; background: var(--bg-card); padding: 0.2em 0.4em; border-radius: 4px; }
+        pre code { background: transparent; padding: 0; border-radius: 0; color: #e6edf3; }
 
-        /* Lists & Tables */
-        ul { padding-left: 1.5rem; }
-        li { margin-bottom: 0.8rem; }
-        table { width: 100%; border-collapse: collapse; margin: 2rem 0; background: var(--card-bg); border-radius: 8px; overflow: hidden; }
-        th, td { text-align: left; padding: 15px; border-bottom: 1px solid var(--border); }
-        th { background: var(--secondary); color: var(--accent); font-weight: 600; }
-
-        /* Infoboxes */
-        .info {
-            background: rgba(88, 166, 255, 0.1);
+        .info-box {
+            background: rgba(88, 166, 255, 0.05);
             border-left: 4px solid var(--accent);
-            padding: 1.5rem;
-            margin: 2rem 0;
-            border-radius: 4px;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
         }
+
+        ul, ol { padding-left: 1.5rem; margin-bottom: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+
+        table { width: 100%; border-collapse: collapse; margin: 2rem 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+        th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+        th { background: var(--bg-card); color: var(--text-heading); font-weight: 600; }
+        tr:last-child td { border-bottom: none; }
 
         .step-circle {
-            display: inline-block;
-            width: 28px;
-            height: 28px;
-            background: var(--accent);
-            color: var(--bg);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--accent);
             border-radius: 50%;
-            text-align: center;
-            line-height: 28px;
+            font-size: 0.8rem;
             font-weight: bold;
-            margin-right: 10px;
+            margin-right: 8px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav .nav-container { display: none; } /* Mobile menu simplified */
-            .hero h1 { font-size: 2.5rem; }
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+            margin-top: 5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 2rem; }
+            .header-actions .btn span { display: none; } /* Hide text on mobile buttons, keep icons */
         }
     </style>
 </head>
 <body>
 
-<nav>
-    <div class="nav-container">
-        <div class="logo">GL-FPS CORE</div>
-        <a href="#setup">Setup</a>
-        <a href="#files">File Reference</a>
-        <a href="#logic">Core Logic</a>
-        <a href="#implement">Implementation</a>
-        <a href="#libs">Libraries</a>
+<header>
+    <div class="logo-container">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent)"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        GL-FPS Core
     </div>
-</nav>
+    <div class="header-actions">
+        <a href="https://github.com/yohanesokta/GL-FPS" target="_blank" class="btn btn-github">
+            <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            <span>View on GitHub</span>
+        </a>
+        <a href="https://github.com/yohanesokta/GL-FPS/releases/download/prototype-0/prototype-fps-windowsx64.zip" class="btn btn-download">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            <span>Download for Windows</span>
+        </a>
+    </div>
+</header>
 
-<div class="wrapper">
-    <!-- HERO -->
-    <section class="hero">
-        <h1>GL-FPS Core</h1>
-        <p>A high-performance, modular 3D engine built entirely from scratch using C++, GLUT, and STB.</p>
-        <span>Creative By: Yohanes Oktanio</span>
-        <img src="d1.png" alt="Game Preview" class="preview-img">
-    </section>
+<div class="layout-container">
+    <aside class="sidebar">
+        <div class="sidebar-title">Contents</div>
+        <nav class="sidebar-nav">
+            <a href="#hero">Overview</a>
+            <a href="#setup">1. Installation & Build</a>
+            <a href="#files">2. File Reference</a>
+            <a href="#logic">3. Core Logic</a>
+            <a href="#implement">4. Implementation</a>
+            <a href="#libs">5. Libraries</a>
+        </nav>
+    </aside>
 
-    <!-- INSTALLATION -->
-    <section id="setup">
-        <h2>1. Installation & Build Guide</h2>
-        <p>This project uses <b>CMake</b> to ensure cross-platform compatibility. It requires a C++17 compiler.</p>
-        
-        <div class="grid">
-            <div class="card" style="border-color: var(--success);">
-                <h3 style="color: var(--success);">VS Code Quick Setup (Recommended)</h3>
-                <p>The fastest way to build using the integrated terminal. Works on Windows, Linux, and macOS.</p>
-                <ol>
-                    <li>Open the project folder in <b>VS Code</b>.</li>
-                    <li>Open the terminal (<code>Ctrl + `</code>).</li>
-                    <li>Run the following standard CMake sequence:</li>
-                </ol>
-                <pre><code class="language-bash"># Create and enter build directory
+    <main class="main-content">
+        <section id="hero">
+            <h1>GL-FPS Core Engine</h1>
+            <p class="lead">A high-performance, modular 3D engine built entirely from scratch using C++, GLUT, and STB. Crafted by <b>Yohanes Oktanio</b>.</p>
+            <img src="d1.png" alt="Game Preview" class="preview-img">
+        </section>
+
+        <section id="setup">
+            <h2>1. Installation & Build Guide</h2>
+            <p>This project uses <b>CMake</b> to ensure cross-platform compatibility. It requires a C++17 compiler.</p>
+            
+            <div class="info-box">
+                <b>System Requirements:</b> Ensure you have <b>CMake</b> (3.10+), a C++ Compiler (MSVC, GCC, or Clang), and <b>Git</b> installed in your PATH.
+            </div>
+
+            <h3>VS Code Quick Setup (Recommended)</h3>
+            <p>The fastest way to build using the integrated terminal. Works on Windows, Linux, and macOS.</p>
+            <ol>
+                <li>Open the project folder in <b>VS Code</b>.</li>
+                <li>Open the terminal (<code>Ctrl + `</code>).</li>
+                <li>Run the following standard CMake sequence:</li>
+            </ol>
+            <pre><code class="language-bash"># Create and enter build directory
 mkdir build
 cd build
 
@@ -196,129 +301,126 @@ cmake ..
 
 # Compile the project
 cmake --build .</code></pre>
-                <p style="font-size: 0.8rem; color: var(--text-muted);"><i>Note: On Windows, this will use the MSVC compiler by default if Visual Studio is installed.</i></p>
-            </div>
-            <div class="card">
-                <h3>System Requirements</h3>
-                <p>Ensure you have the following tools installed and available in your PATH:</p>
-                <ul>
-                    <li><b>CMake:</b> 3.10 or higher.</li>
-                    <li><b>Compiler:</b> MSVC (Windows) or GCC/Clang (Linux/Mac).</li>
-                    <li><b>Git:</b> For cloning the repository.</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+            <p style="font-size: 0.85rem; color: var(--text-muted);"><i>Note: On Windows, this will use the MSVC compiler by default if Visual Studio is installed.</i></p>
+        </section>
 
-    <!-- FILE REFERENCE -->
-    <section id="files">
-        <h2>2. Detailed File Reference</h2>
-        <p>Every file is modularized to separate concerns between Rendering, Physics, and Asset Management.</p>
+        <section id="files">
+            <h2>2. Detailed File Reference</h2>
+            <p>Every file is modularized to separate concerns between Rendering, Physics, and Asset Management.</p>
 
-        <h4><span class="file-icon">src/main.cpp</span> The Lifecycle Controller</h4>
-        <p>The entry point. It handles the "Heartbeat" of the engine via GLUT callbacks.</p>
-        <ul>
-            <li><code>init()</code>: Enables OpenGL features like <b>Fog</b>, <b>Alpha Blending</b>, and <b>Depth Testing</b>. It also triggers the bulk texture loading.</li>
-            <li><code>reshape()</code>: Critical function that maintains the 4:3 target aspect ratio using "Letterboxing" techniques.</li>
-            <li><code>idle()</code>: The high-frequency loop that calls <code>updatePlayer()</code> and requests a redraw.</li>
-        </ul>
+            <h4><span class="file-icon">src/main.cpp</span> The Lifecycle Controller</h4>
+            <p>The entry point. It handles the "Heartbeat" of the engine via GLUT callbacks.</p>
+            <ul>
+                <li><code>init()</code>: Enables OpenGL features like <b>Fog</b>, <b>Alpha Blending</b>, and <b>Depth Testing</b>. It also triggers the bulk texture loading.</li>
+                <li><code>reshape()</code>: Critical function that maintains the 4:3 target aspect ratio using "Letterboxing" techniques.</li>
+                <li><code>idle()</code>: The high-frequency loop that calls <code>updatePlayer()</code> and requests a redraw.</li>
+            </ul>
 
-        <h4><span class="file-icon">src/globals.h / .cpp</span> The Central State</h4>
-        <p>Uses the <code>extern</code> pattern to share state across files without circular dependencies.</p>
-        <pre><code class="language-cpp">// globals.h
+            <h4><span class="file-icon">src/globals.h / .cpp</span> The Central State</h4>
+            <p>Uses the <code>extern</code> pattern to share state across files without circular dependencies.</p>
+            <pre><code class="language-cpp">// globals.h
 extern float camX, camY, camZ; // Camera pos
 extern bool keys[256];         // Input state
 extern GLuint FloorTexture;    // GPU handle</code></pre>
 
-        <h4><span class="file-icon">src/player.h / .cpp</span> The Physics Engine</h4>
-        <p>Handles Delta-Time based movement and AABB Collision detection.</p>
-        <ul>
-            <li><b>Collision:</b> It checks potential <code>nextX</code> and <code>nextZ</code> against all world objects before allowing the camera to move.</li>
-            <li><b>Animation:</b> Manages the <code>shotTime</code> and <code>image_index</code> to drive weapon sprites.</li>
-        </ul>
+            <h4><span class="file-icon">src/player.h / .cpp</span> The Physics Engine</h4>
+            <p>Handles Delta-Time based movement and AABB Collision detection.</p>
+            <ul>
+                <li><b>Collision:</b> It checks potential <code>nextX</code> and <code>nextZ</code> against all world objects before allowing the camera to move.</li>
+                <li><b>Animation:</b> Manages the <code>shotTime</code> and <code>image_index</code> to drive weapon sprites.</li>
+            </ul>
 
-        <h4><span class="file-icon">src/renderer.h / .cpp</span> The Graphics Pipeline</h4>
-        <p>Implements <b>Fixed-Function Pipeline</b> rendering. It is responsible for the transition between 3D world space and 2D UI space.</p>
-        <div class="info">
-            <b>Tech Tip:</b> Matrix Mode Switching is used here. <code>GL_PROJECTION</code> is swapped between <code>gluPerspective</code> (3D) and <code>gluOrtho2D</code> (2D HUD).
-        </div>
-    </section>
+            <h4><span class="file-icon">src/renderer.h / .cpp</span> The Graphics Pipeline</h4>
+            <p>Implements <b>Fixed-Function Pipeline</b> rendering. It is responsible for the transition between 3D world space and 2D UI space.</p>
+            <div class="info-box">
+                <b>Tech Tip:</b> Matrix Mode Switching is used here. <code>GL_PROJECTION</code> is swapped between <code>gluPerspective</code> (3D) dan <code>gluOrtho2D</code> (2D HUD).
+            </div>
+        </section>
 
-    <!-- CORE LOGIC -->
-    <section id="logic">
-        <h2>3. Core Logic Breakdown</h2>
-        
-        <h3>AABB Collision Detection</h3>
-        <p>The engine uses a simple but effective <b>Axis-Aligned Bounding Box</b> check. In <code>player.cpp</code>, the player is treated as a cylinder with radius <code>pr</code>.</p>
-        <pre><code class="language-cpp">bool checkAllCollisions(float x, float y, float z) {
+        <section id="logic">
+            <h2>3. Core Logic Breakdown</h2>
+            
+            <h3>AABB Collision Detection</h3>
+            <p>The engine uses a simple but effective <b>Axis-Aligned Bounding Box</b> check. In <code>player.cpp</code>, the player is treated as a cylinder with radius <code>pr</code>.</p>
+            <pre><code class="language-cpp">bool checkAllCollisions(float x, float y, float z) {
     float pr = 0.5f; // Player radius
     // Check against blocks, cylinders, and ellipsoids
     if (d3d_collision_block(x, y, z, pr, x1, y1, z1, x2, y2, z2)) return true;
     return false;
 }</code></pre>
 
-        <h3>Texture Mapping via STB</h3>
-        <p>Located in <code>loader.cpp</code>. We bypass standard OS libraries and use <code>stb_image.h</code> to load raw pixel data directly into OpenGL textures.</p>
-    </section>
+            <h3>Texture Mapping via STB</h3>
+            <p>Located in <code>loader.cpp</code>. We bypass standard OS libraries and use <code>stb_image.h</code> to load raw pixel data directly into OpenGL textures.</p>
+        </section>
 
-    <!-- IMPLEMENTATION EXAMPLES -->
-    <section id="implement">
-        <h2>4. Implementation Examples</h2>
-        <p>How to expand the game with new content.</p>
+        <section id="implement">
+            <h2>4. Implementation Examples</h2>
+            <p>How to expand the game with new content.</p>
 
-        <h3>Example A: Adding a new Wall</h3>
-        <p>Open <code>src/renderer.cpp</code> and find <code>drawWorld()</code>. Add a <code>d3d_draw_wall</code> call:</p>
-        <pre><code class="language-cpp">// Params: x1, y1, z1, x2, y2, z2, textureID, hRepeat, vRepeat
+            <h3>Example A: Adding a new Wall</h3>
+            <p>Open <code>src/renderer.cpp</code> and find <code>drawWorld()</code>. Add a <code>d3d_draw_wall</code> call:</p>
+            <pre><code class="language-cpp">// Params: x1, y1, z1, x2, y2, z2, textureID, hRepeat, vRepeat
 d3d_draw_wall(-10, 0, -10, 10, 10, -10, WallTexture, 4, 1);</code></pre>
 
-        <h3>Example B: Adding a new Global Flag</h3>
-        <p><span class="step-circle">1</span> Add <code>extern int myScore;</code> to <code>src/globals.h</code>.</p>
-        <p><span class="step-circle">2</span> Add <code>int myScore = 0;</code> to <code>src/globals.cpp</code>.</p>
-        <p><span class="step-circle">3</span> Update the score in <code>player.cpp</code> when an action occurs.</p>
+            <h3>Example B: Adding a new Global Flag</h3>
+            <p><span class="step-circle">1</span> Add <code>extern int myScore;</code> to <code>src/globals.h</code>.</p>
+            <p><span class="step-circle">2</span> Add <code>int myScore = 0;</code> to <code>src/globals.cpp</code>.</p>
+            <p><span class="step-circle">3</span> Update the score in <code>player.cpp</code> when an action occurs.</p>
 
-        <h3>Example C: Loading a New Texture</h3>
-        <p>In <code>main.cpp</code>, inside the <code>init()</code> function:</p>
-        <pre><code class="language-cpp">GLuint MyNewTexture = loadTexture("../assets/my_image.png");</code></pre>
-    </section>
+            <h3>Example C: Loading a New Texture</h3>
+            <p>In <code>main.cpp</code>, inside the <code>init()</code> function:</p>
+            <pre><code class="language-cpp">GLuint MyNewTexture = loadTexture("../assets/my_image.png");</code></pre>
+        </section>
 
-    <!-- LIBRARIES -->
-    <section id="libs">
-        <h2>5. Integrated Libraries</h2>
-        <p>This project relies on lightweight, header-only libraries to maintain its "No-Engine" status.</p>
-        
-        <table>
-            <tr>
-                <th>Library</th>
-                <th>Role</th>
-                <th>File Location</th>
-            </tr>
-            <tr>
-                <td><b>stb_image</b></td>
-                <td>Image decoding (PNG, JPG, BMP)</td>
-                <td><code>libs/stb_image.h</code></td>
-            </tr>
-            <tr>
-                <td><b>stb_truetype</b></td>
-                <td>TTF Font rasterization</td>
-                <td><code>libs/stb_truetype.h</code></td>
-            </tr>
-            <tr>
-                <td><b>d3d</b></td>
-                <td>Custom 3D primitive drawing</td>
-                <td><code>libs/d3d/d3d.cpp</code></td>
-            </tr>
-            <tr>
-                <td><b>freeglut</b></td>
-                <td>Windowing & Context management</td>
-                <td><code>libs/freeglut/</code></td>
-            </tr>
-        </table>
-    </section>
+        <section id="libs">
+            <h2>5. Integrated Libraries</h2>
+            <p>This project relies on lightweight, header-only libraries to maintain its "No-Engine" status.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Library</th>
+                        <th>Role</th>
+                        <th>File Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>stb_image</b></td>
+                        <td>Image decoding (PNG, JPG, BMP)</td>
+                        <td><code>libs/stb_image.h</code></td>
+                    </tr>
+                    <tr>
+                        <td><b>stb_truetype</b></td>
+                        <td>TTF Font rasterization</td>
+                        <td><code>libs/stb_truetype.h</code></td>
+                    </tr>
+                    <tr>
+                        <td><b>d3d</b></td>
+                        <td>Custom 3D primitive drawing</td>
+                        <td><code>libs/d3d/d3d.cpp</code></td>
+                    </tr>
+                    <tr>
+                        <td><b>freeglut</b></td>
+                        <td>Windowing & Context management</td>
+                        <td><code>libs/freeglut/</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-    <footer style="text-align: center; border-top: 1px solid var(--border); padding-top: 40px; margin-top: 100px;">
-        <p>Project GL-FPS | Documentation v1.0 | Created by Yohanes Oktanio</p>
-        <p style="color: var(--text-muted); font-size: 0.8rem;">Licensed under Creative Commons Attribution 4.0 International</p>
-    </footer>
+        <footer>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <b>GL-FPS Core</b> Documentation v1.0<br>
+                    Created by Yohanes Oktanio
+                </div>
+                <div>
+                    Licensed under Creative Commons Attribution 4.0 International
+                </div>
+            </div>
+        </footer>
+    </main>
 </div>
 
 </body>
