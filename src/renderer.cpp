@@ -1,6 +1,6 @@
 #include "renderer.h"
 #include "loader.h"
-#include "../libs/d3d/d3d.h"
+#include "wrapper/d3d.h"
 #include <stdio.h>
 
 void drawWorld() {

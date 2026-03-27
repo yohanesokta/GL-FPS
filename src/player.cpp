@@ -1,5 +1,5 @@
 #include "player.h"
-#include "../libs/d3d/d3d.h"
+#include "wrapper/d3d.h"
 #include <cmath>
 #include <stdio.h>
 #include <stdlib.h>

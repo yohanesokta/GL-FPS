@@ -9,11 +9,11 @@
 #include <cstdio>
 #include <cstring>
 
-#include "../stb_truetype.h"
+#include "../../libs/stb_truetype.h"
 
 struct Font {
     GLuint texture = 0;
-    stbtt_bakedchar cdata[96]; // ASCII 32..127
+    stbtt_bakedchar cdata[96]; 
     unsigned char bitmap[512*512];
 };
 

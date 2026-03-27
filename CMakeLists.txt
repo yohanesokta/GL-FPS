@@ -12,12 +12,12 @@ add_executable(main
     src/loader.cpp
     src/player.cpp
     src/renderer.cpp
-    libs/d3d/d3d.cpp
+    src/wrapper/d3d.cpp
 )
 
 target_include_directories(main PRIVATE
     src
-    libs/d3d
+    src/wrapper
 )
 
 if (UNIX AND NOT WIN32)

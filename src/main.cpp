@@ -10,6 +10,7 @@
 #include <GL/glut.h>
 #endif
 
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -74,7 +75,8 @@ void init() {
     AmmoTexture = loadTexture("../assets/hud/ammo.png");
     CellingTexture = loadTexture("../assets/celling.png");
     Barrel1Texture = loadTexture("../assets/props/barrel-1.png");
-
+    
+    
     stbi_set_flip_vertically_on_load(false);
 
     if (!loadFont(globalFont, "../assets/fonts/retrogaming.ttf", 32)) {
@@ -97,14 +99,14 @@ void controlView(int mouse_x, int mouse_y) {
     glutWarpPointer(windowW / 2, windowH / 2);
 }
 
-
 int main(int argc, char** argv) {
+   
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(800, 600);
     glutCreateWindow("Doom Ku Dewe");
-    
     init();
+
     glutDisplayFunc(renderScene);
     glutPassiveMotionFunc(controlView);
     glutReshapeFunc(reshape);

@@ -6,9 +6,7 @@
 #else
 #include <GL/glut.h>
 #endif
-
-#include "../libs/d3d/font.hpp"
-#define MAX_AMMO 10;
+#include "wrapper/font.hpp"
 
 // Window settings
 extern int windowW;
@@ -20,7 +18,6 @@ extern float camX, camY, camZ;
 extern float angle;
 extern float lx, lz;
 extern float speed;
-
 // Textures
 extern GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
        Barrel1Texture
@@ -40,7 +37,10 @@ extern float lastTime;
 // Font
 extern Font globalFont;
 
+// Macros 
 #define ESC_KEY 27
 #define R_KEY 114
+#define MAX_AMMO 10
+
 
 #endif
