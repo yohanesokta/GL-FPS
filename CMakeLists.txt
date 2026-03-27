@@ -21,9 +21,6 @@ target_include_directories(main PRIVATE
     src/wrapper
 )
 
-# -------------------------
-# Platform-specific
-# -------------------------
 if (UNIX AND NOT WIN32)
     message(STATUS "Building for Linux (system GLUT/SDL2)")
 
@@ -67,7 +64,6 @@ if (WIN32)
         SDL2_mixer
     )
 
-    # Copy DLLs ke folder exe
     add_custom_command(TARGET main POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${CMAKE_SOURCE_DIR}/libs/freeglut/bin/x64/freeglut.dll
