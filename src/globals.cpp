@@ -9,7 +9,7 @@ int windowW = 800;
 int windowH = 600;
 const float targetRatio = 800.0f / 600.0f;
 
-
+float isMusicPlaying = false;
 float camX = 0, camY = 2, camZ = 5;
 float angle = 90.0f;
 float lx = sin(90.0f), lz = -cos(90.0f);

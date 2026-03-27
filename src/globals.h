@@ -24,7 +24,7 @@ extern GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTextur
 ;
 extern float get_yaw_to_player(float ox, float oz, float px, float pz);
 extern GLuint GunSprite[40];
-
+extern float isMusicPlaying;
 extern char bassePath[256];
 extern char* getAssets( const char* filename);
 

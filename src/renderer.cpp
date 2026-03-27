@@ -17,8 +17,11 @@ void drawWorld() {
     
     d3d_draw_cylinder(10, 0, -10, 15, 10, -5, FloorTexture, 1, 1, true, 24);
     d3d_draw_ellipsoid(-15, 0, 10, -5, 10, 0, BesiTexture, 1, 1, 24);
+  
     d3d_draw_wall_rot(-5,3.3f/1.2f, 0, -5,0, 3.3f/1.2f, Barrel1Texture, 1, 1,get_yaw_to_player(-5, 0, camX, camZ)+90.0f);
-    d3d_draw_wall_rot(-14, 5, -9, -14+thickness, 1, -5, NodPropsTexture, 1, 1, get_yaw_to_player(-14, -9, camX, camZ)+90.0f);
+    if (!isMusicPlaying) {
+        d3d_draw_wall_rot(-14, 5, -9, -14+thickness, 1, -5, NodPropsTexture, 1, 1, get_yaw_to_player(-14, -9, camX, camZ)+90.0f);
+    }
 }
 
 void drawHUD() {

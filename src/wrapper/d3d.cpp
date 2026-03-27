@@ -58,10 +58,9 @@ void d3d_draw_wall_rot(float x1, float y1, float z1,
                        float hrepeat, float vrepeat,
                        float rotationZDeg = 0.0f) {
 
+                
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, tex);
-
-    
     float cx = (x1 + x2) / 2.0f;
     float cy = (y1 + y2) / 2.0f;
     float cz = (z1 + z2) / 2.0f;
@@ -83,6 +82,7 @@ void d3d_draw_wall_rot(float x1, float y1, float z1,
     glPopMatrix();
 
     glDisable(GL_TEXTURE_2D);
+
 }
 
 void d3d_draw_wall(float x1, float y1, float z1,

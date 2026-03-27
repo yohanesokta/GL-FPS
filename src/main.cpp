@@ -121,7 +121,6 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    Audio::Manager::playMusic(getAssets("/sound/cucak-rowo-x-hayangkawin-shessssss.ogg"), true);
     glutPassiveMotionFunc(controlView);
     glutReshapeFunc(reshape);
     glutKeyboardUpFunc(keyUp);
