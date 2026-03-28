@@ -10,7 +10,6 @@
 #include <GL/glut.h>
 #endif
 
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -21,8 +20,6 @@
 #include "../libs/stb_image.h"
 #include "wrapper/audio.hpp"
 
-
-
 void createColosion() {
     basicColosionList.push_back({-10, 0, -10, -5, 5, -5});
     basicColosionList.push_back({0, 0, 0, 20, 10, 0});
@@ -30,7 +27,6 @@ void createColosion() {
     basicColosionList.push_back({10, 0, -10, 15, 10, -5});
     basicColosionList.push_back({-15, 0, 10, -5, 10, 0});
 }
-
 
 void reshape(int w, int h) {
     windowW = w;
@@ -54,25 +50,70 @@ void reshape(int w, int h) {
     glViewport(viewX, viewY, viewW, viewH);
 }
 
+void loadAssets() {
+    if (loadingIndex < 40) {
+        char filename[256];
+        sprintf(filename, "/pistol/out_%d.png", loadingIndex);
+        GunSprite[loadingIndex] = loadTexture(getAssets(filename));
+        loadingIndex++;
+    } 
+    else if (loadingIndex == 40) { FloorTexture = loadTexture(getAssets("/floor.png")); loadingIndex++; }
+    else if (loadingIndex == 41) { WallTexture = loadTexture(getAssets("/wall2.png")); loadingIndex++; }
+    else if (loadingIndex == 42) { BesiTexture = loadTexture(getAssets("/besi.jpg")); loadingIndex++; }
+    else if (loadingIndex == 43) { AmmoTexture = loadTexture(getAssets("/hud/ammo.png")); loadingIndex++; }
+    else if (loadingIndex == 44) { CellingTexture = loadTexture(getAssets("/celling.png")); loadingIndex++; }
+    else if (loadingIndex == 45) { Barrel1Texture = loadTexture(getAssets("/props/barrel-1.png")); loadingIndex++; }
+    else if (loadingIndex == 46) { NodPropsTexture = loadTexture(getAssets("/props/nod.png")); loadingIndex++; }
+    else if (loadingIndex == 47) { PullPropsTexture = loadTexture(getAssets("/props/pull.png")); loadingIndex++; }
+    else if (loadingIndex == 48) { enemy1.texture = loadTexture(getAssets("/enemy/enemy-1.png")); loadingIndex++; }
+    else if (loadingIndex == 49) { enemy2.texture = loadTexture(getAssets("/enemy/enemy-1.png")); loadingIndex++; }
+    else if (loadingIndex == 50) { BulletTexture = loadTexture(getAssets("/props/bullets.png")); loadingIndex++; }
+    else if (loadingIndex == 51) { HUD_HEALTH_Texture = loadTexture(getAssets("/hud/health.png")); loadingIndex++; }
+    else if (loadingIndex == 52) {
+        createColosion();
+        enemy1.generateColosion();
+        enemy2.generateColosion();
+        loadingIndex++;
+    }
+    
+    loadingProgress = (float)loadingIndex / 53.0f * 100.0f;
+    
+    if (loadingIndex >= 53) {
+        
+        currentState = STATE_PLAYING;
+        glutSetCursor(GLUT_CURSOR_NONE);
+        stbi_set_flip_vertically_on_load(false);
+    }
+}
+
 void keyDown(unsigned char key, int x, int y) {
-    keys[key] = true;
-    printf("Key pressed: %d\n", key);
+    if (currentState == STATE_MENU) {
+        if (key == 13) {
+            currentState = STATE_PLAYING;
+            glutSetCursor(GLUT_CURSOR_NONE);
+        }
+        if (key == 27) { 
+            exit(0);
+        }
+    } else if (currentState == STATE_PLAYING) {
+        keys[key] = true;
+        if (key == 27) {
+            currentState = STATE_MENU;
+            glutSetCursor(GLUT_CURSOR_INHERIT);
+        }
+    }
 }
 
 void keyUp(unsigned char key, int x, int y) {
     keys[key] = false;
-    printf("Key released: %d\n", key);
 }
-
 
 void keySpecialDown(int key, int x, int y) {
     special[key] = true;
-    printf("Special key pressed: %d\n", key);
 }
 
 void keySpecialUp(int key, int x, int y) {
     special[key] = false;
-    printf("Special key released: %d\n", key);
 }
 
 void bulletUpdate() {
@@ -86,7 +127,6 @@ void bulletUpdate() {
             }
             EnemyIsColliding collisionResult = checkEnemyCollisions(bullet.x, bullet.y, bullet.z);
             if (collisionResult.isColliding) {
-                printf("Bullet hit enemy with ID: %d\n", collisionResult.id);
                 bullet.isActive = false;
                 enemyId[collisionResult.id] = true;
             }
@@ -95,8 +135,12 @@ void bulletUpdate() {
 }
 
 void idle() {
-    updatePlayer();
-    bulletUpdate();
+    if (currentState == STATE_LOADING) {
+        loadAssets();
+    } else if (currentState == STATE_PLAYING) {
+        updatePlayer();
+        bulletUpdate();
+    }
     glutPostRedisplay();
 }
 
@@ -106,31 +150,8 @@ void init() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     stbi_set_flip_vertically_on_load(true);
-    for (int i = 0; i < 40; i++) {
-        char filename[256];
-        sprintf(filename, "/pistol/out_%d.png", i);
-        GunSprite[i] = loadTexture(getAssets(filename)); 
-    }
-
-    createColosion();
-    FloorTexture = loadTexture(getAssets("/floor.png"));
-    WallTexture = loadTexture(getAssets("/wall2.png"));
-    BesiTexture = loadTexture(getAssets("/besi.jpg"));
-    AmmoTexture = loadTexture(getAssets("/hud/ammo.png"));
-    CellingTexture = loadTexture(getAssets("/celling.png"));
-    Barrel1Texture = loadTexture(getAssets("/props/barrel-1.png"));
-    NodPropsTexture = loadTexture(getAssets("/props/nod.png"));
-    PullPropsTexture = loadTexture(getAssets("/props/pull.png"));
-    enemy1.texture = loadTexture(getAssets("/enemy/enemy-1.png"));
-    enemy2.texture = loadTexture(getAssets("/enemy/enemy-1.png"));
-    BulletTexture = loadTexture(getAssets("/props/bullets.png"));
-    HUD_HEALTH_Texture = loadTexture(getAssets("/hud/health.png"));
-    enemy1.generateColosion();
-    enemy2.generateColosion();
-    stbi_set_flip_vertically_on_load(false);
 
     if (!loadFont(globalFont, getAssets("/fonts/retrogaming.ttf"), 32)) {
-        
         fprintf(stderr, "Failed to load font\n");
         exit(1);
     }
@@ -142,33 +163,33 @@ void init() {
     glFogf(GL_FOG_START,  15.0f);
     glFogf(GL_FOG_END,  50.0f);
     glHint(GL_FOG_HINT, GL_NICEST);
-    glutSetCursor(GLUT_CURSOR_NONE);
 }
 
 void controlView(int mouse_x, int mouse_y) {
-    angle += (mouse_x - (windowW/2.0f))/500.0f;
-    glutWarpPointer(windowW / 2, windowH / 2);
+    if (currentState == STATE_PLAYING) {
+        angle += (mouse_x - (windowW/2.0f))/500.0f;
+        glutWarpPointer(windowW / 2, windowH / 2);
+    }
 }
 
 int main(int argc, char** argv) {
-    
     if (argc > 1) {
         strncpy(bassePath, argv[1], sizeof(bassePath) - 1);
         bassePath[sizeof(bassePath) - 1] = '\0';
     }
-    printf("Using asset base path: %s\n", bassePath);
+    
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(800, 600);
     glutCreateWindow("Doom Ku Dewe");
+    
     init();
-    glutDisplayFunc(renderScene);
-
+    
     if (!Audio::Manager::init()) {
         fprintf(stderr, "Failed to initialize audio\n");
-        return 1;
     }
 
+    glutDisplayFunc(renderScene);
     glutPassiveMotionFunc(controlView);
     glutReshapeFunc(reshape);
     glutKeyboardUpFunc(keyUp);

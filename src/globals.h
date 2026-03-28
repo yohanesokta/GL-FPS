@@ -44,6 +44,16 @@ typedef struct EnemyIsColliding {
     bool isColliding;
 } EnemyIsColliding;
 
+enum GameState {
+    STATE_LOADING,
+    STATE_MENU,
+    STATE_PLAYING
+};
+
+extern GameState currentState;
+extern float loadingProgress;
+extern int loadingIndex;
+
 extern bool enemyId[4*BYTE];
 extern Enemy::enemy enemy1;
 extern Enemy::enemy enemy2;

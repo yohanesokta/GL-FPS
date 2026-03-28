@@ -16,6 +16,10 @@ float lx = sin(90.0f), lz = -cos(90.0f);
 float speed = 5.0;
 float health = 50.0f;
 
+GameState currentState = STATE_LOADING;
+float loadingProgress = 0.0f;
+int loadingIndex = 0;
+
 Enemy::enemy enemy1(2.0f, 2.0f, 0);
 Enemy::enemy enemy2(10.0f, 10.0f, 1);
 
