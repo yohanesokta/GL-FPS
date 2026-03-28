@@ -12,9 +12,10 @@ public:
     static bool init(int frequency = 44100, Uint16 format = MIX_DEFAULT_FORMAT, int channels = 2, int chunksize = 2048);
     static void quit();
 
-    static bool playSound(const std::string& path, int loops = 0); // efek suara
+    static int playSound(const std::string& path, int loops = 0); // efek suara
     static bool playMusic(const std::string& path, bool loop = true); // musik background
     static void stopMusic();
+    static void stopChannel(int channel);
 
 private:
     static std::unordered_map<std::string, Mix_Chunk*> loadedSounds;

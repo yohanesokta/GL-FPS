@@ -13,6 +13,8 @@ void playerShoot()
     bullets.push_back({camX, camY, camZ, lx, 0, lz, 0, true});
 }
 
+
+
 void updatePlayer()
 {
     float currentTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
@@ -130,7 +132,7 @@ void updatePlayer()
     {
         if (!isMusicPlaying)
         {
-            printf("Player collided with the nod block! Playing music...\n");
+            printf("Kamu Sentuh Nod!, Sheeessss Goyang Sriiii\n");
             Audio::Manager::playMusic(getAssets("/sound/cucak-rowo-x-hayangkawin-shessssss.ogg"), true);
             isMusicPlaying = true;
         }

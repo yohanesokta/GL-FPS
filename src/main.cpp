@@ -18,6 +18,7 @@
 #include "renderer.h"
 #include "../libs/stb_image.h"
 #include "wrapper/audio.hpp"
+#include "string"
 #include "utils/notify.h"
 
 void createColosion() {
@@ -87,6 +88,8 @@ void loadAssets() {
     }
 }
 
+int chanelStepSound = -1;
+
 void keyDown(unsigned char key, int x, int y) {
     if (currentState == STATE_MENU) {
         if (key == 13) {
@@ -103,10 +106,21 @@ void keyDown(unsigned char key, int x, int y) {
             glutSetCursor(GLUT_CURSOR_INHERIT);
         }
     }
+    if ( key == 'w' || key == 'a' || key == 's' || key == 'd' ) {
+        if (chanelStepSound == -1) {
+            chanelStepSound = Audio::Manager::playSound(getAssets("/sound/pl_step.wav"), -1);
+        }
+    }
 }
 
 void keyUp(unsigned char key, int x, int y) {
     keys[key] = false;
+    if ( key == 'w' || key == 'a' || key == 's' || key == 'd' ) {
+        if (chanelStepSound != -1) {
+            Audio::Manager::stopChannel(chanelStepSound);
+            chanelStepSound = -1;
+        }
+    }
 }
 
 void keySpecialDown(int key, int x, int y) {
@@ -175,6 +189,20 @@ void controlView(int mouse_x, int mouse_y) {
     }
 }
 
+
+void systemHUD() {
+    printf("\n");
+    printf("========================================\n");
+    printf("            [ CONTROL GUIDE ]           \n");
+    printf("========================================\n");
+    printf("  W / A / S / D    : Move (Forward / Left / Back / Right)\n");
+    printf("  Arrow Left/Right : Rotate View Angle\n");
+    printf("  Mouse Left       : Shoot\n");
+    printf("  Space            : Shoot\n");
+    printf("========================================\n");
+    printf("\n");
+}
+
 int main(int argc, char** argv) {
     if (argc > 1) {
         strncpy(bassePath, argv[1], sizeof(bassePath) - 1);
@@ -191,6 +219,8 @@ int main(int argc, char** argv) {
     if (!Audio::Manager::init()) {
         fprintf(stderr, "Failed to initialize audio\n");
     }
+
+    systemHUD();
 
     glutDisplayFunc(renderScene);
     glutPassiveMotionFunc(controlView);

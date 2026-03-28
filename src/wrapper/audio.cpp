@@ -35,7 +35,7 @@ void Manager::quit() {
     SDL_Quit();
 }
 
-bool Manager::playSound(const std::string& path, int loops) {
+int Manager::playSound(const std::string& path, int loops) {
     Mix_Chunk* chunk = nullptr;
 
     auto it = loadedSounds.find(path);
@@ -45,19 +45,19 @@ bool Manager::playSound(const std::string& path, int loops) {
         chunk = Mix_LoadWAV(path.c_str());
         if (!chunk) {
             std::cerr << "Failed to load sound: " << path << " | " << Mix_GetError() << "\n";
-            return false;
+            return -1;
         }
         loadedSounds[path] = chunk;
     }
 
-    if (Mix_PlayChannel(-1, chunk, loops) == -1) {
+    int channel = Mix_PlayChannel(-1, chunk, loops);
+    if (channel == -1) {
         std::cerr << "Failed to play sound: " << path << " | " << Mix_GetError() << "\n";
-        return false;
+        return -1;
     }
 
-    return true;
+    return channel;
 }
-
 bool Manager::playMusic(const std::string& path, bool loop) {
     if (currentMusic) {
         Mix_HaltMusic();
@@ -79,6 +79,9 @@ bool Manager::playMusic(const std::string& path, bool loop) {
     return true;
 }
 
+void Manager::stopChannel(int channel) {
+    Mix_HaltChannel(channel);
+}
 void Manager::stopMusic() {
     Mix_HaltMusic();
 }
