@@ -5,15 +5,7 @@
 #include <stdlib.h>
 #include "wrapper/audio.hpp"
 
-bool checkAllCollisions(float x, float y, float z) {
-    float pr = 0.5f; 
-    if (d3d_collision_block(x, y, z, pr, -10, 0, -10, -5, 5, -5)) return true;
-    if (d3d_collision_block(x,y,z,pr,0, 0, 0, 20, 10, 0)) return true;
-    if (d3d_collision_block(x,y,z,pr,20, 0, 0, 20, 10, 20)) return true;
-    if (d3d_collision_cylinder(x, y, z, pr, 10, 0, -10, 15, 10, -5)) return true;
-    if (d3d_collision_ellipsoid(x, y, z, pr, -15, 0, 10, -5, 10, 0)) return true;
-    return false;
-}
+
 void updatePlayer() {
     float currentTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
     float deltaTime = currentTime - lastTime;
@@ -45,6 +37,12 @@ void updatePlayer() {
         nextX -= lz * (moveSpeed/2);
         nextZ += lx * (moveSpeed/2);
     }
+    if (special[GLUT_KEY_LEFT]) {
+        angle -= rotSpeed ;
+    }
+    if (special[GLUT_KEY_RIGHT]) {
+        angle += rotSpeed ;
+    }
 
     if (keys['r']) {
         if (!isReloading && magazine > 0 && bullet < 10) {
@@ -62,10 +60,10 @@ void updatePlayer() {
         }
     }
 
-    if (!checkAllCollisions(nextX, camY, camZ)) {
+    if (!checkAllCollisionsBasic(nextX, camY, camZ)) {
         camX = nextX;
     }
-    if (!checkAllCollisions(camX, camY, nextZ)) {
+    if (!checkAllCollisionsBasic(camX, camY, nextZ)) {
         camZ = nextZ;
     }
 

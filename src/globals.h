@@ -48,7 +48,7 @@ extern GLuint GunSprite[40];
 extern float isMusicPlaying;
 extern char bassePath[256];
 extern char* getAssets( const char* filename);
-
+extern bool checkAllCollisionsBasic(float x, float y, float z);
 // Game state
 extern bool isShooting;
 extern bool isReloading;
@@ -57,6 +57,7 @@ extern int magazine;
 extern int image_index;
 extern float shotTime;
 extern bool keys[256];
+extern bool special[256];
 extern float lastTime;
 
 // Font

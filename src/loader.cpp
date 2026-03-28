@@ -64,3 +64,4 @@ void draw3DQuad(GLuint textureID, float x, float y, float z, float size, float r
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 }
+

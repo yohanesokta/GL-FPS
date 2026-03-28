@@ -15,8 +15,8 @@ float angle = 90.0f;
 float lx = sin(90.0f), lz = -cos(90.0f);
 float speed = 5.0;
 
-Enemy::enemy enemy1;
-Enemy::enemy enemy2;
+Enemy::enemy enemy1(1.0f, 1.0f, 1);
+Enemy::enemy enemy2(5.0f, 5.0f, 2);
 
 
 GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
@@ -38,12 +38,12 @@ int magazine = 10;
 int image_index = 0;
 float shotTime = 0;
 bool keys[256];
+bool special[256];
 float lastTime = 0;
 
 std::vector<EnemyColosion> enemyColosionList;
 std::vector<BasicColosion> basicColosionList;
 Font globalFont;
-
 
 float get_yaw_to_player(float ox, float oz, float px, float pz) {
     float dx = px - ox;
@@ -53,4 +53,14 @@ float get_yaw_to_player(float ox, float oz, float px, float pz) {
     float angleDeg = angleRad * 180.0f / M_PI ;
     
     return angleDeg;
+}
+
+bool checkAllCollisionsBasic(float x, float y, float z) {
+    float pr = 0.5f; 
+    for (const auto& col : basicColosionList) {
+        if (d3d_collision_block(x, y, z, pr, col.x1, col.y1, col.z1, col.x2, col.y2, col.z2)) {
+            return true;
+        }
+    }
+    return false;
 }

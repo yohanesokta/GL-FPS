@@ -21,6 +21,17 @@
 #include "../libs/stb_image.h"
 #include "wrapper/audio.hpp"
 
+
+
+void createColosion() {
+    basicColosionList.push_back({-10, 0, -10, -5, 5, -5});
+    basicColosionList.push_back({0, 0, 0, 20, 10, 0});
+    basicColosionList.push_back({20, 0, 0, 20, 10, 20});
+    basicColosionList.push_back({10, 0, -10, 15, 10, -5});
+    basicColosionList.push_back({-15, 0, 10, -5, 10, 0});
+}
+
+
 void reshape(int w, int h) {
     windowW = w;
     windowH = h;
@@ -53,6 +64,18 @@ void keyUp(unsigned char key, int x, int y) {
     printf("Key released: %d\n", key);
 }
 
+
+void keySpecialDown(int key, int x, int y) {
+    special[key] = true;
+    printf("Special key pressed: %d\n", key);
+}
+
+void keySpecialUp(int key, int x, int y) {
+    special[key] = false;
+    printf("Special key released: %d\n", key);
+}
+
+
 void idle() {
     updatePlayer();
     glutPostRedisplay();
@@ -67,9 +90,9 @@ void init() {
     for (int i = 0; i < 40; i++) {
         char filename[256];
         sprintf(filename, "/pistol/out_%d.png", i);
-        GunSprite[i] = loadTexture(getAssets(filename));
     }
 
+    createColosion();
     FloorTexture = loadTexture(getAssets("/floor.png"));
     WallTexture = loadTexture(getAssets("/wall2.png"));
     BesiTexture = loadTexture(getAssets("/besi.jpg"));
@@ -79,8 +102,8 @@ void init() {
     NodPropsTexture = loadTexture(getAssets("/props/nod.png"));
     PullPropsTexture = loadTexture(getAssets("/props/pull.png"));
     enemy2.texture = loadTexture(getAssets("/enemy/enemy-1.png"));
-    enemy2.x = 5.0f;
-    enemy2.y = 5.0f;
+    enemy2.x = 10.0f;
+    enemy2.y = 10.0f;
     stbi_set_flip_vertically_on_load(false);
 
     if (!loadFont(globalFont, getAssets("/fonts/retrogaming.ttf"), 32)) {
@@ -126,6 +149,8 @@ int main(int argc, char** argv) {
     glutReshapeFunc(reshape);
     glutKeyboardUpFunc(keyUp);
     glutKeyboardFunc(keyDown);
+    glutSpecialFunc(keySpecialDown);
+    glutSpecialUpFunc(keySpecialUp);
     glutMouseFunc(handleMouse);
     
     glutIdleFunc(idle);

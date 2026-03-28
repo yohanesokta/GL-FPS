@@ -23,9 +23,7 @@ void drawWorld() {
         d3d_draw_wall_rot(-14, 5, -9, -14+thickness, 1, -5, NodPropsTexture, 1, 1, get_yaw_to_player(-14, -9, camX, camZ)+90.0f);
     }
 
-    if (enemy2.isAlive) {
-        enemy2.draw();
-    }
+    enemy2.draw();
 }
 
 void drawHUD() {
