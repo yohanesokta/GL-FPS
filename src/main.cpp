@@ -78,10 +78,17 @@ void keySpecialUp(int key, int x, int y) {
 void bulletUpdate() {
     for (auto& bullet : bullets) {
         if (bullet.isActive) {
+            bullet.step ++;
             bullet.x += bullet.dirX * 0.1f ;
             bullet.z += bullet.dirZ * 0.1f;
             if (checkAllCollisionsBasic(bullet.x, bullet.y, bullet.z)) {
                 bullet.isActive = false;
+            }
+            EnemyIsColliding collisionResult = checkEnemyCollisions(bullet.x, bullet.y, bullet.z);
+            if (collisionResult.isColliding) {
+                printf("Bullet hit enemy with ID: %d\n", collisionResult.id);
+                bullet.isActive = false;
+                enemyId[collisionResult.id] = true;
             }
         }
     }
@@ -114,11 +121,12 @@ void init() {
     Barrel1Texture = loadTexture(getAssets("/props/barrel-1.png"));
     NodPropsTexture = loadTexture(getAssets("/props/nod.png"));
     PullPropsTexture = loadTexture(getAssets("/props/pull.png"));
+    enemy1.texture = loadTexture(getAssets("/enemy/enemy-1.png"));
     enemy2.texture = loadTexture(getAssets("/enemy/enemy-1.png"));
     BulletTexture = loadTexture(getAssets("/props/bullets.png"));
 
-    enemy2.x = 10.0f;
-    enemy2.y = 10.0f;
+    enemy1.generateColosion();
+    enemy2.generateColosion();
     stbi_set_flip_vertically_on_load(false);
 
     if (!loadFont(globalFont, getAssets("/fonts/retrogaming.ttf"), 32)) {

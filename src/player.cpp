@@ -10,7 +10,7 @@ void playerShoot()
     Audio::Manager::playSound(getAssets("/sound/shoot-p.wav"));
     isShooting = true;
     bullet -= 1;
-    bullets.push_back({camX, camY, camZ, lx, 0, lz, true});
+    bullets.push_back({camX, camY, camZ, lx, 0, lz, 0, true});
 }
 
 void updatePlayer()

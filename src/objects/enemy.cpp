@@ -1,11 +1,9 @@
 #include "enemy.hpp"
 namespace Enemy
 {
-    enemy::enemy(GLuint texture, float x, float y)
-    {
-        this->texture = texture;
-        this->x = x;
-        this->y = y;
+
+    void enemy::generateColosion() {
+        enemyColosionList[this->id] = {this->id,this->x,this->y,0 , false};
     }
 
     void enemy::draw()
@@ -43,7 +41,7 @@ namespace Enemy
         {
             d3d_draw_wall_rot(
                 this->x,
-                (1.5f * 3.0f),
+                (1.5f * 3.0f)/4.0f,
                 this->y,
                 this->x + 1.5f * 3.0f,
                 0,
@@ -53,5 +51,10 @@ namespace Enemy
                 1,
                 direction);
         }
+        this->isAlive = enemyColosionList[this->id].isColliding ? false : this->isAlive;
+        enemyColosionList[this->id].x = this->x;
+        enemyColosionList[this->id].y = this->y;
+        enemyColosionList[this->id].z = 0;
+        enemyColosionList[this->id].isColliding = this->isHit;
     }
 }

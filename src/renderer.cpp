@@ -5,7 +5,7 @@
 
 float thickness = 0.1f;
 float bulletSize = 0.02f;
-float bulletSpeed = 10.0f;
+float bulletSpeed = 5.0f;
 
 void drawWorld() {
     d3d_draw_floor(-100, 0, -100, 100, 0, 100, FloorTexture, 20, 20);
@@ -24,9 +24,10 @@ void drawWorld() {
     if (!isMusicPlaying) {
         d3d_draw_wall_rot(-14, 5, -9, -14+thickness, 1, -5, NodPropsTexture, 1, 1, get_yaw_to_player(-14, -9, camX, camZ)+90.0f);
     }
+    enemy1.draw();
     enemy2.draw();
     for(const auto& bullet : bullets) {
-        if (bullet.isActive) {
+        if (bullet.isActive && bullet.step > 8 ) {
             d3d_draw_ellipsoid(bullet.x - bulletSize, bullet.y - bulletSize, bullet.z - bulletSize,
                            bullet.x + bulletSize, bullet.y + bulletSize, bullet.z + bulletSize,
                            BulletTexture, 1, 1,20);

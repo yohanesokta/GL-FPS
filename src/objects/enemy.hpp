@@ -18,7 +18,7 @@ namespace Enemy {
         bool isHit = false;
         float speed = 1.0f;
         int id;
-      
+        
         enemy(float x, float y,int id) {
             this->x = x;
             this->y = y;
@@ -28,7 +28,7 @@ namespace Enemy {
             this->isHit = false;
             this->isAlive = true;
         }
-        enemy(GLuint texture, float x, float y);
         void draw();
+        void generateColosion();
     };
 }

@@ -15,10 +15,8 @@ float angle = 90.0f;
 float lx = sin(90.0f), lz = -cos(90.0f);
 float speed = 5.0;
 
-Enemy::enemy enemy1(1.0f, 1.0f, 1);
-Enemy::enemy enemy2(5.0f, 5.0f, 2);
-
-
+Enemy::enemy enemy1(2.0f, 2.0f, 0);
+Enemy::enemy enemy2(10.0f, 10.0f, 1);
 
 GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
        Barrel1Texture, PullPropsTexture, NodPropsTexture, BulletTexture
@@ -41,8 +39,9 @@ float shotTime = 0;
 bool keys[256];
 bool special[256];
 float lastTime = 0;
+bool enemyId[4*BYTE];
 
-std::vector<EnemyColosion> enemyColosionList;
+EnemyColosion enemyColosionList[4*BYTE];
 std::vector<BasicColosion> basicColosionList;
 std::vector<Bullet> bullets;
 Font globalFont;
@@ -65,4 +64,15 @@ bool checkAllCollisionsBasic(float x, float y, float z) {
         }
     }
     return false;
+}
+
+EnemyIsColliding checkEnemyCollisions(float x, float y, float z) {
+    float pr = 0.5f; 
+    for (auto& col : enemyColosionList) {
+        if (d3d_collision_ellipsoid(x, y, z, pr, col.x,1.5f * 3.0f, col.y + 1.5f * 1.5f, col.x + 1.5f * 3.0f,col.z, col.y - 1.5f * 1.5f)) {
+            col.isColliding = true;
+            return {col.id, true};
+        }
+    }
+    return {-1, false};
 }
