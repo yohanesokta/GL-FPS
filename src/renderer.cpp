@@ -46,6 +46,10 @@ void drawHUD() {
     glDisable(GL_DEPTH_TEST);
     drawTexturedQuad(GunSprite[image_index], -20, 0, 720*1.3f, 480*1.3f);
     drawTexturedQuad(AmmoTexture, 2.0f, 2.0f, 438/2.2f , 264/2.2f);
+    drawTexturedQuad(HUD_HEALTH_Texture, 210.0f, 2.0f, 191/2.2f, 262/2.2f);
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glRectf(258.0f, 17.0f,260.0f + 21.0f , 17.0f + (87.0f/100.0f)*health);
+    glColor3f(1.0f, 1.0f, 1.0f);
     glRectf(windowW/2-0.8f, windowH/2-5, windowW/2+0.8f, windowH/2+5);
     glRectf(windowW/2-5, windowH/2-0.8f, windowW/2+5, windowH/2+0.8f);
 

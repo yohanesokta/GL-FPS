@@ -1,4 +1,3 @@
-
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
@@ -11,11 +10,11 @@
 #include "objects/enemy.hpp"
 #include <vector>
 
-// Macros 
 #define ESC_KEY 27
 #define R_KEY 114
 #define MAX_AMMO 10
 #define BYTE 1024
+
 
 
 namespace Enemy {
@@ -51,20 +50,19 @@ extern Enemy::enemy enemy2;
 extern std::vector<Bullet> bullets;
 extern EnemyColosion enemyColosionList[4*BYTE];
 extern std::vector<BasicColosion> basicColosionList;
-// Window settings
+
 extern int windowW;
 extern int windowH;
 extern const float targetRatio;
 
-// Camera/Player position and orientation
 extern float camX, camY, camZ;
 extern float angle;
 extern float lx, lz;
 extern float speed;
-// Textures
-extern GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
-       Barrel1Texture,PullPropsTexture, NodPropsTexture, BulletTexture
-;
+extern float health;
+
+extern GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture, Barrel1Texture,PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture;
+
 extern float get_yaw_to_player(float ox, float oz, float px, float pz);
 extern GLuint GunSprite[40];
 extern float isMusicPlaying;
@@ -72,7 +70,7 @@ extern char bassePath[256];
 extern char* getAssets( const char* filename);
 extern bool checkAllCollisionsBasic(float x, float y, float z);
 extern EnemyIsColliding checkEnemyCollisions(float x, float y, float z);
-// Game state
+
 extern bool isShooting;
 extern bool isReloading;
 extern int bullet;
@@ -83,8 +81,5 @@ extern bool keys[256];
 extern bool special[256];
 extern float lastTime;
 
-// Font
 extern Font globalFont;
-
-
 #endif

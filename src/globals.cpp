@@ -14,12 +14,13 @@ float camX = 0, camY = 2, camZ = 5;
 float angle = 90.0f;
 float lx = sin(90.0f), lz = -cos(90.0f);
 float speed = 5.0;
+float health = 50.0f;
 
 Enemy::enemy enemy1(2.0f, 2.0f, 0);
 Enemy::enemy enemy2(10.0f, 10.0f, 1);
 
 GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
-       Barrel1Texture, PullPropsTexture, NodPropsTexture, BulletTexture
+       Barrel1Texture, PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture
 ;
 
 char bassePath[256] = "./assets";

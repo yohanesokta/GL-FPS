@@ -124,7 +124,7 @@ void init() {
     enemy1.texture = loadTexture(getAssets("/enemy/enemy-1.png"));
     enemy2.texture = loadTexture(getAssets("/enemy/enemy-1.png"));
     BulletTexture = loadTexture(getAssets("/props/bullets.png"));
-
+    HUD_HEALTH_Texture = loadTexture(getAssets("/hud/health.png"));
     enemy1.generateColosion();
     enemy2.generateColosion();
     stbi_set_flip_vertically_on_load(false);
