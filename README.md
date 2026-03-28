@@ -44,17 +44,59 @@ Cocok untuk membuat demo FPS retro, prototyping game 3D sederhana, atau belajar 
 
 # D3D Functions
 
-Semua fungsi tersedia di folder `libs/d3d/`:
+Semua fungsi tersedia di folder `src/wrapper/d3d.h`:
 
+### **3D Rendering**
 | Function             | Description                                        | Parameters                                                        |
 | -------------------- | -------------------------------------------------- | ----------------------------------------------------------------- |
-| `d3d_draw_floor`     | Menggambar lantai horizontal.                      | `x1, y1, z1, x2, y2, z2, texture, hrepeat, vrepeat`               |
-| `d3d_draw_wall`      | Menggambar dinding vertikal.                       | `x1, y1, z1, x2, y2, z2, texture, hrepeat, vrepeat`               |
-| `d3d_draw_block`     | Menggambar blok 3D (6 sisi) dengan tekstur.        | `x, y, z, width, height, depth, texture`                          |
-| `d3d_draw_cylinder`  | Menggambar silinder dengan tekstur dan opsi tutup. | `x, y, z, radius, height, segments, texture, top_cap, bottom_cap` |
-| `d3d_draw_ellipsoid` | Menggambar ellipsoid atau bola dengan tekstur.     | `x, y, z, radius_x, radius_y, radius_z, segments, rings, texture` |
+| `d3d_draw_floor`     | Menggambar lantai horizontal.                      | `x1, y1, z1, x2, y2, z2, tex, hrepeat, vrepeat`                   |
+| `d3d_draw_wall`      | Menggambar dinding vertikal.                       | `x1, y1, z1, x2, y2, z2, tex, hrepeat, vrepeat, rotationZ`        |
+| `d3d_draw_wall_rot`  | Menggambar dinding vertikal dengan rotasi derajat. | `x1, y1, z1, x2, y2, z2, tex, hrepeat, vrepeat, rotationZDeg`     |
+| `d3d_draw_block`     | Menggambar blok 3D (6 sisi) dengan tekstur.        | `x1, y1, z1, x2, y2, z2, tex, hrepeat, vrepeat`                   |
+| `d3d_draw_cylinder`  | Menggambar silinder dengan tekstur.                | `x1, y1, z1, x2, y2, z2, tex, hrepeat, vrepeat, closed, steps`    |
+| `d3d_draw_ellipsoid` | Menggambar ellipsoid atau bola dengan tekstur.     | `x1, y1, z1, x2, y2, z2, tex, hrepeat, vrepeat, steps`            |
 
-> Semua fungsi mengikuti pola **D3D GameMaker style**, jadi mudah digunakan jika kamu familiar dengan GM8.1.
+### **Collision Detection**
+| Function                  | Description                                | Parameters                                     |
+| ------------------------- | ------------------------------------------ | ---------------------------------------------- |
+| `d3d_collision_block`     | Mengecek tabrakan dengan blok.             | `px, py, pz, pr, x1, y1, z1, x2, y2, z2`       |
+| `d3d_collision_cylinder`  | Mengecek tabrakan dengan silinder.         | `px, py, pz, pr, x1, y1, z1, x2, y2, z2`       |
+| `d3d_collision_ellipsoid` | Mengecek tabrakan dengan ellipsoid / bola. | `px, py, pz, pr, x1, y1, z1, x2, y2, z2`       |
+
+---
+
+# Audio Manager
+
+Fungsi audio menggunakan SDL2_mixer, tersedia di `src/wrapper/audio.hpp`:
+
+| Function                    | Description                           | Parameters                                     |
+| --------------------------- | ------------------------------------- | ---------------------------------------------- |
+| `Audio::Manager::init`      | Inisialisasi sistem audio.            | `frequency, format, channels, chunksize`       |
+| `Audio::Manager::playSound` | Memutar efek suara (WAV/OGG).         | `path, loops`                                  |
+| `Audio::Manager::playMusic` | Memutar musik latar (looping).        | `path, loop`                                   |
+| `Audio::Manager::stopMusic` | Menghentikan musik yang sedang jalan. | -                                              |
+
+---
+
+# Font & Text Rendering
+
+Mendukung font TrueType (.ttf) menggunakan `stb_truetype`, tersedia di `src/wrapper/font.hpp`:
+
+| Function     | Description                        | Parameters                    |
+| ------------ | ---------------------------------- | ----------------------------- |
+| `loadFont`   | Memuat file font .ttf.             | `font, filename, pixelHeight` |
+| `renderText` | Menggambar teks ke layar (GUI/HUD). | `font, x, y, text, windowH`   |
+
+---
+
+# Utility & Asset Loading
+
+| Function           | Description                                    | Parameters                                     |
+| ------------------ | ---------------------------------------------- | ---------------------------------------------- |
+| `loadTexture`      | Memuat file gambar menjadi OpenGL Texture ID.  | `filename`                                     |
+| `getAssets`        | Mendapatkan path lengkap ke folder assets.     | `filename`                                     |
+| `drawTexturedQuad` | Menggambar quad 2D dengan tekstur (HUD/UI).    | `textureID, x, y, width, height`               |
+| `draw3DQuad`       | Menggambar quad 3D di dunia (Sprite/Billboard). | `textureID, x, y, z, size, rotation, angle`    |
 
 ---
 
@@ -89,34 +131,38 @@ make
 * **CMake** ≥ 3.20
 * **OpenGL**
 * **GLUT / FreeGLUT**
-* **stb_image** (included in `libs/`)
+* **SDL2 & SDL2_mixer** (Untuk Audio)
+* **stb_image & stb_truetype** (included)
 * Compiler: GCC/Clang/Visual Studio
-
-> Windows users: Pastikan `freeglut` sudah di-install dan path `GL`/`GLUT` tersedia di compiler.
 
 ---
 
 # Usage
 
-Contoh menggambar lantai + dinding + blok di `main.cpp`:
+Contoh penggunaan fungsi dasar di `main.cpp`:
 
 ```cpp
+// Load Tekstur
+GLuint wallTex = loadTexture(getAssets("/wall2.png"));
+
+// Di dalam loop render (drawWorld):
 // Lantai
-d3d_draw_floor(0, 0, 0, 100, 0, 100, background_get_texture(bk_floor1), 10, 10);
+d3d_draw_floor(0, 0, 0, 100, 0, 100, wallTex, 10, 10);
 
 // Dinding
-d3d_draw_wall(0, 0, 0, 0, 50, 100, background_get_texture(bk_wall1), 5, 10);
+d3d_draw_wall(0, 0, 0, 0, 50, 100, wallTex, 5, 10);
 
-// Blok
-d3d_draw_block(20, 0, 20, 10, 10, 10, background_get_texture(bk_block1));
+// Blok 3D
+d3d_draw_block(20, 0, 20, 30, 10, 30, wallTex, 1, 1);
+
+// Play Sound
+Audio::Manager::playSound(getAssets("/sound/shoot-p.wav"));
 ```
-
-> Fungsi `background_get_texture()` memuat OpenGL texture dari file PNG/JPG yang sudah di-load.
 
 ---
 
 # Notes
 
 * Engine ini **tidak menggunakan shading modern** (hanya fixed-function OpenGL).
-* Bisa dikembangkan untuk FPS, engine retro, atau eksperimen 3D kecil.
-* Semua koordinat menggunakan **unit dunia** (misal 1 unit = 1 meter di dunia game).
+* Menggunakan **GameMaker 8.1 D3D Style** untuk kemudahan prototyping.
+* Koordinat menggunakan sistem **Right-Handed Coordinate System**.

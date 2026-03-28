@@ -126,7 +126,6 @@ void updatePlayer()
         }
     }
 
-    //   d3d_draw_wall_rot(-14, 5, -9, -14+thickness, 1, -5, NodPropsTexture, 1, 1, get_yaw_to_player(-14, -9, camX, camZ)+90.0f);
     if (d3d_collision_block(camX, camY, camZ, 0.5f, -14, 5, -9, -14 + 0.1f, 1, -5))
     {
         if (!isMusicPlaying)

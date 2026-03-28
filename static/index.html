@@ -20,8 +20,7 @@
             --code-bg: #010409;
             --success: #238636;
             --success-hover: #2ea043;
-            --sidebar-width: 280px;
-            --header-height: 64px;
+            --header-height: 120px; /* Increased for horizontal nav */
         }
 
         * { box-sizing: border-box; scroll-behavior: smooth; }
@@ -43,15 +42,20 @@
             top: 0;
             left: 0;
             right: 0;
-            height: var(--header-height);
             background: var(--bg-header);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
             display: flex;
+            flex-direction: column;
+            padding: 0.5rem 2rem;
+        }
+
+        .header-top {
+            display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 2rem;
+            height: 60px;
         }
 
         .logo-container {
@@ -74,9 +78,9 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.2s ease;
@@ -84,7 +88,7 @@
             border: 1px solid transparent;
         }
 
-        .btn svg { width: 18px; height: 18px; fill: currentColor; }
+        .btn svg { width: 16px; height: 16px; fill: currentColor; }
 
         .btn-github {
             background-color: var(--bg-card);
@@ -102,59 +106,39 @@
         }
         .btn-download:hover { background-color: var(--success-hover); }
 
-        /* --- LAYOUT: SIDEBAR & MAIN CONTENT --- */
-        .layout-container {
+        /* Horizontal Navigation Bar */
+        .nav-bar {
             display: flex;
-            margin-top: var(--header-height);
-            flex: 1;
+            gap: 1.5rem;
+            padding: 0.5rem 0;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--bg-sidebar);
-            border-right: 1px solid var(--border);
-            position: fixed;
-            top: var(--header-height);
-            bottom: 0;
-            overflow-y: auto;
-            padding: 2rem 1rem;
-        }
-
-        .sidebar-title {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            padding-left: 1rem;
-            letter-spacing: 1px;
-        }
-
-        .sidebar-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .sidebar-nav a {
+        .nav-bar a {
             text-decoration: none;
-            color: var(--text-main);
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            transition: background-color 0.2s, color 0.2s;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
         }
 
-        .sidebar-nav a:hover, .sidebar-nav a.active {
-            background-color: rgba(88, 166, 255, 0.1);
+        .nav-bar a:hover {
             color: var(--accent);
+            background: rgba(88, 166, 255, 0.1);
         }
 
+        /* --- LAYOUT: MAIN CONTENT --- */
         .main-content {
-            margin-left: var(--sidebar-width);
-            padding: 3rem 4rem;
-            max-width: 1000px;
+            margin-top: var(--header-height);
+            padding: 3rem 2rem;
+            max-width: 1200px;
             width: 100%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* --- TYPOGRAPHY & WIKIPEDIA STYLE --- */
@@ -232,44 +216,43 @@
 
         /* Responsive Design */
         @media (max-width: 900px) {
-            .sidebar { display: none; }
-            .main-content { margin-left: 0; padding: 2rem; }
-            .header-actions .btn span { display: none; } /* Hide text on mobile buttons, keep icons */
+            .header-height { height: auto; }
+            .nav-bar { flex-wrap: wrap; gap: 0.5rem; }
+            .main-content { padding: 2rem 1rem; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-container">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent)"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-        GL-FPS Core
+    <div class="header-top">
+        <div class="logo-container">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent)"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            GL-FPS Core
+        </div>
+        <div class="header-actions">
+            <a href="https://github.com/yohanesokta/GL-FPS" target="_blank" class="btn btn-github">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <span>GitHub</span>
+            </a>
+            <a href="https://github.com/yohanesokta/GL-FPS/releases/download/prototype-0/prototype-fps-windowsx64.zip" class="btn btn-download">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                <span>Download</span>
+            </a>
+        </div>
     </div>
-    <div class="header-actions">
-        <a href="https://github.com/yohanesokta/GL-FPS" target="_blank" class="btn btn-github">
-            <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-            <span>View on GitHub</span>
-        </a>
-        <a href="https://github.com/yohanesokta/GL-FPS/releases/download/prototype-0/prototype-fps-windowsx64.zip" class="btn btn-download">
-            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-            <span>Download for Windows</span>
-        </a>
-    </div>
+    <nav class="nav-bar">
+        <a href="#hero">Overview</a>
+        <a href="#setup">Installation</a>
+        <a href="#files">File Reference</a>
+        <a href="#logic">Core Logic</a>
+        <a href="page.html">API Functions Reference</a>
+        <a href="#implement">Implementation</a>
+        <a href="#libs">Integrated Libraries</a>
+    </nav>
 </header>
 
 <div class="layout-container">
-    <aside class="sidebar">
-        <div class="sidebar-title">Contents</div>
-        <nav class="sidebar-nav">
-            <a href="#hero">Overview</a>
-            <a href="#setup">1. Installation & Build</a>
-            <a href="#files">2. File Reference</a>
-            <a href="#logic">3. Core Logic</a>
-            <a href="#implement">4. Implementation</a>
-            <a href="#libs">5. Libraries</a>
-        </nav>
-    </aside>
-
     <main class="main-content">
         <section id="hero">
             <h1>GL-FPS Core Engine</h1>

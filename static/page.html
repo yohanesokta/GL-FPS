@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Reference | GL-FPS Core Engine</title>
+    <style>
+        :root {
+            --bg-main: #0d1117;
+            --bg-sidebar: #161b22;
+            --bg-header: #161b22cc;
+            --bg-card: #21262d;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --text-heading: #e6edf3;
+            --accent: #58a6ff;
+            --accent-hover: #3182ce;
+            --border: #30363d;
+            --code-bg: #010409;
+            --header-height: 140px; /* More room for many API functions */
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: var(--bg-header);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem 2rem;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            height: 50px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            text-decoration: none;
+        }
+
+        .nav-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+
+        .nav-row {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 2px;
+        }
+
+        .nav-row span {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding-top: 4px;
+            min-width: 100px;
+        }
+
+        .nav-row a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.03);
+            transition: all 0.2s;
+        }
+
+        .nav-row a:hover {
+            color: var(--accent);
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .main-content {
+            margin-top: var(--header-height);
+            padding: 3rem 2rem;
+            max-width: 1100px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 { color: var(--text-heading); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h2 { color: var(--accent); margin-top: 3rem; }
+        h3 { color: var(--text-heading); margin-top: 2rem; background: var(--bg-card); padding: 8px 16px; border-radius: 6px; font-family: monospace; }
+
+        .function-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            background: rgba(22, 27, 34, 0.5);
+        }
+
+        .syntax {
+            background: var(--code-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: monospace;
+            color: #ff7b72;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--border); }
+        th { color: var(--text-muted); font-size: 0.85rem; }
+
+        .param-name { color: var(--accent); font-family: monospace; font-weight: 600; }
+        .param-type { color: #8b949e; font-size: 0.85rem; font-family: monospace; }
+
+        .example-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem; display: block; }
+        pre { background: #010409; padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.85rem; }
+        code { color: #e6edf3; }
+
+        @media (max-width: 900px) {
+            .main-content { padding: 2rem 1rem; }
+            .nav-row span { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-top">
+        <a href="index.html" class="logo-container">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent)"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+            Kembali ke Dokumentasi Utama
+        </a>
+    </div>
+    <nav class="nav-bar">
+        <div class="nav-row">
+            <span>3D Primitives</span>
+            <a href="#d3d_draw_floor">d3d_draw_floor</a>
+            <a href="#d3d_draw_wall">d3d_draw_wall</a>
+            <a href="#d3d_draw_block">d3d_draw_block</a>
+            <a href="#d3d_draw_cylinder">d3d_draw_cylinder</a>
+            <a href="#d3d_draw_ellipsoid">d3d_draw_ellipsoid</a>
+        </div>
+        <div class="nav-row">
+            <span>Systems</span>
+            <a href="#d3d_collision_block">Collision Block</a>
+            <a href="#audio_init">Audio Init</a>
+            <a href="#audio_playsound">Play Sound</a>
+            <a href="#audio_playmusic">Play Music</a>
+            <a href="#loadtexture">Load Texture</a>
+            <a href="#getassets">Get Assets</a>
+            <a href="#rendertext">Render Text</a>
+        </div>
+    </nav>
+</header>
+
+<div class="layout-container">
+    <main class="main-content">
+        <h1>API Reference Manual</h1>
+        <p class="lead">Dokumentasi teknis lengkap untuk setiap fungsi yang tersedia di GL-FPS Core Engine.</p>
+
+        <!-- D3D DRAWING -->
+        <h2 id="d3d_drawing">3D Drawing Functions</h2>
+        
+        <div class="function-card" id="d3d_draw_floor">
+            <h3>d3d_draw_floor</h3>
+            <p>Menggambar bidang horizontal (lantai atau atap) di koordinat dunia.</p>
+            <div class="syntax">void d3d_draw_floor(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat)</div>
+            <table>
+                <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+                <tr><td class="param-name">x1, y1, z1</td><td class="param-type">float</td><td>Titik sudut pertama.</td></tr>
+                <tr><td class="param-name">x2, y2, z2</td><td class="param-type">float</td><td>Titik sudut diagonal seberangnya.</td></tr>
+                <tr><td class="param-name">tex</td><td class="param-type">GLuint</td><td>ID Tekstur OpenGL.</td></tr>
+                <tr><td class="param-name">hrepeat, vrepeat</td><td class="param-type">float</td><td>Jumlah pengulangan tekstur secara horizontal & vertikal.</td></tr>
+            </table>
+            <span class="example-label">Contoh:</span>
+            <pre><code>d3d_draw_floor(-50, 0, -50, 50, 0, 50, FloorTexture, 10, 10);</code></pre>
+        </div>
+
+        <div class="function-card" id="d3d_draw_wall">
+            <h3>d3d_draw_wall</h3>
+            <p>Menggambar bidang vertikal (dinding) dengan opsi rotasi.</p>
+            <div class="syntax">void d3d_draw_wall(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat, float rotationZ)</div>
+            <p>Fungsi ini secara otomatis menangani normal surface agar tekstur menghadap ke arah yang benar.</p>
+            <span class="example-label">Contoh:</span>
+            <pre><code>d3d_draw_wall(0, 0, 0, 10, 5, 0, WallTexture, 1, 1, 0.0f);</code></pre>
+        </div>
+
+        <div class="function-card" id="d3d_draw_block">
+            <h3>d3d_draw_block</h3>
+            <p>Menggambar sebuah kotak padat (6 sisi) dengan tekstur yang sama di setiap sisinya.</p>
+            <div class="syntax">void d3d_draw_block(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat)</div>
+            <span class="example-label">Contoh:</span>
+            <pre><code>d3d_draw_block(20, 0, 20, 30, 10, 30, BoxTexture, 1, 1);</code></pre>
+        </div>
+
+        <div class="function-card" id="d3d_draw_cylinder">
+            <h3>d3d_draw_cylinder</h3>
+            <p>Menggambar silinder vertikal dengan tekstur.</p>
+            <div class="syntax">void d3d_draw_cylinder(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat, bool closed, int steps)</div>
+        </div>
+
+        <div class="function-card" id="d3d_draw_ellipsoid">
+            <h3>d3d_draw_ellipsoid</h3>
+            <p>Menggambar ellipsoid atau bola (sphere) dengan tekstur.</p>
+            <div class="syntax">void d3d_draw_ellipsoid(float x1, float y1, float z1, float x2, float y2, float z2, GLuint tex, float hrepeat, float vrepeat, int steps)</div>
+        </div>
+
+        <!-- COLLISION -->
+        <h2 id="collision">Collision Detection</h2>
+        
+        <div class="function-card" id="d3d_collision_block">
+            <h3>d3d_collision_block</h3>
+            <p>Mengecek apakah posisi (px, py, pz) dengan radius pr bersentuhan dengan blok AABB.</p>
+            <div class="syntax">bool d3d_collision_block(float px, float py, float pz, float pr, float x1, float y1, float z1, float x2, float y2, float z2)</div>
+            <p>Mengembalikan <code>true</code> jika terjadi tabrakan.</p>
+        </div>
+
+        <!-- AUDIO -->
+        <h2 id="audio">Audio System</h2>
+        
+        <div class="function-card" id="audio_init">
+            <h3>Audio::Manager::init</h3>
+            <p>Menginisialisasi SDL2_mixer untuk output suara.</p>
+            <div class="syntax">static bool init(int frequency = 44100, Uint16 format = MIX_DEFAULT_FORMAT, int channels = 2, int chunksize = 2048)</div>
+        </div>
+
+        <div class="function-card" id="audio_playsound">
+            <h3>playSound</h3>
+            <p>Memainkan efek suara pendek (WAV/OGG). Mendukung caching otomatis.</p>
+            <div class="syntax">static bool playSound(const std::string& path, int loops = 0)</div>
+            <span class="example-label">Contoh:</span>
+            <pre><code>Audio::Manager::playSound(getAssets("/sound/shoot.wav"));</code></pre>
+        </div>
+
+        <div class="function-card" id="audio_playmusic">
+            <h3>playMusic</h3>
+            <p>Memainkan musik latar belakang (looping).</p>
+            <div class="syntax">static bool playMusic(const std::string& path, bool loop = true)</div>
+        </div>
+
+        <!-- ASSETS -->
+        <h2 id="assets">Assets & Utilities</h2>
+        
+        <div class="function-card" id="loadtexture">
+            <h3>loadTexture</h3>
+            <p>Memuat file gambar (PNG/JPG/BMP) ke memori GPU dan mengembalikan Texture ID.</p>
+            <div class="syntax">GLuint loadTexture(const char* filename)</div>
+            <p>Menggunakan <code>stb_image</code> di belakang layar dengan filter <code>GL_LINEAR</code>.</p>
+        </div>
+
+        <div class="function-card" id="getassets">
+            <h3>getAssets</h3>
+            <p>Helper untuk membangun path absolut ke folder assets secara dinamis.</p>
+            <div class="syntax">char* getAssets(const char* filename)</div>
+        </div>
+
+        <div class="function-card" id="rendertext">
+            <h3>renderText</h3>
+            <p>Menggambar teks menggunakan font TrueType yang sudah dimuat.</p>
+            <div class="syntax">void renderText(Font &font, float x, float y, const char* text, int windowH)</div>
+        </div>
+
+        <footer style="margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem;">
+            &copy; 2026 Yohanes Oktanio. GL-FPS Engine Technical Documentation.
+        </footer>
+    </main>
+</div>
+
+</body>
+</html>
