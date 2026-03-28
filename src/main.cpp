@@ -90,6 +90,7 @@ void init() {
     for (int i = 0; i < 40; i++) {
         char filename[256];
         sprintf(filename, "/pistol/out_%d.png", i);
+        GunSprite[i] = loadTexture(getAssets(filename)); 
     }
 
     createColosion();
@@ -107,6 +108,7 @@ void init() {
     stbi_set_flip_vertically_on_load(false);
 
     if (!loadFont(globalFont, getAssets("/fonts/retrogaming.ttf"), 32)) {
+        
         fprintf(stderr, "Failed to load font\n");
         exit(1);
     }
