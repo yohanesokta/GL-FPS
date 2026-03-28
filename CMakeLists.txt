@@ -14,6 +14,7 @@ add_executable(main
     src/wrapper/d3d.cpp
     src/wrapper/audio.cpp
     src/objects/enemy.cpp
+    src/utils/notify.cpp
 )
 
 target_include_directories(main PRIVATE

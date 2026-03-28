@@ -12,13 +12,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "globals.h"
 #include "loader.h"
 #include "player.h"
 #include "renderer.h"
 #include "../libs/stb_image.h"
 #include "wrapper/audio.hpp"
+#include "utils/notify.h"
 
 void createColosion() {
     basicColosionList.push_back({-10, 0, -10, -5, 5, -5});
@@ -51,6 +51,7 @@ void reshape(int w, int h) {
 }
 
 void loadAssets() {
+
     if (loadingIndex < 40) {
         char filename[256];
         sprintf(filename, "/pistol/out_%d.png", loadingIndex);
@@ -152,7 +153,9 @@ void init() {
     stbi_set_flip_vertically_on_load(true);
 
     if (!loadFont(globalFont, getAssets("/fonts/retrogaming.ttf"), 32)) {
-        fprintf(stderr, "Failed to load font\n");
+        char msg_err[256];
+        sprintf(msg_err, "Assets not found in %s. use parameter <path> to customize the asset path", getAssets("/"));
+        message_handler("Gabisa Load Assets Mas", msg_err, "-e");
         exit(1);
     }
 
