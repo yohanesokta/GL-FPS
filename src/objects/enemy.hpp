@@ -15,6 +15,7 @@ namespace Enemy {
         float nextX = 0.1f;
         float nextY = 0.1f;       
         bool isAlive = true;
+        bool isHit = false;
         float speed = 1.0f;
         int id;
       
@@ -24,6 +25,7 @@ namespace Enemy {
             this->id = id;
             this->nextX = x;
             this->nextY = y;
+            this->isHit = false;
             this->isAlive = true;
         }
         enemy(GLuint texture, float x, float y);

@@ -23,10 +23,15 @@ typedef struct BasicColosion {
     float x1, y1, z1, x2, y2, z2;
 } BasicColosion;
 
-
+typedef struct Bullet {
+    float x, y, z;
+    float dirX, dirY, dirZ;
+    bool isActive;
+} Bullet;
 
 extern Enemy::enemy enemy1;
 extern Enemy::enemy enemy2;
+extern std::vector<Bullet> bullets;
 extern std::vector<EnemyColosion> enemyColosionList;
 extern std::vector<BasicColosion> basicColosionList;
 // Window settings
@@ -41,7 +46,7 @@ extern float lx, lz;
 extern float speed;
 // Textures
 extern GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
-       Barrel1Texture,PullPropsTexture, NodPropsTexture
+       Barrel1Texture,PullPropsTexture, NodPropsTexture, BulletTexture
 ;
 extern float get_yaw_to_player(float ox, float oz, float px, float pz);
 extern GLuint GunSprite[40];

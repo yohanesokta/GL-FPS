@@ -19,8 +19,9 @@ Enemy::enemy enemy1(1.0f, 1.0f, 1);
 Enemy::enemy enemy2(5.0f, 5.0f, 2);
 
 
+
 GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
-       Barrel1Texture, PullPropsTexture, NodPropsTexture
+       Barrel1Texture, PullPropsTexture, NodPropsTexture, BulletTexture
 ;
 
 char bassePath[256] = "./assets";
@@ -43,6 +44,7 @@ float lastTime = 0;
 
 std::vector<EnemyColosion> enemyColosionList;
 std::vector<BasicColosion> basicColosionList;
+std::vector<Bullet> bullets;
 Font globalFont;
 
 float get_yaw_to_player(float ox, float oz, float px, float pz) {

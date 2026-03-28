@@ -6,7 +6,6 @@ namespace Enemy
         this->texture = texture;
         this->x = x;
         this->y = y;
-        this->isAlive = true;
     }
 
     void enemy::draw()

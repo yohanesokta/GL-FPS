@@ -3,14 +3,16 @@
 #include "wrapper/d3d.h"
 #include <stdio.h>
 
-float thickness = 0.1f; 
+float thickness = 0.1f;
+float bulletSize = 0.02f;
+float bulletSpeed = 10.0f;
+
 void drawWorld() {
     d3d_draw_floor(-100, 0, -100, 100, 0, 100, FloorTexture, 20, 20);
     d3d_draw_floor(-100, 10, -100, 100, 10, 100, CellingTexture, 20, 20);
 
     d3d_draw_wall(0, 0, 0, 20, 10, 0, WallTexture, 2, 1);
     d3d_draw_wall(20, 0, 0, 20, 10, 20, WallTexture, 2, 1);
-
     
     d3d_draw_block(-10, 0, -10, -5, 5, -5, WallTexture, 1, 1);
     d3d_draw_block(-12, -2.0f, -10, -16, 0.2f, -5, PullPropsTexture, 1, 1);
@@ -22,8 +24,14 @@ void drawWorld() {
     if (!isMusicPlaying) {
         d3d_draw_wall_rot(-14, 5, -9, -14+thickness, 1, -5, NodPropsTexture, 1, 1, get_yaw_to_player(-14, -9, camX, camZ)+90.0f);
     }
-
     enemy2.draw();
+    for(const auto& bullet : bullets) {
+        if (bullet.isActive) {
+            d3d_draw_ellipsoid(bullet.x - bulletSize, bullet.y - bulletSize, bullet.z - bulletSize,
+                           bullet.x + bulletSize, bullet.y + bulletSize, bullet.z + bulletSize,
+                           BulletTexture, 1, 1,20);
+        }
+    }
 }
 
 void drawHUD() {

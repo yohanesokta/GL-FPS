@@ -75,9 +75,21 @@ void keySpecialUp(int key, int x, int y) {
     printf("Special key released: %d\n", key);
 }
 
+void bulletUpdate() {
+    for (auto& bullet : bullets) {
+        if (bullet.isActive) {
+            bullet.x += bullet.dirX * 0.1f ;
+            bullet.z += bullet.dirZ * 0.1f;
+            if (checkAllCollisionsBasic(bullet.x, bullet.y, bullet.z)) {
+                bullet.isActive = false;
+            }
+        }
+    }
+}
 
 void idle() {
     updatePlayer();
+    bulletUpdate();
     glutPostRedisplay();
 }
 
@@ -103,6 +115,8 @@ void init() {
     NodPropsTexture = loadTexture(getAssets("/props/nod.png"));
     PullPropsTexture = loadTexture(getAssets("/props/pull.png"));
     enemy2.texture = loadTexture(getAssets("/enemy/enemy-1.png"));
+    BulletTexture = loadTexture(getAssets("/props/bullets.png"));
+
     enemy2.x = 10.0f;
     enemy2.y = 10.0f;
     stbi_set_flip_vertically_on_load(false);
