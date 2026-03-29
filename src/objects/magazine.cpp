@@ -1,29 +1,16 @@
-#include "../loader.h"
-#include "../globals.h"
-#include "../wrapper/d3d.h"
+#include "magazine.hpp"
+#include "../wrapper/audio.hpp"
 
-namespace Magazine{
-    class magazine
-    {
-    private:
-        int ammoCount = 0;
-        GLuint texture;
-        float x,y;
-    public:
-        magazine(GLuint glTexture, int ammoCount, float x, float y);
-        void draw();
-    };
-    
-    magazine::magazine(GLuint glTexture, int ammoCount, float x, float y)
-    {
-            this->texture = glTexture;
-            this->ammoCount = ammoCount;
-            this->x = x;
-            this->y = y;
-    }
-
-    void magazine::draw()
-    {  
-     
+namespace Magazine {
+    void magazine::draw() {
+        if (this->isPickedUp) return;
+        float direction = get_yaw_to_player(this->x, this->y, camX, camZ);
+        float size = 1.0f;
+        d3d_draw_block(this->x-size, 0.1f, this->y-size, this->x+size, 0.1f, this->y+size, this->texture, 1, 1 );
+        if (d3d_collision_block(camX, camY, camZ, 0.8f, this->x - 0.5f, 0, this->y - 0.5f, this->x + 0.5f, 2.0f, this->y + 0.5f)) {
+            ::magazine += this->ammoAmount;
+            this->isPickedUp = true;
+            Audio::Manager::playSound(getAssets("/sound/pick-magazine.wav"));
+        }
     }
 }

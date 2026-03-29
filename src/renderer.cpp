@@ -1,6 +1,8 @@
 #include "renderer.h"
 #include "loader.h"
 #include "wrapper/d3d.h"
+#include "objects/magazine.hpp"
+#include "objects/medkit.hpp"
 #include <stdio.h>
 
 float thickness = 0.1f;
@@ -26,6 +28,8 @@ void drawWorld() {
     }
     enemy1.draw();
     enemy2.draw();
+    mag1.draw();
+    med1.draw();
     for(const auto& bullet : bullets) {
         if (bullet.isActive && bullet.step > 8 ) {
             d3d_draw_ellipsoid(bullet.x - bulletSize, bullet.y - bulletSize, bullet.z - bulletSize,

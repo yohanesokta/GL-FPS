@@ -71,18 +71,21 @@ void loadAssets() {
     else if (loadingIndex == 49) { enemy2.texture = loadTexture(getAssets("/enemy/enemy-1.png")); loadingIndex++; }
     else if (loadingIndex == 50) { BulletTexture = loadTexture(getAssets("/props/bullets.png")); loadingIndex++; }
     else if (loadingIndex == 51) { HUD_HEALTH_Texture = loadTexture(getAssets("/hud/health.png")); loadingIndex++; }
-    else if (loadingIndex == 52) {
+    else if (loadingIndex == 52) { mag1.texture = loadTexture(getAssets("/props/bullet-drop.png")); loadingIndex++; }
+    else if (loadingIndex == 53) { med1.texture = loadTexture(getAssets("/props/medkit.png")); loadingIndex++; }
+    else if (loadingIndex == 54) {
         createColosion();
         enemy1.generateColosion();
         enemy2.generateColosion();
         loadingIndex++;
     }
     
-    loadingProgress = (float)loadingIndex / 53.0f * 100.0f;
+    loadingProgress = (float)loadingIndex / 55.0f * 100.0f;
     
-    if (loadingIndex >= 53) {
+    if (loadingIndex >= 55) {
         
         currentState = STATE_PLAYING;
+        Audio::Manager::playMusic(getAssets("/sound/ambient.ogg"), true);
         glutSetCursor(GLUT_CURSOR_NONE);
         stbi_set_flip_vertically_on_load(false);
     }
@@ -219,7 +222,6 @@ int main(int argc, char** argv) {
     if (!Audio::Manager::init()) {
         fprintf(stderr, "Failed to initialize audio\n");
     }
-
     systemHUD();
 
     glutDisplayFunc(renderScene);

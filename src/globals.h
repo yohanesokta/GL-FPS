@@ -8,6 +8,8 @@
 #endif
 #include "wrapper/font.hpp"
 #include "objects/enemy.hpp"
+#include "objects/magazine.hpp"
+#include "objects/medkit.hpp"
 #include <vector>
 
 #define ESC_KEY 27
@@ -19,6 +21,13 @@
 
 namespace Enemy {
     class enemy; 
+}
+namespace Magazine {
+    class magazine;
+}
+
+namespace Medkit {
+    class medkit;
 }
 
 typedef struct EnemyColosion {
@@ -57,6 +66,8 @@ extern int loadingIndex;
 extern bool enemyId[4*BYTE];
 extern Enemy::enemy enemy1;
 extern Enemy::enemy enemy2;
+extern Magazine::magazine mag1;
+extern Medkit::medkit med1;
 extern std::vector<Bullet> bullets;
 extern EnemyColosion enemyColosionList[4*BYTE];
 extern std::vector<BasicColosion> basicColosionList;

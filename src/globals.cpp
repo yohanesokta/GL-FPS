@@ -1,4 +1,6 @@
 #include "globals.h"
+#include "objects/magazine.hpp"
+#include "objects/medkit.hpp"
 #include <cmath>
 
 #ifndef M_PI
@@ -22,6 +24,8 @@ int loadingIndex = 0;
 
 Enemy::enemy enemy1(2.0f, 2.0f, 0);
 Enemy::enemy enemy2(10.0f, 10.0f, 1);
+Magazine::magazine mag1(10.0f, 10.0f, 5);
+Medkit::medkit med1(10.0f, 20.0f, 25.0f);
 
 GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
        Barrel1Texture, PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture

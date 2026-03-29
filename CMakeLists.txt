@@ -15,6 +15,8 @@ add_executable(main
     src/wrapper/audio.cpp
     src/objects/enemy.cpp
     src/utils/notify.cpp
+    src/objects/magazine.cpp
+    src/objects/medkit.cpp
 )
 
 target_include_directories(main PRIVATE
