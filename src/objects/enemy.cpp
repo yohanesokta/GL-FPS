@@ -4,6 +4,8 @@ namespace Enemy
 
     void enemy::generateColosion() {
         enemyColosionList[this->id] = {this->id,this->x,this->y,0 , false};
+        this->texture = loadTexture(getAssets("/enemy/enemy-1.png"));
+
     }
 
     void enemy::draw()

@@ -2,6 +2,7 @@
 #include "../loader.h"
 #include "../globals.h"
 #include "../wrapper/d3d.h"
+#include "../loader.h"
 
 namespace Magazine {
     class magazine

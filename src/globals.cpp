@@ -12,7 +12,7 @@ int windowH = 600;
 const float targetRatio = 800.0f / 600.0f;
 
 float isMusicPlaying = false;
-float camX = 0, camY = 2, camZ = 5;
+float camX = 20.0f, camY = 2, camZ = 20.0f;
 float angle = 90.0f;
 float lx = sin(90.0f), lz = -cos(90.0f);
 float speed = 5.0;
@@ -27,7 +27,7 @@ Enemy::enemy enemy2(10.0f, 10.0f, 1);
 Magazine::magazine mag1(10.0f, 10.0f, 5);
 Medkit::medkit med1(10.0f, 20.0f, 25.0f);
 
-GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture,
+GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture, EnemyTexture,
        Barrel1Texture, PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture
 ;
 

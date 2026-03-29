@@ -16,18 +16,13 @@
 #include "loader.h"
 #include "player.h"
 #include "renderer.h"
+#include "utils/map_manager.hpp"
 #include "../libs/stb_image.h"
 #include "wrapper/audio.hpp"
 #include "string"
 #include "utils/notify.h"
 
-void createColosion() {
-    basicColosionList.push_back({-10, 0, -10, -5, 5, -5});
-    basicColosionList.push_back({0, 0, 0, 20, 10, 0});
-    basicColosionList.push_back({20, 0, 0, 20, 10, 20});
-    basicColosionList.push_back({10, 0, -10, 15, 10, -5});
-    basicColosionList.push_back({-15, 0, 10, -5, 10, 0});
-}
+extern MapSystem::Map* g_map1;
 
 void reshape(int w, int h) {
     windowW = w;
@@ -52,7 +47,7 @@ void reshape(int w, int h) {
 }
 
 void loadAssets() {
-
+    EnemyTexture = loadTexture(getAssets("/enemy/enemy-1.png"));
     if (loadingIndex < 40) {
         char filename[256];
         sprintf(filename, "/pistol/out_%d.png", loadingIndex);
@@ -74,9 +69,7 @@ void loadAssets() {
     else if (loadingIndex == 52) { mag1.texture = loadTexture(getAssets("/props/bullet-drop.png")); loadingIndex++; }
     else if (loadingIndex == 53) { med1.texture = loadTexture(getAssets("/props/medkit.png")); loadingIndex++; }
     else if (loadingIndex == 54) {
-        createColosion();
-        enemy1.generateColosion();
-        enemy2.generateColosion();
+        MapSystem::load(g_map1);
         loadingIndex++;
     }
     
@@ -134,30 +127,12 @@ void keySpecialUp(int key, int x, int y) {
     special[key] = false;
 }
 
-void bulletUpdate() {
-    for (auto& bullet : bullets) {
-        if (bullet.isActive) {
-            bullet.step ++;
-            bullet.x += bullet.dirX * 0.1f ;
-            bullet.z += bullet.dirZ * 0.1f;
-            if (checkAllCollisionsBasic(bullet.x, bullet.y, bullet.z)) {
-                bullet.isActive = false;
-            }
-            EnemyIsColliding collisionResult = checkEnemyCollisions(bullet.x, bullet.y, bullet.z);
-            if (collisionResult.isColliding) {
-                bullet.isActive = false;
-                enemyId[collisionResult.id] = true;
-            }
-        }
-    }
-}
-
 void idle() {
     if (currentState == STATE_LOADING) {
         loadAssets();
     } else if (currentState == STATE_PLAYING) {
         updatePlayer();
-        bulletUpdate();
+        MapSystem::update(0.016f);
     }
     glutPostRedisplay();
 }
