@@ -12,7 +12,7 @@ add_executable(main
     src/player.cpp
     src/renderer.cpp
     src/utils/map_manager.cpp
-    src/map/map1.cpp
+    src/map/map.1.cpp
     src/utils/map_system.hpp
     src/wrapper/d3d.cpp
     src/wrapper/audio.cpp

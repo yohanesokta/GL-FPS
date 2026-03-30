@@ -11,12 +11,13 @@ int windowW = 800;
 int windowH = 600;
 const float targetRatio = 800.0f / 600.0f;
 
+std::string comments = "hello world";
 float isMusicPlaying = false;
-float camX = 20.0f, camY = 2, camZ = 20.0f;
+float camX = 5.0f, camY = 2.0f, camZ = 5.0f;
 float angle = 90.0f;
 float lx = sin(90.0f), lz = -cos(90.0f);
 float speed = 5.0;
-float health = 50.0f;
+float health = 5.0f;
 
 GameState currentState = STATE_LOADING;
 float loadingProgress = 0.0f;
@@ -27,8 +28,10 @@ Enemy::enemy enemy2(10.0f, 10.0f, 1);
 Magazine::magazine mag1(10.0f, 10.0f, 5);
 Medkit::medkit med1(10.0f, 20.0f, 25.0f);
 
+std::unordered_map<std::string, GLuint> textureMap;
+
 GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture, EnemyTexture,
-       Barrel1Texture, PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture
+       Barrel1Texture, PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture, FloorTexture2, MarkerTexture
 ;
 
 char bassePath[256] = "./assets";
@@ -41,8 +44,8 @@ char* getAssets(const char* filename) {
 GLuint GunSprite[40];
 bool isShooting = false;
 bool isReloading = false;
-int bullet = 10;
-int magazine = 10;
+int bullet = 0;
+int magazine = 0;
 int image_index = 0;
 float shotTime = 0;
 bool keys[256];
@@ -69,6 +72,7 @@ bool checkAllCollisionsBasic(float x, float y, float z) {
     float pr = 0.5f; 
     for (const auto& col : basicColosionList) {
         if (d3d_collision_block(x, y, z, pr, col.x1, col.y1, col.z1, col.x2, col.y2, col.z2)) {
+            comments = col.comments;
             return true;
         }
     }

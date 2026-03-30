@@ -14,12 +14,7 @@ namespace Magazine {
         bool isPickedUp = false;
         int ammoAmount = 5;
 
-        magazine(float x, float y, int ammo) {
-            this->x = x;
-            this->y = y;
-            this->ammoAmount = ammo;
-            this->isPickedUp = false;
-        }
+        magazine(float x, float y, int ammo);
         void draw();
     };
 }

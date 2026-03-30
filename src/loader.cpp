@@ -14,7 +14,6 @@ GLuint loadTexture(const char* filename) {
     int width, height, channels;
     unsigned char* data = stbi_load(filename, &width, &height, &channels, 0);
     if (!data) {
-        fprintf(stderr, "Failed to load texture: %s\n", filename);
         return 0;
     }
 

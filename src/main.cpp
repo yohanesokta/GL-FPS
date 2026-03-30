@@ -47,7 +47,8 @@ void reshape(int w, int h) {
 }
 
 void loadAssets() {
-    EnemyTexture = loadTexture(getAssets("/enemy/enemy-1.png"));
+    
+
     if (loadingIndex < 40) {
         char filename[256];
         sprintf(filename, "/pistol/out_%d.png", loadingIndex);
@@ -67,7 +68,15 @@ void loadAssets() {
     else if (loadingIndex == 50) { BulletTexture = loadTexture(getAssets("/props/bullets.png")); loadingIndex++; }
     else if (loadingIndex == 51) { HUD_HEALTH_Texture = loadTexture(getAssets("/hud/health.png")); loadingIndex++; }
     else if (loadingIndex == 52) { mag1.texture = loadTexture(getAssets("/props/bullet-drop.png")); loadingIndex++; }
-    else if (loadingIndex == 53) { med1.texture = loadTexture(getAssets("/props/medkit.png")); loadingIndex++; }
+    else if (loadingIndex == 53) { 
+        MarkerTexture = loadTexture(getAssets("/props/marker.png"));
+        med1.texture = loadTexture(getAssets("/props/medkit.png"));
+        textureMap["besi"] = loadTexture(getAssets("/besi.jpg"));
+        textureMap["wall"] = loadTexture(getAssets("/wall2.png"));
+        textureMap["cement"] = loadTexture(getAssets("/texture/cement.png"));
+        FloorTexture2 = loadTexture(getAssets("/texture/floor2.png"));
+        loadingIndex++;
+    }
     else if (loadingIndex == 54) {
         MapSystem::load(g_map1);
         loadingIndex++;

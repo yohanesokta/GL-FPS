@@ -1,6 +1,15 @@
 #include "medkit.hpp"
 #include "../wrapper/audio.hpp"
 namespace Medkit {
+    medkit::medkit(float x, float y, float health) {
+    this->x = x;
+    this->y = y;
+    this->healthAmount = health;
+    this->isPickedUp = false;
+
+    this->texture = loadTexture(getAssets("/props/medkit.png"));
+    }
+
     void medkit::draw() {
         if (this->isPickedUp) return;
         float direction = get_yaw_to_player(this->x, this->y, camX, camZ);

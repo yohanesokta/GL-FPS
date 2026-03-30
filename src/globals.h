@@ -11,6 +11,8 @@
 #include "objects/magazine.hpp"
 #include "objects/medkit.hpp"
 #include <vector>
+#include <string>
+#include <unordered_map>
 
 #define ESC_KEY 27
 #define R_KEY 114
@@ -38,6 +40,7 @@ typedef struct EnemyColosion {
 
 typedef struct BasicColosion {
     float x1, y1, z1, x2, y2, z2;
+    std::string comments;
 } BasicColosion;
 
 typedef struct Bullet {
@@ -62,8 +65,9 @@ enum GameState {
 extern GameState currentState;
 extern float loadingProgress;
 extern int loadingIndex;
-
+extern std::string comments;
 extern bool enemyId[4*BYTE];
+extern std::unordered_map<std::string, GLuint> textureMap;
 extern Enemy::enemy enemy1;
 extern Enemy::enemy enemy2;
 extern Magazine::magazine mag1;
@@ -82,7 +86,7 @@ extern float lx, lz;
 extern float speed;
 extern float health;
 
-extern GLuint FloorTexture, EnemyTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture, Barrel1Texture,PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture;
+extern GLuint FloorTexture, EnemyTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture, Barrel1Texture,PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture, FloorTexture2, MarkerTexture;
 
 extern float get_yaw_to_player(float ox, float oz, float px, float pz);
 extern GLuint GunSprite[40];

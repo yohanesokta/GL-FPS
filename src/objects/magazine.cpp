@@ -2,6 +2,13 @@
 #include "../wrapper/audio.hpp"
 
 namespace Magazine {
+    magazine::magazine(float x, float y, int ammo) {
+        this->x = x;
+        this->y = y;
+        this->ammoAmount = ammo;
+        this->isPickedUp = false;
+        this->texture = loadTexture(getAssets("/props/bullet-drop.png"));
+    }
     void magazine::draw() {
         if (this->isPickedUp) return;
         float direction = get_yaw_to_player(this->x, this->y, camX, camZ);

@@ -17,7 +17,9 @@ void drawHUD() {
     glLoadIdentity();
 
     glDisable(GL_DEPTH_TEST);
-    drawTexturedQuad(GunSprite[image_index], -20, 0, 720*1.3f, 480*1.3f);
+    if (!(magazine == 0 && bullet == 0)) {
+        drawTexturedQuad(GunSprite[image_index], -20, 0, 720*1.3f, 480*1.3f);
+    }
     drawTexturedQuad(AmmoTexture, 2.0f, 2.0f, 438/2.2f , 264/2.2f);
     drawTexturedQuad(HUD_HEALTH_Texture, 210.0f, 2.0f, 191/2.2f, 262/2.2f);
     glColor3f(0.0f, 1.0f, 0.0f);
@@ -31,6 +33,16 @@ void drawHUD() {
     sprintf(bullet_text, "%d", bullet);
     renderText(globalFont, 135, windowH - 70, magazine_text, windowH);
     renderText(globalFont, 50, windowH - 70, bullet_text, windowH);
+    
+    char xplayer[256], yplayer[256];
+    sprintf(xplayer, "X: %.2f", camX);
+    sprintf(yplayer, "Y: %.2f", camZ);
+    char comment[256];
+    sprintf(comment, "%s", ::comments.c_str());
+    renderText(globalFont, 10, windowH - 260, comment, windowH+1.5f);
+    renderText(globalFont, 10, windowH - 230, xplayer, windowH+1.5f);
+    renderText(globalFont, 10, windowH - 200, yplayer, windowH+1.5f);
+
 }
 
 void drawLoading() {
