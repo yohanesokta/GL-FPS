@@ -45,7 +45,7 @@ if (UNIX AND NOT WIN32)
         OpenGL::GLU
         GLUT::GLUT
         ${SDL2_LIBRARIES}
-        ${SDL2_MIXER_LIBRARIES}
+        SDL2_mixer
     )
 endif()
 if (WIN32)
