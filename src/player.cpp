@@ -18,7 +18,7 @@ void playerShoot()
 void updatePlayer()
 {
     float currentTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
-    float deltaTime = currentTime - lastTime;
+    deltaTime = currentTime - lastTime;
     lastTime = currentTime;
 
     float moveSpeed = 5.0f * deltaTime * speed;
@@ -80,11 +80,11 @@ void updatePlayer()
         }
     }
 
-    if (!checkAllCollisionsBasic(nextX, camY, camZ))
+    if (!checkAllCollisionsBasic(nextX, camY, camZ,true))
     {
         camX = nextX;
     }
-    if (!checkAllCollisionsBasic(camX, camY, nextZ))
+    if (!checkAllCollisionsBasic(camX, camY, nextZ,true))
     {
         camZ = nextZ;
     }

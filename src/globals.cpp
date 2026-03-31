@@ -13,13 +13,13 @@ const float targetRatio = 800.0f / 600.0f;
 
 std::string comments = "hello world";
 float isMusicPlaying = false;
-float camX = 5.0f, camY = 2.0f, camZ = 5.0f;
-float angle = 90.0f;
-float lx = sin(90.0f), lz = -cos(90.0f);
+float camX = 1.5f, camY = 2.0f, camZ = 5.0f;
+float angle = 89.5f;
+float lx = sin(angle), lz = -cos(angle);
 float speed = 5.0;
+float deltaTime = 0.0f;
 float health = 5.0f;
 
-GameState currentState = STATE_LOADING;
 float loadingProgress = 0.0f;
 int loadingIndex = 0;
 
@@ -52,6 +52,7 @@ bool keys[256];
 bool special[256];
 float lastTime = 0;
 bool enemyId[4*BYTE];
+GameState currentState = STATE_LOADING;
 
 EnemyColosion enemyColosionList[4*BYTE];
 std::vector<BasicColosion> basicColosionList;
@@ -68,11 +69,13 @@ float get_yaw_to_player(float ox, float oz, float px, float pz) {
     return angleDeg;
 }
 
-bool checkAllCollisionsBasic(float x, float y, float z) {
+bool checkAllCollisionsBasic(float x, float y, float z, bool isPlayer) {
     float pr = 0.5f; 
     for (const auto& col : basicColosionList) {
         if (d3d_collision_block(x, y, z, pr, col.x1, col.y1, col.z1, col.x2, col.y2, col.z2)) {
-            comments = col.comments;
+            if (isPlayer) {
+                comments = col.comments;
+            }
             return true;
         }
     }

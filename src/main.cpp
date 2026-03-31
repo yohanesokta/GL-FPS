@@ -73,6 +73,7 @@ void loadAssets() {
         med1.texture = loadTexture(getAssets("/props/medkit.png"));
         textureMap["besi"] = loadTexture(getAssets("/besi.jpg"));
         textureMap["wall"] = loadTexture(getAssets("/wall2.png"));
+        textureMap["door-open1"] = loadTexture(getAssets("/texture/door-open1.png"));
         textureMap["cement"] = loadTexture(getAssets("/texture/cement.png"));
         FloorTexture2 = loadTexture(getAssets("/texture/floor2.png"));
         loadingIndex++;

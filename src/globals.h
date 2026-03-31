@@ -85,6 +85,7 @@ extern float angle;
 extern float lx, lz;
 extern float speed;
 extern float health;
+extern float deltaTime;
 
 extern GLuint FloorTexture, EnemyTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture, Barrel1Texture,PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture, FloorTexture2, MarkerTexture;
 
@@ -93,7 +94,7 @@ extern GLuint GunSprite[40];
 extern float isMusicPlaying;
 extern char bassePath[256];
 extern char* getAssets( const char* filename);
-extern bool checkAllCollisionsBasic(float x, float y, float z);
+extern bool checkAllCollisionsBasic(float x, float y, float z, bool isPlayer = false);
 extern EnemyIsColliding checkEnemyCollisions(float x, float y, float z);
 
 extern bool isShooting;

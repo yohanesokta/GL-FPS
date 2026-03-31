@@ -5,6 +5,7 @@
 #include "objects/magazine.hpp"
 #include "objects/medkit.hpp"
 #include "../../libs/json.hpp"
+#include "wrapper/audio.hpp"
 #include <fstream>
 
 using json = nlohmann::json;
@@ -17,11 +18,15 @@ GLuint getTextureByName(const std::string &name)
     return WallTexture;
 }
 
-
-struct Wall {
+struct Wall
+{
     float x1, y1, z1, x2, y2, z2;
     GLuint texture = WallTexture;
 };
+
+float zDoorOpen = 0.0f;
+bool isDoorOpening = false;
+float stepDoor = 0.0f;
 
 
 std::vector<Enemy::enemy> enemyList;
@@ -76,15 +81,13 @@ void loadMap(const std::string &path)
     {
         for (auto &w : data["walls"])
         {
-            walls.push_back({
-                w.value("x1", 0.0f),
-                w.value("y1", 0.0f),
-                w.value("z1", 0.0f),
-                w.value("x2", 0.0f),
-                w.value("y2", 0.0f),
-                w.value("z2", 0.0f),
-                getTextureByName(w.value("texture", "wall"))
-            });
+            walls.push_back({w.value("x1", 0.0f),
+                             w.value("y1", 0.0f),
+                             w.value("z1", 0.0f),
+                             w.value("x2", 0.0f),
+                             w.value("y2", 0.0f),
+                             w.value("z2", 0.0f),
+                             getTextureByName(w.value("texture", "wall"))});
         }
     }
 
@@ -96,9 +99,7 @@ void loadMap(const std::string &path)
                 createEnemy(
                     e.value("x", 0.0f),
                     e.value("z", 0.0f),
-                    e.value("id", 0)
-                )
-            );
+                    e.value("id", 0)));
         }
     }
 
@@ -110,9 +111,7 @@ void loadMap(const std::string &path)
                 createMag(
                     m.value("x", 0.0f),
                     m.value("z", 0.0f),
-                    m.value("ammo", 0)
-                )
-            );
+                    m.value("ammo", 0)));
         }
     }
 
@@ -124,25 +123,20 @@ void loadMap(const std::string &path)
                 createMed(
                     m.value("x", 0.0f),
                     m.value("z", 0.0f),
-                    m.value("health", 0.0f)
-                )
-            );
+                    m.value("health", 0.0f)));
         }
     }
 
     basicColosionList.clear();
     for (auto &wall : data["walls"])
     {
-        basicColosionList.push_back({
-            wall.value("x1", 0.0f),
-            wall.value("y1", 0.0f),
-            wall.value("z1", 0.0f),
-            wall.value("x2", 0.0f),
-            wall.value("y2", 0.0f),
-            wall.value("z2", 0.0f),
-            wall.value("comments", "")
-        });
-       
+        basicColosionList.push_back({wall.value("x1", 0.0f),
+                                     wall.value("y1", 0.0f),
+                                     wall.value("z1", 0.0f),
+                                     wall.value("x2", 0.0f),
+                                     wall.value("y2", 0.0f),
+                                     wall.value("z2", 0.0f),
+                                     wall.value("comments", "")});
     }
 }
 
@@ -157,6 +151,7 @@ public:
         meds.clear();
         walls.clear();
         loadMap(getAssets("/maps/maps1.json"));
+        basicColosionList.push_back({0, 0, zDoorOpen, 11, 10, zDoorOpen + 10.0f, "Door01"});
     }
 
     void step(float dt) override
@@ -187,18 +182,17 @@ public:
     void draw() override
     {
         float b = 0.02f;
-        
         d3d_draw_floor(0, 0, 0, 120, 0, 120, FloorTexture, 20, 20);
         d3d_draw_floor(0, 10, 0, 120, 10, 120, CellingTexture, 20, 20);
         d3d_draw_floor(2.5f, 0.1f, 2.5f, 10.0f, 0.1f, 8.5f, FloorTexture2, 1, 1);
-        
+
         for (auto &wall : walls)
         {
             d3d_draw_block(wall.x1, wall.y1, wall.z1, wall.x2, wall.y2, wall.z2, wall.texture, 1, 1);
         }
         for (auto &e : enemyList)
         {
-                e.draw();
+            e.draw();
         }
 
         for (auto &m : mags)
@@ -224,10 +218,34 @@ public:
             }
         }
 
-        
-        d3d_draw_wall_rot(15.0f+0.6f, 1.4f, 13.0f+0.6f, 15.0f-0.6f, 0.0f, 13.0f-0.6f, MarkerTexture, 1, 1, 45.0f );
+        d3d_draw_wall_rot(15.0f + 0.6f, 1.4f, 13.0f + 0.6f, 15.0f - 0.6f, 0.0f, 13.0f - 0.6f, MarkerTexture, 1, 1, 45.0f);
+        d3d_draw_wall_rot(18.0f + 0.6f, 1.4f, 13.0f - 0.6f, 18.0f - 0.6f, 0.0f, 13.0f + 0.6f, MarkerTexture, 1, 1, -45.0f);
 
-        d3d_draw_wall_rot(18.0f+0.6f, 1.4f, 13.0f-0.6f, 18.0f-0.6f, 0.0f, 13.0f+0.6f, MarkerTexture, 1, 1, -45.0f );
+        if (zDoorOpen < 10.0f)
+        {
+            d3d_draw_wall(11, zDoorOpen + 0.0f, 0, 11, zDoorOpen + 10.0f, 10, textureMap["door-open1"], 1, 1);
+        }
+
+        if (!isDoorOpening) {
+            stepDoor += deltaTime * 20.0f;
+            printf("Step Door: %f\n", stepDoor);
+        } else {
+            if (zDoorOpen < 10.0f) {
+                zDoorOpen += deltaTime * 5.0f;
+                if (zDoorOpen > 10.0f) {
+                    zDoorOpen = 10.0f;
+                }
+            }
+        }
+        if (stepDoor > 200.0f) {
+            stepDoor = 0;
+            isDoorOpening = true;
+            Audio::Manager::playSound(getAssets("/sound/opendor.wav"));
+            basicColosionList.erase(std::remove_if(basicColosionList.begin(), basicColosionList.end(), [](const BasicColosion &col) {
+                return col.comments == "Door01";
+            }), basicColosionList.end());
+        }
+
     }
 };
 
