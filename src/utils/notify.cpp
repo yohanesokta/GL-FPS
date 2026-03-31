@@ -1,6 +1,6 @@
 #include "notify.h"
 
-void message_handler(const char *title, const char *message, char *flag) {
+void message_handler(const char *title, const char *message, const char *flag) {
 
 #ifdef _WIN32
   UINT flags;
