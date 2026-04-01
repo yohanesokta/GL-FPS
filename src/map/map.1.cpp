@@ -197,7 +197,7 @@ public:
         }
       }
     }
-    if (stepDoor > 200.0f) {
+    if (stepDoor > 80.0f) {
       stepDoor = 0;
       isDoorOpening = true;
       Audio::Manager::playSound(getAssets("/sound/opendor.wav"));

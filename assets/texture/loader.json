@@ -1,10 +1,14 @@
 {
-    "load" : [
-        {"name" : "besi", "path" : "/besi.jpg"},
-        {"name" : "wall", "path" : "/wall2.png"},
-        {"name" : "bata", "path" : "/wall.png"},
-        {"name" : "walldefault", "path" : "/walldefault.png"},
-        {"name" : "door-open1", "path" : "/texture/door-open1.png"},
-        {"name" : "cement", "path" : "/texture/cement.png"}
-    ]
+  "load": [
+    { "name": "besi", "path": "/besi.jpg" },
+    { "name": "wall", "path": "/wall2.png" },
+    { "name": "bata", "path": "/wall.png" },
+    { "name": "walldefault", "path": "/walldefault.png" },
+    { "name": "door-open1", "path": "/texture/door-open1.png" },
+    { "name": "cement", "path": "/texture/cement.png" },
+    {"name" : "brickwall", "path": "/texture/brickwall.png"},
+    {"name" : "meme1", "path": "/meme/meme1.png"},
+    {"name" : "meme2", "path": "/meme/meme2.png"},
+    {"name" : "meme3", "path": "/meme/meme3.png"}
+  ]
 }
