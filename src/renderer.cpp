@@ -36,7 +36,7 @@ void drawHUD() {
     
     char xplayer[256], yplayer[256];
     sprintf(xplayer, "X: %.2f", camX);
-    sprintf(yplayer, "Y: %.2f", camZ);
+    sprintf(yplayer, "Z: %.2f", camZ);
     char comment[256];
     sprintf(comment, "%s", ::comments.c_str());
     renderText(globalFont, 10, windowH - 260, comment, windowH+1.5f);

@@ -20,6 +20,7 @@ GLuint getTextureByName(const std::string &name) {
 
 struct Wall {
   float x1, y1, z1, x2, y2, z2;
+  int xr,yr;
   GLuint texture = WallTexture;
 };
 
@@ -72,7 +73,8 @@ void loadMap(const std::string &path) {
       walls.push_back({w.value("x1", 0.0f), w.value("y1", 0.0f),
                        w.value("z1", 0.0f), w.value("x2", 0.0f),
                        w.value("y2", 0.0f), w.value("z2", 0.0f),
-                       getTextureByName(w.value("texture", "wall"))});
+                       w.value("xr",1), w.value("yr",1),
+                       getTextureByName(w.value("_tx", "wall"))});
     }
   }
 
@@ -102,7 +104,7 @@ void loadMap(const std::string &path) {
     basicColosionList.push_back({wall.value("x1", 0.0f), wall.value("y1", 0.0f),
                                  wall.value("z1", 0.0f), wall.value("x2", 0.0f),
                                  wall.value("y2", 0.0f), wall.value("z2", 0.0f),
-                                 wall.value("comments", "")});
+                                 wall.value("_c", "")});
   }
 }
 
@@ -152,7 +154,7 @@ public:
 
     for (auto &wall : walls) {
       d3d_draw_block(wall.x1, wall.y1, wall.z1, wall.x2, wall.y2, wall.z2,
-                     wall.texture, 1, 1);
+                     wall.texture,wall.xr,wall.yr);
     }
     for (auto &e : enemyList) {
       e.draw();
