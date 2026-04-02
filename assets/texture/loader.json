@@ -7,8 +7,11 @@
     { "name": "door-open1", "path": "/texture/door-open1.png" },
     { "name": "cement", "path": "/texture/cement.png" },
     {"name" : "brickwall", "path": "/texture/brickwall.png"},
+    {"name" : "woodboard", "path": "/texture/woodboard.png"},
+    {"name" : "woodenrail", "path": "/texture/woodenrail.png"},
     {"name" : "meme1", "path": "/meme/meme1.png"},
     {"name" : "meme2", "path": "/meme/meme2.png"},
-    {"name" : "meme3", "path": "/meme/meme3.png"}
+    {"name" : "meme3", "path": "/meme/meme3.png"},
+      {"name" : "meme4", "path": "/meme/meme4.png"}
   ]
 }

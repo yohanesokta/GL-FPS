@@ -148,10 +148,10 @@ public:
 
   void draw() override {
     float b = 0.02f;
-    d3d_draw_floor(0, 0, 0, 120, 0, 120, FloorTexture, 20, 20);
-    d3d_draw_floor(0, 10, 0, 120, 10, 120, CellingTexture, 20, 20);
+    d3d_draw_floor(0, 0, 0, 52, 0, 40, FloorTexture, 20, 20);
+    d3d_draw_floor(0, 10, 0, 52, 10, 40, CellingTexture, 10, 10);
     d3d_draw_floor(2.5f, 0.1f, 2.5f, 10.0f, 0.1f, 8.5f, FloorTexture2, 1, 1);
-
+    d3d_draw_floor(44.0f, 0.1f, 40.0f, 50.0f, 0.1f, 70.0f, textureMap["woodboard"], 1, 2);
     for (auto &wall : walls) {
       d3d_draw_block(wall.x1, wall.y1, wall.z1, wall.x2, wall.y2, wall.z2,
                      wall.texture,wall.xr,wall.yr);
