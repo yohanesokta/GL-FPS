@@ -12,6 +12,8 @@
     {"name" : "meme1", "path": "/meme/meme1.png"},
     {"name" : "meme2", "path": "/meme/meme2.png"},
     {"name" : "meme3", "path": "/meme/meme3.png"},
-      {"name" : "meme4", "path": "/meme/meme4.png"}
+    {"name" : "meme4", "path": "/meme/meme4.png"},
+    {"name" : "meme5", "path": "/meme/meme5.png"}
+
   ]
 }

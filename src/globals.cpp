@@ -13,7 +13,7 @@ const float targetRatio = 800.0f / 600.0f;
 
 std::string comments = "hello world";
 float isMusicPlaying = false;
-float camX =  37.0f, camY = 2.0f, camZ = 24.0f;
+float camX = 1.5f, camY = 2.0f, camZ = 5.0f;
 
 float angle = 89.5f;
 float lx = sin(angle), lz = -cos(angle);
