@@ -211,6 +211,10 @@ public:
                                              }),
                               basicColosionList.end());
     }
+
+    
+    d3d_draw_wall(44,0,80,50,10,80,textureMap["jaringbalaba"],1,1);
+
   }
 };
 
