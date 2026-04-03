@@ -85,7 +85,7 @@ extern float speed;
 extern float health;
 extern float deltaTime;
 
-extern GLuint FloorTexture, EnemyTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture, Barrel1Texture,PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture, FloorTexture2, MarkerTexture;
+extern GLuint FloorTexture, EnemyTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture, Barrel1Texture,PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture, FloorTexture2, MarkerTexture, HUD_Senter;
 
 extern float get_yaw_to_player(float ox, float oz, float px, float pz);
 extern GLuint GunSprite[40];

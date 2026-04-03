@@ -8,6 +8,33 @@ void drawWorld() {
     MapSystem::render();
 }
 
+struct Vec2 {
+    float x, y;
+};
+
+float randomRange(float min, float max) {
+    return min + static_cast<float>(rand()) / RAND_MAX * (max - min);
+}
+float senter_pos[2] = {0.0f, 0.0f};
+Vec2 current = {0.0f, 0.0f};
+Vec2 target = {0.0f, 0.0f};
+float changeTimer = 0.0f;
+float changeInterval = 0.2f;
+Vec2 updateShake(float deltaTime) {
+    changeTimer += deltaTime;
+    float size = 50.0f;
+    if (changeTimer >= changeInterval) {
+        changeTimer = 0.0f;
+        target.x = randomRange(-size, size);
+        target.y = randomRange(-size, size);
+    }
+    float speed = 0.5f;
+    current.x += (target.x - current.x) * speed * deltaTime;
+    current.y += (target.y - current.y) * speed * deltaTime;
+
+    return current;
+}
+
 void drawHUD() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -17,6 +44,8 @@ void drawHUD() {
     glLoadIdentity();
 
     glDisable(GL_DEPTH_TEST);
+    Vec2 shakeOffset = updateShake(deltaTime);
+    drawTexturedQuad(HUD_Senter, -100.0f + shakeOffset.x, -200.0f + shakeOffset.y, 1000.0f, 1000.0f);
     if (!(magazine == 0 && bullet == 0)) {
         drawTexturedQuad(GunSprite[image_index], -20, 0, 720*1.3f, 480*1.3f);
     }

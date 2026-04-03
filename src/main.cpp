@@ -156,7 +156,7 @@ void loadAssets()
         textureMap[d.value("name","-1")] = loadTexture(getAssets(path.c_str()));
       }
     }
-    // textureMap["besi"] = loadTexture(getAssets("/besi.jpg"));
+    HUD_Senter = loadTexture(getAssets("/texture/sentolop-overlay.png"));
     // textureMap["wall"] = loadTexture(getAssets("/wall2.png"));
     // textureMap["bata"] = loadTexture(getAssets("/wall.png"));
     // textureMap["walldefault"] = WallTexture;

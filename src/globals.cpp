@@ -32,7 +32,8 @@ Medkit::medkit med1(10.0f, 20.0f, 25.0f);
 std::unordered_map<std::string, GLuint> textureMap;
 
 GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture, EnemyTexture,
-       Barrel1Texture, PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture, FloorTexture2, MarkerTexture
+       Barrel1Texture, PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture, FloorTexture2, MarkerTexture,
+       HUD_Senter
 ;
 
 char bassePath[256] = "./assets";

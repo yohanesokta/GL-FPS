@@ -5,8 +5,12 @@
 > **Drawing 3D Perspective & Texture Drawing Function with D3D Wrapper**
 
 <p align="center">
-<img src="./static/d1.png" alt="FPP Retro Engine Screenshot">
+<img src="./static/d3.png" alt="FPP Retro Engine Screenshot">
 </p>
+<p align="center">
+<img src="./static/d2.png" alt="FPP Retro Engine Screenshot">
+</p>
+
 
 ---
 
