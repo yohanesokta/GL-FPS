@@ -19,8 +19,6 @@
 #define MAX_AMMO 10
 #define BYTE 1024
 
-
-
 namespace Enemy {
     class enemy; 
 }
@@ -108,4 +106,6 @@ extern bool special[256];
 extern float lastTime;
 
 extern Font globalFont;
+extern float fadeAlpha;
+extern bool isFadingIn;
 #endif

@@ -179,6 +179,8 @@ void loadAssets()
     Audio::Manager::playMusic(getAssets("/sound/ambient.ogg"), true);
     glutSetCursor(GLUT_CURSOR_NONE);
     stbi_set_flip_vertically_on_load(false);
+    isFadingIn = true;
+    fadeAlpha = 1.0f;
   }
 }
 
@@ -192,6 +194,8 @@ void keyDown(unsigned char key, int x, int y)
     {
       currentState = STATE_PLAYING;
       glutSetCursor(GLUT_CURSOR_NONE);
+      isFadingIn = true;
+      fadeAlpha = 1.0f;
     }
     if (key == 27)
     {
@@ -246,6 +250,16 @@ void idle()
 
   if (timeSinceLastFrame >= 16)
   {
+    if (isFadingIn)
+    {
+      fadeAlpha -= 0.005f;
+      if (fadeAlpha <= 0.0f)
+      {
+        fadeAlpha = 0.0f;
+        isFadingIn = false;
+      }
+    }
+
     if (currentState == STATE_LOADING)
     {
       loadAssets();

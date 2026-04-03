@@ -7,6 +7,7 @@ void drawWorld();
 void drawHUD();
 void drawMenu();
 void drawLoading();
+void drawFade();
 void renderScene();
 
 #endif

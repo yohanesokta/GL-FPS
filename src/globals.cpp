@@ -13,7 +13,7 @@ const float targetRatio = 800.0f / 600.0f;
 
 std::string comments = "hello world";
 float isMusicPlaying = false;
-float camX = 1.5f, camY = 2.0f, camZ = 5.0f;
+float camX = 45.0f, camY = 2.0f, camZ = 20.0f;
 
 float angle = 89.5f;
 float lx = sin(angle), lz = -cos(angle);
@@ -59,6 +59,9 @@ EnemyColosion enemyColosionList[4*BYTE];
 std::vector<BasicColosion> basicColosionList;
 std::vector<Bullet> bullets;
 Font globalFont;
+
+float fadeAlpha = 1.0f;
+bool isFadingIn = true;
 
 float get_yaw_to_player(float ox, float oz, float px, float pz) {
     float dx = px - ox;

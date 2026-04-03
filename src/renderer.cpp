@@ -57,7 +57,7 @@ void drawLoading() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     glColor3f(1.0f, 1.0f, 1.0f);
-    renderText(globalFont, 320, 320, "LOADING...", 600);
+    renderText(globalFont, 270, 320, "TUNGGU SEBENTAR...", 600);
 
     float barWidth = 400.0f;
     float barHeight = 20.0f;
@@ -130,6 +130,31 @@ void drawMenu() {
     renderTextCentered(globalFont, 400, 380, "PRESS ESC TO QUIT", 0.6f);
     glColor3f(1.0f, 1.0f, 1.0f);
 }
+void drawFade() {
+    if (fadeAlpha <= 0.0f) return;
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0, 800, 0, 600);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glColor4f(0.0f, 0.0f, 0.0f, fadeAlpha);
+    glBegin(GL_QUADS);
+        glVertex2f(0, 0);
+        glVertex2f(800, 0);
+        glVertex2f(800, 600);
+        glVertex2f(0, 600);
+    glEnd();
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    glEnable(GL_DEPTH_TEST);
+}
+
 void renderScene() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -154,6 +179,9 @@ void renderScene() {
         drawWorld();
         drawHUD();
     }
+      if (currentState == STATE_PLAYING) {
+            drawFade();
+      }
 
     glutSwapBuffers();
 }
