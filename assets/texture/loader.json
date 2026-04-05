@@ -3,7 +3,7 @@
     { "name": "besi", "path": "/besi.jpg" },
     { "name": "wall", "path": "/wall2.png" },
     { "name": "bata", "path": "/wall.png" },
-    { "name": "walldefault", "path": "/walldefault.png" },
+    { "name": "walldefault", "path": "/wall.png" },
     { "name": "door-open1", "path": "/texture/door-open1.png" },
     { "name": "cement", "path": "/texture/cement.png" },
     {"name" : "brickwall", "path": "/texture/brickwall.png"},
@@ -18,7 +18,5 @@
     {"name" : "meme4", "path": "/meme/meme4.png"},
     {"name" : "meme5", "path": "/meme/meme5.png"},
     {"name" : "meme6", "path": "/meme/meme6.png"}
-
-
   ]
 }

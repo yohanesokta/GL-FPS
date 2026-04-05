@@ -333,10 +333,16 @@ void systemHUD()
 
 int main(int argc, char **argv)
 {
-  if (argc > 1)
+  if (argc > 2)
   {
-    strncpy(bassePath, argv[1], sizeof(bassePath) - 1);
+    strncpy(bassePath, argv[2], sizeof(bassePath) - 1);
     bassePath[sizeof(bassePath) - 1] = '\0';
+  }
+
+  if (argc > 1 && strcmp(argv[1], "-d") != 0) {
+    isCustomMap = true;
+    customMapPath = argv[1];
+    printf("Custom map path set to: %s\n", customMapPath.c_str());
   }
 
   glutInit(&argc, argv);

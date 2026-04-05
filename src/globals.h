@@ -60,6 +60,8 @@ enum GameState {
     STATE_PLAYING
 };
 
+extern bool isCustomMap;
+extern std::string customMapPath;
 extern GameState currentState;
 extern float loadingProgress;
 extern int loadingIndex;

@@ -9,6 +9,11 @@
 
 int windowW = 800;
 int windowH = 600;
+
+bool isCustomMap = false;
+std::string customMapPath = "";
+
+
 const float targetRatio = 800.0f / 600.0f;
 
 std::string comments = "hello world";
@@ -33,8 +38,7 @@ std::unordered_map<std::string, GLuint> textureMap;
 
 GLuint FloorTexture, WallTexture, AmmoTexture, CellingTexture, BesiTexture, EnemyTexture,
        Barrel1Texture, PullPropsTexture, NodPropsTexture, BulletTexture, HUD_HEALTH_Texture, FloorTexture2, MarkerTexture,
-       HUD_Senter
-;
+       HUD_Senter;
 
 char bassePath[256] = "./assets";
 char* getAssets(const char* filename) {
