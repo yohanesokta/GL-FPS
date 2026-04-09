@@ -10,6 +10,7 @@
     {"name" : "woodboard", "path": "/texture/woodboard.png"},
     {"name" : "woodenrail", "path": "/texture/woodenrail.png"},
     {"name" : "jaringbalaba", "path": "/texture/jaringbalaba.png"},
+    {"name" : "block-kayu", "path": "/texture/block-kayu.png"},
     {"name" : "wood", "path": "/texture/wood.png"},
     {"name" : "wood2", "path": "/texture/wood2.png"},
     {"name" : "meme1", "path": "/meme/meme1.png"},

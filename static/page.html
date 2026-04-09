@@ -64,6 +64,7 @@
             flex-direction: column;
             gap: 0.5rem;
             padding: 0.5rem 0;
+            transition: all 0.3s ease;
         }
 
         .nav-row {
@@ -96,6 +97,25 @@
         .nav-row a:hover {
             color: var(--accent);
             background: rgba(88, 166, 255, 0.1);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            margin-left: auto;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: all 0.3s ease;
         }
 
         .main-content {
@@ -141,8 +161,50 @@
         code { color: #e6edf3; }
 
         @media (max-width: 900px) {
+            :root {
+                --header-height: 70px;
+            }
+            header {
+                padding: 0.5rem 1rem;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            .nav-bar {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-sidebar);
+                padding: 1rem;
+                border-bottom: 1px solid var(--border);
+                box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+            }
+            .nav-bar.active {
+                display: flex;
+            }
+            .nav-row {
+                flex-direction: column;
+                white-space: normal;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+            .nav-row:last-child {
+                margin-bottom: 0;
+            }
+            .nav-row span {
+                display: block;
+                padding-bottom: 5px;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+                margin-bottom: 5px;
+            }
             .main-content { padding: 2rem 1rem; }
-            .nav-row span { display: none; }
+
+            /* Hamburger transform to X */
+            .menu-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
         }
     </style>
 </head>
@@ -154,8 +216,13 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent)"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
             Kembali ke Dokumentasi Utama
         </a>
+        <button class="menu-toggle" id="mobile-menu-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
-    <nav class="nav-bar">
+    <nav class="nav-bar" id="nav-menu">
         <div class="nav-row">
             <span>3D Primitives</span>
             <a href="#d3d_draw_floor">d3d_draw_floor</a>
@@ -177,6 +244,23 @@
     </nav>
 </header>
 
+<script>
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.getElementById('nav-menu');
+
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a link
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenuBtn.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+</script>
 <div class="layout-container">
     <main class="main-content">
         <h1>API Reference Manual</h1>
