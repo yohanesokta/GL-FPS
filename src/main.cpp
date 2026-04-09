@@ -24,11 +24,30 @@
 #include "../libs/json.hpp"
 #include <fstream>
 
+#include <string.h>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#include <limits.h>
+#endif
+
+void get_dir(char *path)
+{
+  for (int i = strlen(path) - 1; i >= 0; i--)
+  {
+    if (path[i] == '/' || path[i] == '\\')
+    {
+      path[i] = '\0';
+      break;
+    }
+  }
+}
+
 using json = nlohmann::json;
 
 extern MapSystem::Map *g_map1;
-
-
 
 void reshape(int w, int h)
 {
@@ -132,14 +151,13 @@ void loadAssets()
   }
   else if (loadingIndex == 53)
   {
-    
+
     MarkerTexture = loadTexture(getAssets("/props/marker.png"));
     med1.texture = loadTexture(getAssets("/props/medkit.png"));
     FloorTexture2 = loadTexture(getAssets("/texture/floor2.png"));
     json data;
     std::ifstream file(getAssets("/texture/loader.json"));
 
-    
     try
     {
       file >> data;
@@ -150,10 +168,12 @@ void loadAssets()
       return;
     }
 
-    if (data.contains("load")) {
-      for(auto &d : data["load"]) {
-        std::string path = d.value("path","");
-        textureMap[d.value("name","-1")] = loadTexture(getAssets(path.c_str()));
+    if (data.contains("load"))
+    {
+      for (auto &d : data["load"])
+      {
+        std::string path = d.value("path", "");
+        textureMap[d.value("name", "-1")] = loadTexture(getAssets(path.c_str()));
       }
     }
     HUD_Senter = loadTexture(getAssets("/texture/sentolop-overlay.png"));
@@ -338,8 +358,30 @@ int main(int argc, char **argv)
     strncpy(bassePath, argv[2], sizeof(bassePath) - 1);
     bassePath[sizeof(bassePath) - 1] = '\0';
   }
+  else
+  {
 
-  if (argc > 1 && strcmp(argv[1], "-d") != 0) {
+    char path[1024];
+
+#ifdef _WIN32
+    GetModuleFileNameA(NULL, path, sizeof(path));
+#else
+    ssize_t len = readlink("/proc/self/exe", path, sizeof(path));
+    path[len] = '\0';
+#endif
+
+    get_dir(path);
+
+#ifdef _WIN32
+    snprintf(bassePath, sizeof(bassePath), "%s\\assets", path);
+#else
+    snprintf(bassePath, sizeof(bassePath), "%s/assets", path);
+#endif
+    printf("Assets path: %s\n", bassePath);
+  }
+
+  if (argc > 1 && strcmp(argv[1], "-d") != 0)
+  {
     isCustomMap = true;
     customMapPath = argv[1];
     printf("Custom map path set to: %s\n", customMapPath.c_str());
