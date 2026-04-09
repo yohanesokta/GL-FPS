@@ -5,7 +5,7 @@ set(OpenGL_GL_PREFERENCE GLVND)
 
 find_package(OpenGL REQUIRED)
 
-add_executable(main
+set(SOURCES
     src/main.cpp
     src/globals.cpp
     src/loader.cpp
@@ -21,6 +21,12 @@ add_executable(main
     src/objects/magazine.cpp
     src/objects/medkit.cpp
 )
+
+if (WIN32)
+    list(APPEND SOURCES src/app.rc)
+endif()
+
+add_executable(main ${SOURCES})
 
 target_include_directories(main PRIVATE
     src

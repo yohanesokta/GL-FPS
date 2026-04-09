@@ -16,7 +16,7 @@ namespace Enemy {
         float nextY = 0.1f;       
         bool isAlive = true;
         bool isHit = false;
-        float speed = 1.0f;
+        float speed = 5.0f;
         int id;
         
         enemy(float x, float y,int id) {
